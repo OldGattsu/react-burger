@@ -1,0 +1,8 @@
+.burgerConstructor {
+  width: 600px;
+  height: calc(100vh - 168px);
+  padding-top: 100px;
+}
+
+.burgerConstructorScroll {
+}

@@ -3,6 +3,8 @@ import styles from './burger-ingredients.module.css';
 
 export default function BurgerIngredients() {
   return (
-      <h1></h1>
+    <section className={styles.burgerIngredients}>
+
+    </section>
   )
 }

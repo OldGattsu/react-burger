@@ -1,4 +1,16 @@
-:global(.container) {
-  max-width: 1240;
-  margin: 0 auto;
+:global(body) {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:global(ul) {
+	list-style: none;
+}
+
+.main {
+  composes: container from '../../base.module.css';
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 40px;
 }
