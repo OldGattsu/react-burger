@@ -1,15 +1,40 @@
-.app_header {
+.appHeader {
   composes: container from '../../base.module.css';
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
 }
 
-.menu-link {
+.menu {
+}
+
+.menuList {
+  display: flex;
+  padding: 0;
+  list-style-type: none;
+}
+
+.menuLink {
   display: flex;
   align-items: center;
   padding: 16px 20px;
+  font-size: 16px;
+  color: white;
+  text-decoration: none;
 }
 
-.menuLinkIcon{}
+.menuLinkIcon{
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
 
 .menuLinkName {
-  margin-left: 10px;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }

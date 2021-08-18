@@ -1,31 +1,69 @@
 import React from 'react';
 import styles from './app-header.module.css';
 
-import { Logo, BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function AppHeader() {
-
-  const obj = {
-    'burger' : BurgerIcon,
+  const Menu = ({ children }) => {
+    return (
+      <nav className={styles.menu}>
+        <ul className={styles.menuList}>
+          { children }
+        </ul>
+      </nav>
+    )
   }
 
-  const MenuLink = ({ name, icon }) => {
+  const MenuLink = ({ name, icon, iconHover }) => {
+    const [isHover, setHover] = React.useState(false)
+
+    const handleLinkMouseEnter = () => {
+      setHover(!isHover)
+    }
+
+    const handleLinkMouseLeave = () => {
+      setHover(!isHover)
+    }
+
     return (
-      <a className={styles.menuLink} href="#">
-        <span className={styles.menuLinkIcon}>{icon}</span>
+      <a
+        className={styles.menuLink}
+        href="/home"
+        onMouseEnter={handleLinkMouseEnter}
+        onMouseLeave={handleLinkMouseLeave}
+      >
+        <span className={styles.menuLinkIcon}>
+          {isHover ? iconHover : icon}
+        </span>
         <span className={styles.menuLinkName}>{name}</span>
       </a>
     )
   }
 
   return (
-    <header className={styles.app_header}>
-      <MenuLink name="Конструктор" icon={<BurgerIcon type="primary" />} />
-      <Logo />
-      <h1>Helasdlo!</h1>
-      <h2>dsfdsf</h2>
-      <h2>dsfdsf</h2>
-      <h1>Helasdlo!</h1>
+    <header className={styles.appHeader}>
+      <Menu>
+        <li>
+          <MenuLink
+            name="Конструктор"
+            icon={<BurgerIcon type="primary"/>}
+            iconHover={<BurgerIcon type="secondary"/>}
+          />
+        </li>
+        <li>
+          <MenuLink
+            name="Конструктор"
+            icon={<ListIcon type="primary"/>}
+            iconHover={<ListIcon type="secondary"/>}
+          />
+        </li>
+      </Menu>
+      <div className={styles.logo}><Logo/></div>
+      <MenuLink
+        name="Личный кабинет"
+        icon={<ProfileIcon type="primary" />}
+        iconHover={<ProfileIcon type="secondary"/>}
+      />
     </header>
   )
 }
