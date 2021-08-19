@@ -3,8 +3,49 @@ import styles from './burger-ingredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients({ingredients}) {
   const [currentTab, setCurrentTab] = React.useState('buns')
+
+  const getCategory = (type) => {
+    const res = []
+    ingredients.forEach((ingredient) => {
+      if (ingredient.type === type) res.push(ingredient)
+    })
+    return res
+  }
+
+  const buns = getCategory('bun')
+  const sauces = getCategory('sauce')
+  const toppings = getCategory('main')
+
+  const IngredientCard = ({img, price, name}) => {
+    return (
+      <div className={styles.ingredientCard}>
+        <img className={styles.ingredientImage} src={img} />
+        <p className={styles.ingredientPrice}>{price}</p>
+        <p className={styles.ingredientName}>{name}</p>
+      </div>
+    )
+  }
+
+  const IngredientsCategory = ({name, list}) => {
+    return (
+      <div className={styles.burgerIngredientsCategory}>
+        <h2 className="text text_type_main-medium">{name}</h2>
+        {list.map((ingredient, index) => {
+          return (
+            <IngredientCard
+              img={ingredient.image}
+              price={ingredient.price}
+              name={ingredient.name}
+              key={index}
+            />
+          )
+        })}
+      </div>
+    )
+  }
+
   return (
     <section className={styles.burgerIngredients}>
       <h1 className="text text_type_main-large">Соберите бургер</h1>
@@ -18,6 +59,11 @@ export default function BurgerIngredients() {
         <Tab value="toppings" active={currentTab === 'toppings'} onClick={setCurrentTab}>
           Начинки
         </Tab>
+      </div>
+      <div className={styles.burgerIngredientsScroll}>
+        <IngredientsCategory name="Булки" list={buns} />
+        <IngredientsCategory name="Соусы" list={sauces} />
+        <IngredientsCategory name="Начинка" list={toppings} />
       </div>
     </section>
   )

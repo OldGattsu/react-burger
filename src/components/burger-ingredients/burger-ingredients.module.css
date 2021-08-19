@@ -3,3 +3,7 @@
   height: calc(100vh - 128px);
   overflow: hidden;
 }
+
+.burgerIngredientsScroll {
+  overflow-y: scroll;
+}
