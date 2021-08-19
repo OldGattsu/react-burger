@@ -1,8 +1,58 @@
 .burgerConstructor {
   width: 600px;
   height: calc(100vh - 168px);
-  padding-top: 100px;
+  /* padding-top: 100px; */
+  overflow: hidden;
 }
 
 .burgerConstructorScroll {
+  padding: 0 8px 0 16px;
+  overflow-y: scroll;
+}
+
+.burgerConstructorScroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.burgerConstructorScroll::-webkit-scrollbar-track {
+  width: 8px;
+  background-color: #2F2F37;
+}
+
+.burgerConstructorScroll::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.topBun {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+  margin-right: 16px;
+}
+
+.botBun {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  margin-right: 16px;
+}
+
+.ingredientContainer {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 8px;
+}
+
+.burgerConstructorOrder {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+}
+
+.burgerConstructorTotal{
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
 }

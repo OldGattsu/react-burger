@@ -14,8 +14,7 @@ export default function AppHeader() {
     )
   }
 
-  // не уверен насколько правильно описывать полноценный компонент со стейтом и методами в другом компоненте, даже если он нигде больше не будет использоваться
-  // возможно стоит вынести MenuLink выше, на один уровень с AppHeader в этом же файле
+  // возможно стоит вынести MenuLink выше, на один уровень с AppHeader в этом же файле или создать новый файл для него
   const MenuLink = ({ name, icon, iconHover }) => {
     const [isHover, setHover] = React.useState(false)
 

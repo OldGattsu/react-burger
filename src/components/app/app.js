@@ -23,13 +23,11 @@ export default function App() {
     <div>
       <AppHeader />
       <main className={styles.main}>
-        {ingredients.length !==0 &&
-          (
+        {ingredients.length !==0 && (
           <>
             <BurgerIngredients ingredients={ingredients} />
             <BurgerConstructor ingredients={ingredients} />
-          </>
-        )}
+          </> )}
       </main>
     </div>
   );
