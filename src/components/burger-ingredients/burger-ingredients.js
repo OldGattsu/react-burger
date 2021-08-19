@@ -3,8 +3,23 @@ import styles from './burger-ingredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { getScrollBoxHeight } from '../../libs/methods';
+
 export default function BurgerIngredients({ingredients}) {
   const [currentTab, setCurrentTab] = React.useState('buns')
+
+  const burgerIngredientsRef = React.useRef(null)
+  const burgerIngredientsScrollRef = React.useRef(null)
+
+  React.useEffect(() => {
+    setBurgerIngredientsScrollHeight()
+    window.addEventListener('resize', setBurgerIngredientsScrollHeight)
+  }, [])
+
+  const setBurgerIngredientsScrollHeight = () => {
+    const height = getScrollBoxHeight(burgerIngredientsRef.current, 'burgerIngredientsScroll')
+    burgerIngredientsScrollRef.current.style.height = height
+  }
 
   const getCategory = (type) => {
     const res = []
@@ -47,7 +62,7 @@ export default function BurgerIngredients({ingredients}) {
   }
 
   return (
-    <section className={styles.burgerIngredients}>
+    <section className={styles.burgerIngredients} ref={burgerIngredientsRef}>
       <h1 className="text text_type_main-large">Соберите бургер</h1>
       <div style={{ display: 'flex' }}>
         <Tab value="buns" active={currentTab === 'buns'} onClick={setCurrentTab}>
@@ -60,7 +75,7 @@ export default function BurgerIngredients({ingredients}) {
           Начинки
         </Tab>
       </div>
-      <div className={styles.burgerIngredientsScroll}>
+      <div className={styles.burgerIngredientsScroll} ref={burgerIngredientsScrollRef}>
         <IngredientsCategory name="Булки" list={buns} />
         <IngredientsCategory name="Соусы" list={sauces} />
         <IngredientsCategory name="Начинка" list={toppings} />

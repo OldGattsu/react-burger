@@ -3,29 +3,20 @@ import styles from './burger-constructor.module.css';
 
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { getAbsoluteHeight } from '../../libs/methods'
+import { getScrollBoxHeight } from '../../libs/methods';
 
 export default function BurgerConstructor({ingredients}) {
   const burgerConstructorRef = React.useRef(null)
   const burgerConstructorScrollRef = React.useRef(null)
 
   React.useEffect(() => {
-    getBurgerConstructorScrollHeight()
-    window.addEventListener('resize', getBurgerConstructorScrollHeight)
-
+    setBurgerConstructorScrollHeight()
+    window.addEventListener('resize', setBurgerConstructorScrollHeight)
   }, [])
 
-  const getBurgerConstructorScrollHeight = () => {
-    const containerHeight = burgerConstructorRef.current.offsetHeight
-    let heightRemainingElements = 0
-
-    burgerConstructorRef.current.childNodes.forEach(el => {
-      if (el.className.indexOf('burgerConstructorScroll') === -1) {
-        heightRemainingElements += getAbsoluteHeight(el)
-      }
-    });
-
-    burgerConstructorScrollRef.current.style.height = (containerHeight - heightRemainingElements) + 'px'
+  const setBurgerConstructorScrollHeight = () => {
+    const height = getScrollBoxHeight(burgerConstructorRef.current, 'burgerConstructorScroll')
+    burgerConstructorScrollRef.current.style.height = height
   }
 
   return (
