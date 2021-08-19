@@ -1,7 +1,8 @@
 .burgerConstructor {
   width: 600px;
-  height: calc(100vh - 168px);
-  /* padding-top: 100px; */
+  height: calc(100vh - 268px);
+  margin-top: 100px;
+  margin-bottom: 40px;
   overflow: hidden;
 }
 
@@ -23,18 +24,20 @@
   background-color: #8585AD;
 }
 
-.topBun {
+.bun {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 8px;
   margin-right: 16px;
 }
 
+.topBun {
+  composes: bun;
+  margin-bottom: 8px;
+}
+
 .botBun {
-  display: flex;
-  justify-content: flex-end;
+  composes: bun;
   margin-top: 8px;
-  margin-right: 16px;
 }
 
 .ingredientContainer {
