@@ -8,6 +8,13 @@
 	list-style: none;
 }
 
+:global(button) {
+	background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
 .main {
   composes: container from '../../base.module.css';
   display: flex;

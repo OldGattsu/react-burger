@@ -1,8 +1,10 @@
 .modalOverlay {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	position: absolute;
 	top: 0;
 	width: 100vw;
 	height: 100vh;
-	background: #000000;
-	opacity: 60%;
+	background: rgba(0, 0, 0, 0.6);
 }

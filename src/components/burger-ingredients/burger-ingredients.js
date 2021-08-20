@@ -105,7 +105,14 @@ export default function BurgerIngredients({ingredients}) {
           <IngredientsCategory name="Начинка" list={toppings} ref={categoryToppingsRef} />
         </div>
       </section>
-      <IngredientDetails />
+      <IngredientDetails
+        image={ingredients[0].image_large}
+        name={ingredients[0].name}
+        calories={ingredients[0].calories}
+        proteins={ingredients[0].proteins}
+        fat={ingredients[0].fat}
+        carbohydrates={ingredients[0].carbohydrates}
+      />
     </>
   )
 }
