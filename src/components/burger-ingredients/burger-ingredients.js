@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './burger-ingredients.module.css';
 
 import { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { getScrollBoxHeight } from '../../libs/methods';
 
@@ -90,18 +91,21 @@ export default function BurgerIngredients({ingredients}) {
   })
 
   return (
-    <section className={styles.burgerIngredients} ref={burgerIngredientsRef}>
-      <h1 className={styles.burgerIngredientsTitle}>Соберите бургер</h1>
-      <div className={styles.burgerIngredientsTabs}>
-        <Tab value="buns" active={currentTab === 'buns'} onClick={setCurrentTab}>Булки</Tab>
-        <Tab value="sauces" active={currentTab === 'sauces'} onClick={setCurrentTab}>Соусы</Tab>
-        <Tab value="toppings" active={currentTab === 'toppings'} onClick={setCurrentTab}>Начинки</Tab>
-      </div>
-      <div className={styles.burgerIngredientsScroll} ref={burgerIngredientsScrollRef}>
-        <IngredientsCategory name="Булки" list={buns} ref={categoryBunsRef} />
-        <IngredientsCategory name="Соусы" list={sauces} ref={categorySaucesRef} />
-        <IngredientsCategory name="Начинка" list={toppings} ref={categoryToppingsRef} />
-      </div>
-    </section>
+    <>
+      <section className={styles.burgerIngredients} ref={burgerIngredientsRef}>
+        <h1 className={styles.burgerIngredientsTitle}>Соберите бургер</h1>
+        <div className={styles.burgerIngredientsTabs}>
+          <Tab value="buns" active={currentTab === 'buns'} onClick={setCurrentTab}>Булки</Tab>
+          <Tab value="sauces" active={currentTab === 'sauces'} onClick={setCurrentTab}>Соусы</Tab>
+          <Tab value="toppings" active={currentTab === 'toppings'} onClick={setCurrentTab}>Начинки</Tab>
+        </div>
+        <div className={styles.burgerIngredientsScroll} ref={burgerIngredientsScrollRef}>
+          <IngredientsCategory name="Булки" list={buns} ref={categoryBunsRef} />
+          <IngredientsCategory name="Соусы" list={sauces} ref={categorySaucesRef} />
+          <IngredientsCategory name="Начинка" list={toppings} ref={categoryToppingsRef} />
+        </div>
+      </section>
+      <IngredientDetails />
+    </>
   )
 }
