@@ -1,6 +1,6 @@
 .burgerConstructor {
   width: 600px;
-  height: calc(100vh - 268px);
+  height: calc(100vh - 308px);
   margin-top: 100px;
   margin-bottom: 40px;
   overflow: hidden;
@@ -44,8 +44,11 @@
  display: flex;
  justify-content: space-between;
  align-items: center;
- margin-bottom: 8px;
 }
+
+.ingredientContainer:not(:last-child) {
+  margin-bottom: 8px;
+ }
 
 .burgerConstructorOrder {
   display: flex;

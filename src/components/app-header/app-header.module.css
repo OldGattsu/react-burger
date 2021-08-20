@@ -6,9 +6,6 @@
   margin-top: 40px;
 }
 
-.menu {
-}
-
 .menuList {
   display: flex;
   padding: 0;
@@ -23,13 +20,18 @@
   text-decoration: none;
 }
 
+.menuLinkFirst {
+  padding-left: 0;
+}
+
+.menuLinkLast {
+  padding-right: 0;
+}
+
 .menuLinkIcon{
   display: flex;
   align-items: center;
   margin-right: 10px;
-}
-
-.menuLinkName {
 }
 
 .logo {

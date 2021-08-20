@@ -9,15 +9,19 @@ export default function BurgerConstructor({ingredients}) {
   const burgerConstructorRef = React.useRef(null)
   const burgerConstructorScrollRef = React.useRef(null)
 
-  React.useEffect(() => {
-    setBurgerConstructorScrollHeight()
-    window.addEventListener('resize', setBurgerConstructorScrollHeight)
-  }, [])
-
   const setBurgerConstructorScrollHeight = () => {
     const height = getScrollBoxHeight(burgerConstructorRef.current, 'burgerConstructorScroll')
     burgerConstructorScrollRef.current.style.height = height
   }
+
+  React.useEffect(() => {
+    setBurgerConstructorScrollHeight()
+    window.addEventListener('resize', setBurgerConstructorScrollHeight)
+
+    return () => {
+      window.removeEventListener('resize', setBurgerConstructorScrollHeight)
+    }
+  }, [])
 
   return (
     <section

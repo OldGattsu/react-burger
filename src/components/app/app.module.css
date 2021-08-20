@@ -12,4 +12,5 @@
   composes: container from '../../base.module.css';
   display: flex;
   justify-content: space-between;
+  padding-bottom: 40px;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import styles from './app-header.module.css';
 
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -14,21 +15,19 @@ export default function AppHeader() {
     )
   }
 
-  // возможно стоит вынести MenuLink выше, на один уровень с AppHeader в этом же файле или создать новый файл для него
-  const MenuLink = ({ name, icon, iconHover }) => {
+  const MenuLink = ({ name, icon, iconHover, first, last }) => {
     const [isHover, setHover] = React.useState(false)
 
-    const handleLinkMouseEnter = () => {
-      setHover(!isHover)
-    }
-
-    const handleLinkMouseLeave = () => {
-      setHover(!isHover)
-    }
+    const handleLinkMouseEnter = () => setHover(!isHover)
+    const handleLinkMouseLeave = () => setHover(!isHover)
 
     return (
       <a
-        className={styles.menuLink}
+        className={clsx(
+          styles.menuLink,
+          first && styles.menuLinkFirst,
+          last && styles.menuLinkLast,
+        )}
         href="/home"
         onMouseEnter={handleLinkMouseEnter}
         onMouseLeave={handleLinkMouseLeave}
@@ -49,6 +48,7 @@ export default function AppHeader() {
             name="Конструктор"
             icon={<BurgerIcon type="primary"/>}
             iconHover={<BurgerIcon type="secondary"/>}
+            first
           />
         </li>
         <li>
@@ -59,11 +59,12 @@ export default function AppHeader() {
           />
         </li>
       </Menu>
-      <div className={styles.logo}><Logo/></div>
+      <a className={styles.logo} href="/home"><Logo/></a>
       <MenuLink
         name="Личный кабинет"
         icon={<ProfileIcon type="primary" />}
         iconHover={<ProfileIcon type="secondary"/>}
+        last
       />
     </header>
   )
