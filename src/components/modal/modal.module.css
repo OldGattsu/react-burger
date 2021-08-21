@@ -1,14 +1,9 @@
 .modal {
+	position: relative;
 	width: 720px;
 	background: #1C1C21;
 	border-radius: 40px;
 	border: 1px solid rgba(76, 76, 255, 0.2);
-}
-
-.modalWithTitle {
-}
-
-.modalWoTitle {
 }
 
 .modalTitle {
@@ -22,4 +17,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.modalCloseIcon {
+	position: absolute;
+	top: 60px;
+	right: 40px;
 }

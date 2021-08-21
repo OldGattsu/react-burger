@@ -5,17 +5,17 @@ import styles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function AppHeader() {
-  const Menu = ({ children }) => {
+  const Menu = ({children}) => {
     return (
       <nav className={styles.menu}>
         <ul className={styles.menuList}>
-          { children }
+          {children}
         </ul>
       </nav>
     )
   }
 
-  const MenuLink = ({ name, icon, iconHover, first, last }) => {
+  const MenuLink = ({name, icon, iconHover, first, last}) => {
     const [isHover, setHover] = React.useState(false)
 
     const handleLinkMouseEnter = () => setHover(!isHover)

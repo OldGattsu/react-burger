@@ -1,13 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './ingredient-details.module.css';
 
 import Modal from '../modal/modal';
 
 export default function IngredientDetails({show, data, onClose}) {
-
-  if (!show) return null
-
   const EnergyItem = ({name, value}) => {
     return (
       <div className={styles.energyItem}>
@@ -22,6 +18,27 @@ export default function IngredientDetails({show, data, onClose}) {
       </div>
     )
   }
+
+  const energyList = [
+    {
+      name: 'Калории,ккал',
+      value: data.calories,
+    },
+    {
+      name: 'Белки,г',
+      value: data.proteins,
+    },
+    {
+      name: 'Жиры,г',
+      value: data.fat,
+    },
+    {
+      name: 'Углеводы,г',
+      value: data.carbohydrates,
+    },
+  ]
+
+  if (!show) return null
 
   return (
     <Modal title="Детали ингредиента" onClose={onClose}>
@@ -40,10 +57,13 @@ export default function IngredientDetails({show, data, onClose}) {
           'mb-8',
         )}>{data.name}</p>
         <div className={styles.ingredientEnergy}>
-          <EnergyItem name={'Калории,ккал'} value={data.calories} />
-          <EnergyItem name={'Белки,г'} value={data.proteins} />
-          <EnergyItem name={'Жиры,г'} value={data.fat} />
-          <EnergyItem name={'Углеводы,г'} value={data.carbohydrates} />
+          {energyList.map((energy, index) => (
+            <EnergyItem
+              name={energy.name}
+              value={energy.value}
+              key={index}
+            />
+          ))}
         </div>
       </div>
     </Modal>
