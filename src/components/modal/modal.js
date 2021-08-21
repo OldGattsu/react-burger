@@ -6,28 +6,37 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function Modal({children, title, onClose}) {
-	// const modalRef = modal
+	const modalRef = React.useRef(null)
 
 	const handleEscClose = (e) => {
 		if (e.keyCode === 27) onClose()
 	}
 
 	const handleClickOutside = (e) => {
-
+		if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose()
+    }
 	}
 
 	React.useEffect(() => {
 		document.addEventListener('keydown', handleEscClose)
+		document.addEventListener('click', handleClickOutside)
 
-		return () => document.removeEventListener('keydown', handleEscClose)
+		return () => {
+			document.removeEventListener('keydown', handleEscClose)
+			document.removeEventListener('click', handleClickOutside)
+		}
 	})
 
 	return (
 		<ModalOverlay>
-			<div className={clsx(
-				styles.modal,
-				title ? 'pt-10 pb-15' : 'pt-30 pb-30',
-			)}>
+			<div
+				className={clsx(
+					styles.modal,
+					title ? 'pt-10 pb-15' : 'pt-30 pb-30',
+				)}
+				ref={modalRef}
+			>
 				{!title && (
 					<button
 						className={styles.modalCloseIcon}

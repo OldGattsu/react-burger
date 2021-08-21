@@ -1,7 +1,18 @@
+@font-face {
+  font-family: 'JetBrains-Mono';
+  src: url('../../fonts/JetBrainsMono.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Iceland';
+  src: url('../../fonts/Iceland.woff2') format('woff2');
+}
+
 :global(body) {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'JetBrains-Mono', Arial, sans-serif;
 }
 
 :global(ul) {
@@ -27,5 +38,4 @@
   composes: container from '../../base.module.css';
   display: flex;
   justify-content: space-between;
-  padding-bottom: 40px;
 }

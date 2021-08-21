@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import styles from './app.module.css';
 
 import AppHeader from '../app-header/app-header';
@@ -24,13 +25,16 @@ export default function App() {
   return (
     <div>
       <AppHeader />
-      <main className={styles.main}>
+      <main className={clsx(
+        styles.main,
+        'pb-10',
+      )}>
         {ingredients.length ===0
           ? (
             <Loader
               className="loader"
               type="Puff"
-              color="#00BFFF"
+              color="#8585AD"
               height={70}
               width={70}
             />

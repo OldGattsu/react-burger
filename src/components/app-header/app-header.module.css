@@ -14,24 +14,12 @@
 .menuLink {
   display: flex;
   align-items: center;
-  padding: 16px 20px;
-  font-size: 16px;
   color: white;
   text-decoration: none;
 }
 
-.menuLinkFirst {
-  padding-left: 0;
-}
-
-.menuLinkLast {
-  padding-right: 0;
-}
-
 .menuLinkIcon{
   display: flex;
-  align-items: center;
-  margin-right: 10px;
 }
 
 .logo {

@@ -25,14 +25,19 @@ export default function AppHeader() {
       <a
         className={clsx(
           styles.menuLink,
-          first && styles.menuLinkFirst,
-          last && styles.menuLinkLast,
+          !first && 'pl-4',
+          !last && 'pr-4',
+          'pt-4', 'pb-4',
+          'text', 'text_type_main-default',
         )}
         href="/home"
         onMouseEnter={handleLinkMouseEnter}
         onMouseLeave={handleLinkMouseLeave}
       >
-        <span className={styles.menuLinkIcon}>
+        <span className={clsx(
+          styles.menuLinkIcon,
+          'mr-2',
+        )}>
           {isHover ? iconHover : icon}
         </span>
         <span className={styles.menuLinkName}>{name}</span>
@@ -53,7 +58,7 @@ export default function AppHeader() {
         </li>
         <li>
           <MenuLink
-            name="Конструктор"
+            name="Лента заказов"
             icon={<ListIcon type="primary"/>}
             iconHover={<ListIcon type="secondary"/>}
           />

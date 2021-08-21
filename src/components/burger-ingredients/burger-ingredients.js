@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import styles from './burger-ingredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -121,8 +122,16 @@ export default function BurgerIngredients({ingredients}) {
 
   return (
     <>
-      <section className={styles.burgerIngredients} ref={burgerIngredientsRef}>
-        <h1 className={styles.burgerIngredientsTitle}>Соберите бургер</h1>
+      <section
+        className={clsx(
+          styles.burgerIngredients,
+       )}
+        ref={burgerIngredientsRef}
+      >
+        <h1 className={clsx(
+          styles.burgerIngredientsTitle,
+          'text', 'text_type_main-large',
+          )}>Соберите бургер</h1>
         <div className={styles.burgerIngredientsTabs}>
           {tabsList.map((tab, index) => (
             <Tab
