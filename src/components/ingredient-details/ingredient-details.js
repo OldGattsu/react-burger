@@ -1,34 +1,51 @@
-import React from 'react'
+import React from 'react';
+import clsx from 'clsx';
 import styles from './ingredient-details.module.css';
 
 import Modal from '../modal/modal';
-import ModalOverlay from '../modal-overlay/modal-overlay';
 
+export default function IngredientDetails({show, data, onClose}) {
 
-export default function IngredientDetails(
-  {image, name, calories, proteins, fat, carbohydrates}) {
+  if (!show) return null
 
   const EnergyItem = ({name, value}) => {
     return (
-      <div className={styles.EnergyItem}>
-        <span></span>
+      <div className={styles.energyItem}>
+        <span className={clsx(
+          styles.energyName,
+          'text', 'text_type_main-default', 'text_color_inactive',
+        )}>{name}</span>
+        <span className={clsx(
+          styles.energyItem,
+          'text', 'text_type_digits-default', 'text_color_inactive',
+        )}>{value}</span>
       </div>
     )
   }
 
   return (
-    <ModalOverlay>
-      <Modal title="Детали ингредиента">
-        <div className={styles.ingredientDetails}>
-          <img className={styles.ingredientImage} src={image} alt={name} />
-          <p className={clsx(
-            styles.ingredientName,
-            'text', 'text_type_main-medium',
-          )}>{name}</p>
-          <div className={styles.ingredientEnergy}>
-          </div>
+    <Modal title="Детали ингредиента" onClose={onClose}>
+      <div className={styles.ingredientDetails}>
+        <img
+          className={clsx(
+            styles.ingredientImage,
+            'mb-4',
+          )}
+          src={data.image_large}
+          alt={data.name}
+        />
+        <p className={clsx(
+          styles.ingredientName,
+          'text', 'text_type_main-medium',
+          'mb-8',
+        )}>{data.name}</p>
+        <div className={styles.ingredientEnergy}>
+          <EnergyItem name={'Калории,ккал'} value={data.calories} />
+          <EnergyItem name={'Белки,г'} value={data.proteins} />
+          <EnergyItem name={'Жиры,г'} value={data.fat} />
+          <EnergyItem name={'Углеводы,г'} value={data.carbohydrates} />
         </div>
-      </Modal>
-    </ModalOverlay>
+      </div>
+    </Modal>
   )
 }

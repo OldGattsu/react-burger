@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './burger-ingredients.module.css';
 
-import { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngredientsCategory from '../ingredients-category/ingredients-category';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { getScrollBoxHeight } from '../../libs/methods';
 
 export default function BurgerIngredients({ingredients}) {
-  const [currentTab, setCurrentTab] = React.useState('buns')
-
+  // width of BurgerIngredients
   const burgerIngredientsRef = React.useRef(null)
   const burgerIngredientsScrollRef = React.useRef(null)
 
@@ -25,6 +25,10 @@ export default function BurgerIngredients({ingredients}) {
       window.removeEventListener('resize', setBurgerIngredientsScrollHeight)
     }
   }, [])
+
+
+  // tabs
+  const [currentTab, setCurrentTab] = React.useState('buns')
 
   const categoryBunsRef = React.useRef(null)
   const categorySaucesRef = React.useRef(null)
@@ -44,6 +48,47 @@ export default function BurgerIngredients({ingredients}) {
     tabScroll()
   }, [tabScroll, currentTab])
 
+  const tabsList = [
+    {
+      name: 'Булки',
+      value: 'buns',
+      activeFor: 'buns',
+    },
+    {
+      name: 'Соусы',
+      value: 'sauces',
+      activeFor: 'sauces',
+    },
+    {
+      name: 'Начинка',
+      value: 'toppings',
+      activeFor: 'toppings',
+    }
+  ]
+
+
+  // ingredient details
+  const [ingredientDetails, setIngredientDetails] = React.useState({
+    show: false,
+    data: {},
+  })
+
+  const showIngredientDetails = (curIngredient) => {
+    setIngredientDetails({
+      show: true,
+      data: curIngredient,
+    })
+  }
+
+  const closeIngredientDetails = () => {
+    setIngredientDetails({
+      show: false,
+      data: {},
+    })
+  }
+
+
+  // categories
   const getCategory = (type) => {
     const res = []
     ingredients.forEach((ingredient) => {
@@ -56,62 +101,54 @@ export default function BurgerIngredients({ingredients}) {
   const sauces = getCategory('sauce')
   const toppings = getCategory('main')
 
-  const IngredientCard = ({img, price, name}) => {
-    return (
-      <div className={styles.ingredientCard}>
-        <img className={styles.ingredientCardImage} src={img} alt={name} />
-        <p className={styles.ingredientCardPrice}>
-          <span className="mr-2">{price}</span>
-          <CurrencyIcon type="primary" />
-        </p>
-        <p className={styles.ingredientCardName}>{name}</p>
-        <Counter count={1} size="default" />
-      </div>
-    )
-  }
-
-  const IngredientsCategory = React.forwardRef(({name, list}, ref) => {
-    return (
-      <div className={styles.ingredientsCategory} ref={ref}>
-        <h2 className="text text_type_main-medium">{name}</h2>
-        <div className={styles.ingredientsCategoryContainer}>
-          {list.map((ingredient, index) => {
-            return (
-              <IngredientCard
-                img={ingredient.image}
-                price={ingredient.price}
-                name={ingredient.name}
-                key={index}
-              />
-            )
-          })}
-        </div>
-      </div>
-    )
-  })
+  const categoriesList = [
+    {
+      name: 'Булки',
+      data: buns,
+      ref: categoryBunsRef,
+    },
+    {
+      name: 'Соусы',
+      data: sauces,
+      ref: categorySaucesRef,
+    },
+    {
+      name: 'Начинка',
+      data: toppings,
+      ref: categoryToppingsRef,
+    },
+  ]
 
   return (
     <>
       <section className={styles.burgerIngredients} ref={burgerIngredientsRef}>
         <h1 className={styles.burgerIngredientsTitle}>Соберите бургер</h1>
         <div className={styles.burgerIngredientsTabs}>
-          <Tab value="buns" active={currentTab === 'buns'} onClick={setCurrentTab}>Булки</Tab>
-          <Tab value="sauces" active={currentTab === 'sauces'} onClick={setCurrentTab}>Соусы</Tab>
-          <Tab value="toppings" active={currentTab === 'toppings'} onClick={setCurrentTab}>Начинки</Tab>
+          {tabsList.map((tab, index) => (
+            <Tab
+              value={tab.value}
+              active={currentTab === tab.activeFor}
+              key={index}
+              onClick={setCurrentTab}
+            >{tab.name}</Tab>
+          ))}
         </div>
         <div className={styles.burgerIngredientsScroll} ref={burgerIngredientsScrollRef}>
-          <IngredientsCategory name="Булки" list={buns} ref={categoryBunsRef} />
-          <IngredientsCategory name="Соусы" list={sauces} ref={categorySaucesRef} />
-          <IngredientsCategory name="Начинка" list={toppings} ref={categoryToppingsRef} />
+          {categoriesList.map((category, index) => (
+            <IngredientsCategory
+              name={category.name}
+              data={category.data}
+              ref={category.ref}
+              key={index}
+              onCardShow={showIngredientDetails}
+            />
+          ))}
         </div>
       </section>
       <IngredientDetails
-        image={ingredients[0].image_large}
-        name={ingredients[0].name}
-        calories={ingredients[0].calories}
-        proteins={ingredients[0].proteins}
-        fat={ingredients[0].fat}
-        carbohydrates={ingredients[0].carbohydrates}
+        show={ingredientDetails.show}
+        data={ingredientDetails.data}
+        onClose={closeIngredientDetails}
       />
     </>
   )
