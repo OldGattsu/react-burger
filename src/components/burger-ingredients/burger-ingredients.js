@@ -6,9 +6,11 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { getScrollBoxHeight } from '../../libs/methods';
+import { getScrollBoxHeight } from '../../utils/methods';
 
 export default function BurgerIngredients({ingredients}) {
+  const didMount = React.useRef(false)
+
   // width of BurgerIngredients
   const burgerIngredientsRef = React.useRef(null)
   const burgerIngredientsScrollRef = React.useRef(null)
@@ -36,17 +38,29 @@ export default function BurgerIngredients({ingredients}) {
   const categoryToppingsRef = React.useRef(null)
 
   const tabScroll = React.useCallback(() => {
+    const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
+      ? window.scrollY
+      : burgerIngredientsScrollRef.current.offsetTop
     const scrollTo = {
-      'buns': () => categoryBunsRef.current.scrollIntoView({behavior: 'smooth'}),
-      'sauces': () => categorySaucesRef.current.scrollIntoView({behavior: 'smooth'}),
-      'toppings': () => categoryToppingsRef.current.scrollIntoView({behavior: 'smooth'}),
+      'buns': () => burgerIngredientsScrollRef.current.scrollTo({
+        behavior: "smooth",
+        top: categoryBunsRef.current.offsetTop - relativeTop,
+      }),
+      'sauces': () => burgerIngredientsScrollRef.current.scrollTo({
+        behavior: "smooth",
+        top: categorySaucesRef.current.offsetTop - relativeTop,
+      }),
+      'toppings': () => burgerIngredientsScrollRef.current.scrollTo({
+        behavior: "smooth",
+        top: categoryToppingsRef.current.offsetTop - relativeTop,
+      }),
     }
 
     scrollTo[currentTab]()
   }, [currentTab])
 
   React.useEffect(() => {
-    tabScroll()
+    didMount.current ? tabScroll() : didMount.current = true
   }, [tabScroll, currentTab])
 
   const tabsList = [
@@ -122,17 +136,15 @@ export default function BurgerIngredients({ingredients}) {
 
   return (
     <>
-      <section
-        className={clsx(
-          styles.burgerIngredients,
-       )}
-        ref={burgerIngredientsRef}
-      >
+      <section className={styles.burgerIngredients} ref={burgerIngredientsRef}>
         <h1 className={clsx(
-          styles.burgerIngredientsTitle,
           'text', 'text_type_main-large',
-          )}>Соберите бургер</h1>
-        <div className={styles.burgerIngredientsTabs}>
+          'pt-10',
+        )}>Соберите бургер</h1>
+        <div className={clsx(
+          styles.burgerIngredientsTabs,
+          'mt-5',
+        )}>
           {tabsList.map((tab, index) => (
             <Tab
               value={tab.value}
@@ -142,7 +154,13 @@ export default function BurgerIngredients({ingredients}) {
             >{tab.name}</Tab>
           ))}
         </div>
-        <div className={styles.burgerIngredientsScroll} ref={burgerIngredientsScrollRef}>
+        <div
+          className={clsx(
+            styles.burgerIngredientsScroll,
+            'mt-10',
+          )}
+          ref={burgerIngredientsScrollRef}
+        >
           {categoriesList.map((category, index) => (
             <IngredientsCategory
               name={category.name}

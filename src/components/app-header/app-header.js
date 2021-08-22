@@ -46,7 +46,10 @@ export default function AppHeader() {
   }
 
   return (
-    <header className={styles.appHeader}>
+    <header className={clsx(
+      styles.appHeader,
+      'mt-10',
+    )}>
       <Menu>
         <li>
           <MenuLink

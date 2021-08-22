@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import styles from './ingredients-category.module.css';
 
 import IngredientCard from '../ingredient-card/ingredient-card';
@@ -7,7 +8,10 @@ const IngredientsCategory = React.forwardRef(({name, data, onCardShow}, ref) => 
   return (
     <div className={styles.ingredientsCategory} ref={ref}>
       <h2 className="text text_type_main-medium">{name}</h2>
-      <div className={styles.ingredientsCategoryContainer}>
+      <div className={clsx(
+        styles.ingredientsCategoryContainer,
+        'pt-6', 'pb-10', 'pl-4', 'pr-2',
+      )}>
         {data.map((ingredient, index) => {
           return (
             <IngredientCard

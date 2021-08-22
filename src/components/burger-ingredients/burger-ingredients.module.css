@@ -4,16 +4,11 @@
   overflow: hidden;
 }
 
-.burgerIngredientsTitle {
-}
-
 .burgerIngredientsTabs {
   display: flex;
-  margin-top: 20px;
 }
 
 .burgerIngredientsScroll {
-  margin-top: 40px;
   overflow-y: scroll;
 }
 

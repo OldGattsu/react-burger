@@ -1,13 +1,10 @@
 .burgerConstructor {
   width: 600px;
   height: calc(100vh - 308px);
-  margin-top: 100px;
-  margin-bottom: 40px;
   overflow: hidden;
 }
 
 .burgerConstructorScroll {
-  padding: 0 8px 0 16px;
   overflow-y: scroll;
 }
 
@@ -24,26 +21,15 @@
   background-color: #8585AD;
 }
 
-.bun {
+.lockedBun {
   display: flex;
   justify-content: flex-end;
-  margin-right: 16px;
-}
-
-.topBun {
-  composes: bun;
-  margin-bottom: 8px;
-}
-
-.botBun {
-  composes: bun;
-  margin-top: 8px;
 }
 
 .ingredientContainer {
- display: flex;
- justify-content: space-between;
- align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ingredientContainer:not(:last-child) {
@@ -53,7 +39,6 @@
 .burgerConstructorOrder {
   display: flex;
   justify-content: flex-end;
-  margin-top: 40px;
 }
 
 .burgerConstructorTotal{

@@ -1,10 +1,11 @@
 import React from 'react';
+import clsx from 'clsx';
 import styles from './burger-constructor.module.css';
 
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
 
-import { getScrollBoxHeight } from '../../libs/methods';
+import { getScrollBoxHeight } from '../../utils/methods';
 
 export default function BurgerConstructor({ingredients}) {
   // width of BurgerConstructor
@@ -35,10 +36,16 @@ export default function BurgerConstructor({ingredients}) {
   return (
     <>
       <section
-        className={styles.burgerConstructor}
+        className={clsx(
+          styles.burgerConstructor,
+          'mt-25', 'mb-10',
+        )}
         ref={burgerConstructorRef}
       >
-        <div className={styles.topBun}>
+        <div className={clsx(
+          styles.lockedBun,
+          'mb-2', 'mr-4',
+        )}>
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -48,7 +55,10 @@ export default function BurgerConstructor({ingredients}) {
           />
         </div>
         <div
-          className={styles.burgerConstructorScroll}
+          className={clsx(
+            styles.burgerConstructorScroll,
+            'pl-4', 'pr-2',
+          )}
           ref={burgerConstructorScrollRef}
         >
           {ingredients.map((ingredient, index) => {
@@ -65,7 +75,10 @@ export default function BurgerConstructor({ingredients}) {
             )
           })}
         </div>
-        <div className={styles.botBun}>
+        <div className={clsx(
+          styles.lockedBun,
+          'mt-2', 'mr-4',
+        )}>
           <ConstructorElement
             type="bot"
             isLocked={true}
@@ -74,8 +87,14 @@ export default function BurgerConstructor({ingredients}) {
             thumbnail={ingredients[1].image}
           />
         </div>
-        <div className={styles.burgerConstructorOrder}>
-          <p className={`${styles.burgerConstructorTotal} mr-10`}>
+        <div className={clsx(
+          styles.burgerConstructorOrder,
+          'mt-10', 'pr-4',
+        )}>
+          <p className={clsx(
+            styles.burgerConstructorTotal,
+            'mr-10',
+          )}>
             <span className={`text text_type_digits-medium mr-2`}>610</span>
             <CurrencyIcon type="primary" />
           </p>

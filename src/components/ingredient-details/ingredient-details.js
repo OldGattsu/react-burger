@@ -10,6 +10,7 @@ export default function IngredientDetails({show, data, onClose}) {
         <span className={clsx(
           styles.energyName,
           'text', 'text_type_main-default', 'text_color_inactive',
+          'mb-2',
         )}>{name}</span>
         <span className={clsx(
           styles.energyItem,
