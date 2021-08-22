@@ -1,14 +1,14 @@
 import propTypes from 'prop-types';
 
 const ingredientsPropTypes = propTypes.shape({
-  name: propTypes.string,
-  price: propTypes.number,
-  image: propTypes.string,
-  image_large: propTypes.string,
-  calories: propTypes.number,
-  proteins: propTypes.number,
-  fat: propTypes.number,
-  carbohydrates: propTypes.number,
+  name: propTypes.string.isRequired,
+  price: propTypes.number.isRequired,
+  image: propTypes.string.isRequired,
+  image_large: propTypes.string.isRequired,
+  calories: propTypes.number.isRequired,
+  proteins: propTypes.number.isRequired,
+  fat: propTypes.number.isRequired,
+  carbohydrates: propTypes.number.isRequired,
 })
 
 export default ingredientsPropTypes

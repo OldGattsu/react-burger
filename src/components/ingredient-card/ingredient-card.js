@@ -30,8 +30,8 @@ export default function IngredientCard({img, price, name, onShow}) {
 }
 
 IngredientCard.propTypes = {
-  img: propTypes.string,
-  price: propTypes.number,
-  name: propTypes.string,
-  onShow: propTypes.func,
+  img: propTypes.string.isRequired,
+  price: propTypes.number.isRequired,
+  name: propTypes.string.isRequired,
+  onShow: propTypes.func.isRequired,
 }

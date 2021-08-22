@@ -46,6 +46,6 @@ export default function OrderDetails({show, onClose}) {
 }
 
 OrderDetails.propTypes = {
-  show: propTypes.bool,
-  onClose: propTypes.func,
+  show: propTypes.bool.isRequired,
+  onClose: propTypes.func.isRequired,
 }

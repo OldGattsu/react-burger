@@ -1,20 +1,11 @@
 import clsx from 'clsx';
 import styles from './app-header.module.css';
 
-import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import Menu from '../menu/menu';
 import MenuLink from '../menu-link/menu-link';
 
 export default function AppHeader() {
-  const Menu = ({children}) => {
-    return (
-      <nav className={styles.menu}>
-        <ul className={styles.menuList}>
-          {children}
-        </ul>
-      </nav>
-    )
-  }
-
   return (
     <header className={clsx(
       styles.appHeader,

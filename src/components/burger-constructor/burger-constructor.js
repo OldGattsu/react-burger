@@ -66,17 +66,19 @@ export default function BurgerConstructor({ingredients}) {
           ref={burgerConstructorScrollRef}
         >
           {ingredients.map((ingredient) => {
-            return (
-              <div className={styles.ingredientContainer}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  text={ingredient.name}
-                  price={ingredient.price}
-                  thumbnail={ingredient.image_large}
-                  key={ingredient._id}
-                />
-              </div>
-            )
+            return ingredient.type !== 'bun'
+              ? (
+                <div className={styles.ingredientContainer}>
+                  <DragIcon type="primary" />
+                  <ConstructorElement
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image_large}
+                    key={ingredient._id}
+                  />
+                </div>
+              )
+              : null
           })}
         </div>
         <div className={clsx(
@@ -84,12 +86,12 @@ export default function BurgerConstructor({ingredients}) {
           'mt-2', 'mr-4',
         )}>
           <ConstructorElement
-            type="bot"
+            type="bottom"
             isLocked={true}
-            text={ingredients[1].name + " (низ)"}
-            price={ingredients[1].price}
-            thumbnail={ingredients[1].image}
-            key={ingredients[1]._id}
+            text={ingredients[0].name + " (низ)"}
+            price={ingredients[0].price}
+            thumbnail={ingredients[0].image}
+            key={ingredients[0]._id}
           />
         </div>
         <div className={clsx(

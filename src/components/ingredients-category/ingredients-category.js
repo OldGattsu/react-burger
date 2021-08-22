@@ -30,9 +30,9 @@ const IngredientsCategory = React.forwardRef(({name, data, onCardShow}, ref) => 
 })
 
 IngredientsCategory.propTypes = {
-  name: propTypes.string,
-  data: propTypes.array,
-  onCardShow: propTypes.func,
+  name: propTypes.string.isRequired,
+  data: propTypes.array.isRequired,
+  onCardShow: propTypes.func.isRequired,
 }
 
 export default IngredientsCategory

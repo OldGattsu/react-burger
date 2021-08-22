@@ -34,9 +34,9 @@ export default function MenuLink ({name, icon, iconHover, first, last}) {
 }
 
 MenuLink.propTypes = {
-  name: propTypes.string,
-  icon: propTypes.element,
-  iconHover: propTypes.element,
+  name: propTypes.string.isRequired,
+  icon: propTypes.element.isRequired,
+  iconHover: propTypes.element.isRequired,
   first: propTypes.bool,
   last: propTypes.bool,
 }
