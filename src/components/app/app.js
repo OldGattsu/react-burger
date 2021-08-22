@@ -17,9 +17,13 @@ export default function App() {
   }, [])
 
   const getIngredients = async () => {
-    const res = await fetch(ingredientsAPi);
-    const data = await res.json();
-    setIngreidents(data.data)
+    fetch(ingredientsAPi)
+      .then(res => res.json())
+      .then(data => setIngreidents(data.data))
+      .catch(e => {
+        console.log('Error: ' + e.message)
+        console.log(e.response)
+      })
   }
 
   return (
