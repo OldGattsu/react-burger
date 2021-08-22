@@ -10,17 +10,6 @@
   padding: 0;
 }
 
-.menuLink {
-  display: flex;
-  align-items: center;
-  color: white;
-  text-decoration: none;
-}
-
-.menuLinkIcon{
-  display: flex;
-}
-
 .logo {
   position: absolute;
   left: 50%;

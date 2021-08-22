@@ -1,6 +1,9 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './burger-ingredients.module.css';
+
+import ingredientsPropTypes from '../../utils/prop-types';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
@@ -179,4 +182,8 @@ export default function BurgerIngredients({ingredients}) {
       />
     </>
   )
+}
+
+BurgerIngredients.propTypes = {
+  ingredients: propTypes.arrayOf(ingredientsPropTypes).isRequired,
 }

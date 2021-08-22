@@ -1,9 +1,8 @@
-import React from 'react';
+import propTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import styles from './modal-overlay.module.css';
 
 const modalRoot = document.getElementById("react-modal");
-
 
 export default function ModalOverlay({children}) {
 	return ReactDOM.createPortal(
@@ -13,4 +12,8 @@ export default function ModalOverlay({children}) {
 			</div>
 		)
 	, modalRoot)
+}
+
+ModalOverlay.propTypes = {
+	children: propTypes.node,
 }

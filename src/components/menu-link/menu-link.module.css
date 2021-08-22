@@ -1,0 +1,10 @@
+.menuLink {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+}
+
+.menuLinkIcon{
+  display: flex;
+}

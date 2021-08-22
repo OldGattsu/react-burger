@@ -1,9 +1,10 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './modal.module.css';
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function Modal({children, title, onClose}) {
 	const modalRef = React.useRef(null)
@@ -64,4 +65,10 @@ export default function Modal({children, title, onClose}) {
 			</div>
 		</ModalOverlay>
 	)
+}
+
+Modal.propTypes = {
+	children: propTypes.node,
+	title: propTypes.string,
+	onClose: propTypes.func,
 }

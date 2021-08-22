@@ -1,6 +1,9 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './burger-constructor.module.css';
+
+import ingredientsPropTypes from '../../utils/prop-types';
 
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
@@ -52,6 +55,7 @@ export default function BurgerConstructor({ingredients}) {
             text={ingredients[0].name + " (верх)"}
             price={ingredients[0].price}
             thumbnail={ingredients[0].image}
+            key={ingredients[0]._id}
           />
         </div>
         <div
@@ -61,7 +65,7 @@ export default function BurgerConstructor({ingredients}) {
           )}
           ref={burgerConstructorScrollRef}
         >
-          {ingredients.map((ingredient, index) => {
+          {ingredients.map((ingredient) => {
             return (
               <div className={styles.ingredientContainer}>
                 <DragIcon type="primary" />
@@ -69,7 +73,7 @@ export default function BurgerConstructor({ingredients}) {
                   text={ingredient.name}
                   price={ingredient.price}
                   thumbnail={ingredient.image_large}
-                  key={index}
+                  key={ingredient._id}
                 />
               </div>
             )
@@ -85,6 +89,7 @@ export default function BurgerConstructor({ingredients}) {
             text={ingredients[1].name + " (низ)"}
             price={ingredients[1].price}
             thumbnail={ingredients[1].image}
+            key={ingredients[1]._id}
           />
         </div>
         <div className={clsx(
@@ -109,4 +114,8 @@ export default function BurgerConstructor({ingredients}) {
       />
     </>
   )
+}
+
+BurgerConstructor.propTypes = {
+  ingredients: propTypes.arrayOf(ingredientsPropTypes).isRequired,
 }

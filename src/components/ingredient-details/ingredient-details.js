@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './ingredient-details.module.css';
 
@@ -69,4 +70,10 @@ export default function IngredientDetails({show, data, onClose}) {
       </div>
     </Modal>
   )
+}
+
+IngredientDetails.propTypes = {
+  show: propTypes.bool,
+  data: propTypes.object,
+  onClose: propTypes.func,
 }

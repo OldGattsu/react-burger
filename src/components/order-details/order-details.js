@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './order-details.module.css';
 
@@ -42,4 +43,9 @@ export default function OrderDetails({show, onClose}) {
       </div>
     </Modal>
   )
+}
+
+OrderDetails.propTypes = {
+  show: propTypes.bool,
+  onClose: propTypes.func,
 }

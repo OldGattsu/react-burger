@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './ingredient-card.module.css';
 
@@ -26,4 +27,11 @@ export default function IngredientCard({img, price, name, onShow}) {
       <Counter count={1} size="default" />
     </div>
   )
+}
+
+IngredientCard.propTypes = {
+  img: propTypes.string,
+  price: propTypes.number,
+  name: propTypes.string,
+  onShow: propTypes.func,
 }

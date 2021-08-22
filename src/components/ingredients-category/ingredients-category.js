@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './ingredients-category.module.css';
 
@@ -27,5 +28,11 @@ const IngredientsCategory = React.forwardRef(({name, data, onCardShow}, ref) => 
     </div>
   )
 })
+
+IngredientsCategory.propTypes = {
+  name: propTypes.string,
+  data: propTypes.array,
+  onCardShow: propTypes.func,
+}
 
 export default IngredientsCategory
