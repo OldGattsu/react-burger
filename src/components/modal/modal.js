@@ -13,24 +13,16 @@ export default function Modal({children, title, onClose}) {
 		if (e.keyCode === 27) onClose()
 	}
 
-	const handleClickOutside = (e) => {
-		if (modalRef.current && !modalRef.current.contains(e.target)) {
-      onClose()
-    }
-	}
-
 	React.useEffect(() => {
 		document.addEventListener('keydown', handleEscClose)
-		document.addEventListener('click', handleClickOutside)
 
 		return () => {
 			document.removeEventListener('keydown', handleEscClose)
-			document.removeEventListener('click', handleClickOutside)
 		}
 	})
 
 	return (
-		<ModalOverlay>
+		<ModalOverlay onClose={onClose}>
 			<div
 				className={clsx(
 					styles.modal,
@@ -68,7 +60,7 @@ export default function Modal({children, title, onClose}) {
 }
 
 Modal.propTypes = {
-	children: propTypes.node,
+	children: propTypes.node.isRequired,
 	title: propTypes.string,
-	onClose: propTypes.func,
+	onClose: propTypes.func.isRequired,
 }

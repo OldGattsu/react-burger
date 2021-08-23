@@ -6,6 +6,7 @@ import styles from './burger-ingredients.module.css';
 import ingredientsPropTypes from '../../utils/prop-types';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../modal/modal';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
@@ -175,11 +176,17 @@ export default function BurgerIngredients({ingredients}) {
           ))}
         </div>
       </section>
-      <IngredientDetails
-        show={ingredientDetails.show}
-        data={ingredientDetails.data}
-        onClose={closeIngredientDetails}
-      />
+      {ingredientDetails.show && (
+        <Modal
+          show={ingredientDetails.show}
+          title="Детали ингредиента"
+          onClose={closeIngredientDetails}
+        >
+          <IngredientDetails
+            data={ingredientDetails.data}
+          />
+        </Modal>
+      )}
     </>
   )
 }

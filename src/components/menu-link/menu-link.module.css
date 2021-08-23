@@ -5,6 +5,10 @@
   text-decoration: none;
 }
 
+.menuLink:hover {
+  color: #8585AD;
+}
+
 .menuLinkIcon{
   display: flex;
 }

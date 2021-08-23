@@ -2,9 +2,7 @@ import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './ingredient-details.module.css';
 
-import Modal from '../modal/modal';
-
-export default function IngredientDetails({show, data, onClose}) {
+export default function IngredientDetails({data}) {
   const EnergyItem = ({name, value}) => {
     return (
       <div className={styles.energyItem}>
@@ -40,40 +38,43 @@ export default function IngredientDetails({show, data, onClose}) {
     },
   ]
 
-  if (!show) return null
+  if (data.length < 0) return null
 
   return (
-    <Modal title="Детали ингредиента" onClose={onClose}>
-      <div className={styles.ingredientDetails}>
-        <img
-          className={clsx(
-            styles.ingredientImage,
-            'mb-4',
-          )}
-          src={data.image_large}
-          alt={data.name}
-        />
-        <p className={clsx(
-          styles.ingredientName,
-          'text', 'text_type_main-medium',
-          'mb-8',
-        )}>{data.name}</p>
-        <div className={styles.ingredientEnergy}>
-          {energyList.map((energy, index) => (
-            <EnergyItem
-              name={energy.name}
-              value={energy.value}
-              key={index}
-            />
-          ))}
-        </div>
+    <div className={styles.ingredientDetails}>
+      <img
+        className={clsx(
+          styles.ingredientImage,
+          'mb-4',
+        )}
+        src={data.image_large}
+        alt={data.name}
+      />
+      <p className={clsx(
+        styles.ingredientName,
+        'text', 'text_type_main-medium',
+        'mb-8',
+      )}>{data.name}</p>
+      <div className={styles.ingredientEnergy}>
+        {energyList.map((energy, index) => (
+          <EnergyItem
+            name={energy.name}
+            value={energy.value}
+            key={index}
+          />
+        ))}
       </div>
-    </Modal>
+    </div>
   )
 }
 
 IngredientDetails.propTypes = {
-  show: propTypes.bool,
-  data: propTypes.object,
-  onClose: propTypes.func,
+  data: propTypes.shape({
+    image_large: propTypes.string.isRequired,
+    name: propTypes.string.isRequired,
+    calories: propTypes.number.isRequired,
+    proteins: propTypes.number.isRequired,
+    fat: propTypes.number.isRequired,
+    carbohydrates: propTypes.number.isRequired,
+  }).isRequired,
 }

@@ -6,6 +6,7 @@ import styles from './burger-constructor.module.css';
 import ingredientsPropTypes from '../../utils/prop-types';
 
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
 import { getScrollBoxHeight } from '../../utils/methods';
@@ -55,7 +56,6 @@ export default function BurgerConstructor({ingredients}) {
             text={ingredients[0].name + " (верх)"}
             price={ingredients[0].price}
             thumbnail={ingredients[0].image}
-            key={ingredients[0]._id}
           />
         </div>
         <div
@@ -68,13 +68,12 @@ export default function BurgerConstructor({ingredients}) {
           {ingredients.map((ingredient) => {
             return ingredient.type !== 'bun'
               ? (
-                <div className={styles.ingredientContainer}>
+                <div className={styles.ingredientContainer} key={ingredient._id}>
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={ingredient.name}
                     price={ingredient.price}
                     thumbnail={ingredient.image_large}
-                    key={ingredient._id}
                   />
                 </div>
               )
@@ -91,7 +90,6 @@ export default function BurgerConstructor({ingredients}) {
             text={ingredients[0].name + " (низ)"}
             price={ingredients[0].price}
             thumbnail={ingredients[0].image}
-            key={ingredients[0]._id}
           />
         </div>
         <div className={clsx(
@@ -110,10 +108,13 @@ export default function BurgerConstructor({ingredients}) {
           </Button>
         </div>
       </section>
-      <OrderDetails
-        show={orderDetailsShow}
-        onClose={closeOrderDetails}
-      />
+      {orderDetailsShow && (
+        <Modal
+          onClose={closeOrderDetails}
+        >
+          <OrderDetails />
+        </Modal>
+      )}
     </>
   )
 }
