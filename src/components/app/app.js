@@ -18,10 +18,15 @@ export default function App() {
 
   const getIngredients = async () => {
     fetch(ingredientsAPi)
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
       .then(data => setIngreidents(data.data))
       .catch(e => {
-        console.log('Error: ' + e.message)
+        console.log('Ошибка: ' + e.message)
         console.log(e.response)
       })
   }
