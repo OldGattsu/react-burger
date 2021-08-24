@@ -6,25 +6,15 @@ import styles from './modal-overlay.module.css';
 const modalRoot = document.getElementById("react-modal");
 
 export default function ModalOverlay({children, onClose}) {
-	const overlayRef = React.useRef(null)
-
 	const handleClickOverlay = (e) => {
-		if (overlayRef.current && e.target.isEqualNode(overlayRef.current)) {
+		if (e.target.classList.contains(styles.modalOverlay)) {
 			onClose()
 		}
 	}
 
-	React.useEffect(() => {
-		document.addEventListener('click', handleClickOverlay)
-
-		return () => {
-			document.removeEventListener('click', handleClickOverlay)
-		}
-	})
-
 	return ReactDOM.createPortal(
 		(
-			<div className={styles.modalOverlay} ref={overlayRef}>
+			<div className={styles.modalOverlay} onClick={handleClickOverlay}>
 				{children}
 			</div>
 		)
