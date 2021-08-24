@@ -1,0 +1,14 @@
+.menuLink {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+}
+
+.menuLink:hover {
+  color: #8585AD;
+}
+
+.menuLinkIcon{
+  display: flex;
+}

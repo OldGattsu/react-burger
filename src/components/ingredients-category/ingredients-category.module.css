@@ -1,0 +1,6 @@
+.ingredientsCategoryContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(50% - 12px), 1fr));
+  row-gap: 32px;
+  column-gap: 24px;
+}

@@ -1,0 +1,49 @@
+.burgerConstructor {
+  width: 600px;
+  height: calc(100vh - 308px);
+  overflow: hidden;
+}
+
+.burgerConstructorScroll {
+  overflow-y: scroll;
+}
+
+.burgerConstructorScroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.burgerConstructorScroll::-webkit-scrollbar-track {
+  width: 8px;
+  background-color: #2F2F37;
+}
+
+.burgerConstructorScroll::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.lockedBun {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ingredientContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredientContainer:not(:last-child) {
+  margin-bottom: 8px;
+ }
+
+.burgerConstructorOrder {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.burgerConstructorTotal{
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
