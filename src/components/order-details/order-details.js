@@ -1,4 +1,3 @@
-import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './order-details.module.css';
 
@@ -37,9 +36,4 @@ export default function OrderDetails() {
       </p>
     </div>
   )
-}
-
-OrderDetails.propTypes = {
-  show: propTypes.bool.isRequired,
-  onClose: propTypes.func.isRequired,
 }

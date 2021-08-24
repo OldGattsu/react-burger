@@ -33,4 +33,5 @@ export default function ModalOverlay({children, onClose}) {
 
 ModalOverlay.propTypes = {
 	children: propTypes.node.isRequired,
+	onClose: propTypes.func.isRequired,
 }
