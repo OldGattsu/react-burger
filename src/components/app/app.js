@@ -9,11 +9,12 @@ import Loader from '../loader/loader';
 
 import { IngredientsContext } from '../../contexts/burgerConstructorContext';
 
-const ingredientsAPi = 'https://norma.nomoreparties.space/api/ingredients ';
+const ingredientsAPi = `${process.env.REACT_APP_API_PATH}/ingredients`;
+const env = process.env;
 
 export default function App() {
   const [ingredients, setIngreidents] = React.useState([])
-
+  console.log('env', env)
   React.useEffect(() => {
     getIngredients()
   }, [])

@@ -34,7 +34,7 @@ export default function BurgerConstructor() {
 
 
   // order details
-  const checkoutApi = 'https://norma.nomoreparties.space/api/orders'
+  const checkoutApi = `${process.env.REACT_APP_API_PATH}/orders`;
   const [orderDetails, setOrderDetails] = React.useState({
     show: false,
     orderId: null,
