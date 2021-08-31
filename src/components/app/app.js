@@ -5,7 +5,9 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import Loader from 'react-loader-spinner';
+import Loader from '../loader/loader';
+
+import { IngredientsContext } from '../../utils/burgerConstructorContext';
 
 const ingredientsAPi = 'https://norma.nomoreparties.space/api/ingredients ';
 
@@ -20,7 +22,7 @@ export default function App() {
     fetch(ingredientsAPi)
       .then(res => {
         if (res.ok) {
-            return res.json();
+          return res.json();
         }
         return Promise.reject(`Ошибка ${res.status}`);
       })
@@ -39,19 +41,13 @@ export default function App() {
         'pb-10',
       )}>
         {ingredients.length ===0
-          ? (
-            <Loader
-              className="loader"
-              type="Puff"
-              color="#8585AD"
-              height={70}
-              width={70}
-            />
-          )
+          ? (<Loader noBlackout />)
           : (
             <>
               <BurgerIngredients ingredients={ingredients} />
-              <BurgerConstructor ingredients={ingredients} />
+              <IngredientsContext.Provider value={{ ingredients }}>
+                <BurgerConstructor />
+              </IngredientsContext.Provider>
             </>
           )
         }

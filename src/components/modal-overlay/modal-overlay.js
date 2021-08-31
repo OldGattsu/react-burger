@@ -1,20 +1,26 @@
-import React from 'react';
+import clsx from 'clsx';
 import propTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import styles from './modal-overlay.module.css';
 
 const modalRoot = document.getElementById("react-modal");
 
-export default function ModalOverlay({children, onClose}) {
+export default function ModalOverlay({children, onClose, noBlackout}) {
 	const handleClickOverlay = (e) => {
-		if (e.target.classList.contains(styles.modalOverlay)) {
+		if (onClose && e.target.classList.contains(styles.modalOverlay)) {
 			onClose()
 		}
 	}
 
 	return ReactDOM.createPortal(
 		(
-			<div className={styles.modalOverlay} onClick={handleClickOverlay}>
+			<div
+				className={clsx(
+					styles.modalOverlay,
+					noBlackout && styles.modalOverlayNoBlackout,
+				)}
+				onClick={handleClickOverlay}
+			>
 				{children}
 			</div>
 		)
@@ -23,5 +29,6 @@ export default function ModalOverlay({children, onClose}) {
 
 ModalOverlay.propTypes = {
 	children: propTypes.node.isRequired,
-	onClose: propTypes.func.isRequired,
+	onClose: propTypes.func,
+  noBlackout: propTypes.bool,
 }

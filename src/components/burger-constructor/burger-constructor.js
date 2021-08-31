@@ -1,17 +1,19 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import clsx from 'clsx';
-import styles from './burger-constructor.module.css';
+import React from 'react'
+import clsx from 'clsx'
+import styles from './burger-constructor.module.css'
 
-import ingredientsPropTypes from '../../utils/prop-types';
+import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import Modal from '../modal/modal'
+import OrderDetails from '../order-details/order-details'
+import Loader from '../loader/loader'
 
-import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
+import { IngredientsContext } from '../../utils/burgerConstructorContext'
+import { getScrollBoxHeight } from '../../utils/methods'
 
-import { getScrollBoxHeight } from '../../utils/methods';
+export default function BurgerConstructor() {
+  // get ingredients from context
+  const {ingredients} = React.useContext(IngredientsContext)
 
-export default function BurgerConstructor({ingredients}) {
   // width of BurgerConstructor
   const burgerConstructorRef = React.useRef(null)
   const burgerConstructorScrollRef = React.useRef(null)
@@ -32,10 +34,74 @@ export default function BurgerConstructor({ingredients}) {
 
 
   // order details
-  const [orderDetailsShow, setOrderDetailsShow] = React.useState(false)
+  const checkoutApi = 'https://norma.nomoreparties.space/api/orders'
+  const [orderDetails, setOrderDetails] = React.useState({
+    show: false,
+    orderId: null,
+    loading: false,
+  })
 
-  const showOrderDetails = () => setOrderDetailsShow(true)
-  const closeOrderDetails = () => setOrderDetailsShow(false)
+  const closeOrderDetails = () => setOrderDetails({
+    show: false,
+    data: [],
+  })
+
+  const getIngredientsIds = () => {
+    const ingredientsIds = ingredients.map((ingredient) => {
+      return ingredient._id
+    })
+
+    return {
+      "ingredients": ingredientsIds
+    }
+  }
+
+  const checkout = () => {
+    setOrderDetails({
+      ...orderDetails,
+      loading: true,
+    })
+
+    fetch(checkoutApi, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(getIngredientsIds()),
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
+      .then(data => setOrderDetails({
+        show: true,
+        orderId: data.order.number,
+        loading: false,
+      }))
+      .catch(e => {
+        setOrderDetails({
+          ...orderDetails,
+          loading: false,
+        })
+        console.log('Ошибка: ' + e.message)
+        console.log(e.response)
+      })
+  }
+
+
+  // total
+  const totalPriceReducer = React.useMemo(() => () => {
+    return ingredients.reduce((priceSum, ingredient) => {
+      return priceSum += +ingredient.price
+    }, 0)
+  }, [ingredients])
+  const [totalPrice, totalPriceDispatch] = React.useReducer(totalPriceReducer, 0)
+
+  React.useEffect(() => {
+    totalPriceDispatch()
+  }, [ingredients])
 
   return (
     <>
@@ -100,25 +166,22 @@ export default function BurgerConstructor({ingredients}) {
             styles.burgerConstructorTotal,
             'mr-10',
           )}>
-            <span className={`text text_type_digits-medium mr-2`}>610</span>
+            <span className={`text text_type_digits-medium mr-2`}>{totalPrice}</span>
             <CurrencyIcon type="primary" />
           </p>
-          <Button type="primary" size="large" onClick={showOrderDetails}>
+          <Button type="primary" size="large" onClick={checkout}>
             Оформить заказ
           </Button>
         </div>
       </section>
-      {orderDetailsShow && (
+      {orderDetails.loading && (<Loader />)}
+      {orderDetails.show && (
         <Modal
           onClose={closeOrderDetails}
         >
-          <OrderDetails />
+          <OrderDetails orderId={orderDetails.orderId} />
         </Modal>
       )}
     </>
   )
-}
-
-BurgerConstructor.propTypes = {
-  ingredients: propTypes.arrayOf(ingredientsPropTypes).isRequired,
 }
