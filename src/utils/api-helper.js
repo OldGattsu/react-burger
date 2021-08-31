@@ -1,7 +1,8 @@
 const API_PATH = process.env.REACT_APP_API_PATH
 
-export const ENDPOINTS = {
-}
+// endpoints
+export const INGREDIENTS = 'ingredients'
+export const ORDERS = 'orders'
 
 const checkReponse = (res) => {
   return res.ok

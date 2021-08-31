@@ -7,13 +7,14 @@ import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import Loader from '../loader/loader'
 
-import { sendRequest } from '../../utils/api-helper'
+import { sendRequest, ORDERS } from '../../utils/api-helper'
 import { IngredientsContext } from '../../contexts/burgerConstructorContext'
 import { getScrollBoxHeight } from '../../utils/methods'
 
 export default function BurgerConstructor() {
   // get ingredients from context
-  const {ingredients} = React.useContext(IngredientsContext)
+  const ingredients = React.useContext(IngredientsContext)
+  const selectedBun = ingredients[0]
 
   // width of BurgerConstructor
   const burgerConstructorRef = React.useRef(null)
@@ -35,7 +36,6 @@ export default function BurgerConstructor() {
 
 
   // order details
-  const checkoutApi = `${process.env.REACT_APP_API_PATH}/orders`;
   const [orderDetails, setOrderDetails] = React.useState({
     show: false,
     orderId: null,
@@ -53,7 +53,7 @@ export default function BurgerConstructor() {
     })
 
     return {
-      "ingredients": ingredientsIds
+      "ingredients": ingredientsIds,
     }
   }
 
@@ -63,11 +63,9 @@ export default function BurgerConstructor() {
       loading: true,
     })
 
-    sendRequest('orders', {
+    sendRequest(ORDERS, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(getIngredientsIds()),
     })
       .then((data) => {
@@ -77,41 +75,30 @@ export default function BurgerConstructor() {
           loading: false,
         })
       })
-    // fetch(checkoutApi, {
-    // })
-      // .then(res => {
-      //   if (res.ok) {
-      //     return res.json();
-      //   }
-      //   return Promise.reject(`Ошибка ${res.status}`);
-      // })
-      // .then(data => setOrderDetails({
-      //   show: true,
-      //   orderId: data.order.number,
-      //   loading: false,
-      // }))
-      // .catch(e => {
-      //   setOrderDetails({
-      //     ...orderDetails,
-      //     loading: false,
-      //   })
-      //   console.log('Ошибка: ' + e.message)
-      //   console.log(e.response)
-      // })
+      .catch(() => {
+        setOrderDetails({
+          ...orderDetails,
+          loading: false,
+        })
+      })
   }
 
 
   // total
-  const totalPriceReducer = React.useMemo(() => () => {
-    return ingredients.reduce((priceSum, ingredient) => {
-      return priceSum += +ingredient.price
+  const [totalPrice, setTotalPrice] = React.useState(0)
+  const getTotalPrice = React.useMemo(() => () => {
+    let result = ingredients.reduce((priceSum, ingredient) => {
+      return ingredient.type !== 'bun'
+        ? priceSum += +ingredient.price
+        : priceSum
     }, 0)
+    result += selectedBun.price * 2
+    setTotalPrice(result)
   }, [ingredients])
-  const [totalPrice, totalPriceDispatch] = React.useReducer(totalPriceReducer, 0)
 
   React.useEffect(() => {
-    totalPriceDispatch()
-  }, [ingredients])
+    getTotalPrice()
+  }, [ingredients, getTotalPrice])
 
   return (
     <>
@@ -129,9 +116,9 @@ export default function BurgerConstructor() {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={ingredients[0].name + " (верх)"}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image}
+            text={selectedBun.name + " (верх)"}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
           />
         </div>
         <div
@@ -163,9 +150,9 @@ export default function BurgerConstructor() {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={ingredients[0].name + " (низ)"}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image}
+            text={selectedBun.name + " (низ)"}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
           />
         </div>
         <div className={clsx(
