@@ -7,6 +7,7 @@ import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import Loader from '../loader/loader'
 
+import { sendRequest } from '../../utils/api-helper'
 import { IngredientsContext } from '../../contexts/burgerConstructorContext'
 import { getScrollBoxHeight } from '../../utils/methods'
 
@@ -62,32 +63,41 @@ export default function BurgerConstructor() {
       loading: true,
     })
 
-    fetch(checkoutApi, {
+    sendRequest('orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(getIngredientsIds()),
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then(data => setOrderDetails({
-        show: true,
-        orderId: data.order.number,
-        loading: false,
-      }))
-      .catch(e => {
+      .then((data) => {
         setOrderDetails({
-          ...orderDetails,
+          show: true,
+          orderId: data.order.number,
           loading: false,
         })
-        console.log('Ошибка: ' + e.message)
-        console.log(e.response)
       })
+    // fetch(checkoutApi, {
+    // })
+      // .then(res => {
+      //   if (res.ok) {
+      //     return res.json();
+      //   }
+      //   return Promise.reject(`Ошибка ${res.status}`);
+      // })
+      // .then(data => setOrderDetails({
+      //   show: true,
+      //   orderId: data.order.number,
+      //   loading: false,
+      // }))
+      // .catch(e => {
+      //   setOrderDetails({
+      //     ...orderDetails,
+      //     loading: false,
+      //   })
+      //   console.log('Ошибка: ' + e.message)
+      //   console.log(e.response)
+      // })
   }
 
 

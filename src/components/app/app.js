@@ -7,9 +7,8 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Loader from '../loader/loader';
 
+import { sendRequest } from '../../utils/api-helper'
 import { IngredientsContext } from '../../contexts/burgerConstructorContext';
-
-const ingredientsAPi = `${process.env.REACT_APP_API_PATH}/ingredients`;
 
 export default function App() {
   const [ingredients, setIngreidents] = React.useState([])
@@ -17,19 +16,9 @@ export default function App() {
     getIngredients()
   }, [])
 
-  const getIngredients = async () => {
-    fetch(ingredientsAPi)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then(data => setIngreidents(data.data))
-      .catch(e => {
-        console.log('Ошибка: ' + e.message)
-        console.log(e.response)
-      })
+  const getIngredients = () => {
+    sendRequest('ingredients')
+      .then((data) => setIngreidents(data.data))
   }
 
   return (
