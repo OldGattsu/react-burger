@@ -7,7 +7,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Loader from '../loader/loader';
 
-import { IngredientsContext } from '../../utils/burgerConstructorContext';
+import { IngredientsContext } from '../../contexts/burgerConstructorContext';
 
 const ingredientsAPi = 'https://norma.nomoreparties.space/api/ingredients ';
 

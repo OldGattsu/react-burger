@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './burger-ingredients.module.css';
 
-import ingredientsPropTypes from '../../utils/prop-types';
+import ingredientsPropTypes from '../../propTypes/prop-types';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';

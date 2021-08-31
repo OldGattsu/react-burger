@@ -7,7 +7,7 @@ import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import Loader from '../loader/loader'
 
-import { IngredientsContext } from '../../utils/burgerConstructorContext'
+import { IngredientsContext } from '../../contexts/burgerConstructorContext'
 import { getScrollBoxHeight } from '../../utils/methods'
 
 export default function BurgerConstructor() {
