@@ -85,20 +85,15 @@ export default function BurgerConstructor() {
 
 
   // total
-  const [totalPrice, setTotalPrice] = React.useState(0)
-  const getTotalPrice = React.useMemo(() => () => {
+  const totalPrice = React.useMemo(() => {
     let result = ingredients.reduce((priceSum, ingredient) => {
       return ingredient.type !== 'bun'
         ? priceSum += +ingredient.price
         : priceSum
     }, 0)
     result += selectedBun.price * 2
-    setTotalPrice(result)
-  }, [ingredients])
-
-  React.useEffect(() => {
-    getTotalPrice()
-  }, [ingredients, getTotalPrice])
+    return result;
+  }, [ingredients, selectedBun])
 
   return (
     <>
