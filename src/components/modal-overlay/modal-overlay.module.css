@@ -8,3 +8,7 @@
 	height: 100vh;
 	background: rgba(0, 0, 0, 0.6);
 }
+
+.modalOverlayNoBlackout {
+	background: none;
+}

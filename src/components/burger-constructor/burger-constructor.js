@@ -1,17 +1,21 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import clsx from 'clsx';
-import styles from './burger-constructor.module.css';
+import React from 'react'
+import clsx from 'clsx'
+import styles from './burger-constructor.module.css'
 
-import ingredientsPropTypes from '../../utils/prop-types';
+import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import Modal from '../modal/modal'
+import OrderDetails from '../order-details/order-details'
+import Loader from '../loader/loader'
 
-import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
+import { sendRequest, ORDERS } from '../../utils/api-helper'
+import { IngredientsContext } from '../../contexts/burgerConstructorContext'
+import { getScrollBoxHeight } from '../../utils/methods'
 
-import { getScrollBoxHeight } from '../../utils/methods';
+export default function BurgerConstructor() {
+  // get ingredients from context
+  const ingredients = React.useContext(IngredientsContext)
+  const selectedBun = ingredients[0]
 
-export default function BurgerConstructor({ingredients}) {
   // width of BurgerConstructor
   const burgerConstructorRef = React.useRef(null)
   const burgerConstructorScrollRef = React.useRef(null)
@@ -32,10 +36,69 @@ export default function BurgerConstructor({ingredients}) {
 
 
   // order details
-  const [orderDetailsShow, setOrderDetailsShow] = React.useState(false)
+  const [orderDetails, setOrderDetails] = React.useState({
+    show: false,
+    orderId: null,
+    loading: false,
+  })
 
-  const showOrderDetails = () => setOrderDetailsShow(true)
-  const closeOrderDetails = () => setOrderDetailsShow(false)
+  const closeOrderDetails = () => setOrderDetails({
+    show: false,
+    data: [],
+  })
+
+  const getIngredientsIds = () => {
+    const ingredientsIds = ingredients.map((ingredient) => {
+      return ingredient._id
+    })
+
+    return {
+      "ingredients": ingredientsIds,
+    }
+  }
+
+  const checkout = () => {
+    setOrderDetails({
+      ...orderDetails,
+      loading: true,
+    })
+
+    sendRequest(ORDERS, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(getIngredientsIds()),
+    })
+      .then((data) => {
+        setOrderDetails({
+          show: true,
+          orderId: data.order.number,
+          loading: false,
+        })
+      })
+      .catch(() => {
+        setOrderDetails({
+          ...orderDetails,
+          loading: false,
+        })
+      })
+  }
+
+
+  // total
+  const [totalPrice, setTotalPrice] = React.useState(0)
+  const getTotalPrice = React.useMemo(() => () => {
+    let result = ingredients.reduce((priceSum, ingredient) => {
+      return ingredient.type !== 'bun'
+        ? priceSum += +ingredient.price
+        : priceSum
+    }, 0)
+    result += selectedBun.price * 2
+    setTotalPrice(result)
+  }, [ingredients])
+
+  React.useEffect(() => {
+    getTotalPrice()
+  }, [ingredients, getTotalPrice])
 
   return (
     <>
@@ -53,9 +116,9 @@ export default function BurgerConstructor({ingredients}) {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={ingredients[0].name + " (верх)"}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image}
+            text={selectedBun.name + " (верх)"}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
           />
         </div>
         <div
@@ -87,9 +150,9 @@ export default function BurgerConstructor({ingredients}) {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={ingredients[0].name + " (низ)"}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image}
+            text={selectedBun.name + " (низ)"}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
           />
         </div>
         <div className={clsx(
@@ -100,25 +163,22 @@ export default function BurgerConstructor({ingredients}) {
             styles.burgerConstructorTotal,
             'mr-10',
           )}>
-            <span className={`text text_type_digits-medium mr-2`}>610</span>
+            <span className={`text text_type_digits-medium mr-2`}>{totalPrice}</span>
             <CurrencyIcon type="primary" />
           </p>
-          <Button type="primary" size="large" onClick={showOrderDetails}>
+          <Button type="primary" size="large" onClick={checkout}>
             Оформить заказ
           </Button>
         </div>
       </section>
-      {orderDetailsShow && (
+      {orderDetails.loading && (<Loader />)}
+      {orderDetails.show && (
         <Modal
           onClose={closeOrderDetails}
         >
-          <OrderDetails />
+          <OrderDetails orderId={orderDetails.orderId} />
         </Modal>
       )}
     </>
   )
-}
-
-BurgerConstructor.propTypes = {
-  ingredients: propTypes.arrayOf(ingredientsPropTypes).isRequired,
 }

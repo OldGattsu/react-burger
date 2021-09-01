@@ -1,9 +1,10 @@
 import clsx from 'clsx';
+import propTypes from 'prop-types';
 import styles from './order-details.module.css';
 
 import orderDoneImg from '../../images/order-done.svg';
 
-export default function OrderDetails() {
+export default function OrderDetails({orderId}) {
   return (
     <div className={styles.orderDetails}>
       <p className={clsx(
@@ -14,7 +15,7 @@ export default function OrderDetails() {
           styles.orderDetailsIdValue,
           'text', 'text_type_digits-large',
           'mb-8',
-        )}>034536</span>
+        )}>{orderId}</span>
         <span className={clsx(
           styles.orderDetailsIdHint,
           'text', 'text text_type_main-medium',
@@ -36,4 +37,8 @@ export default function OrderDetails() {
       </p>
     </div>
   )
+}
+
+OrderDetails.propTypes = {
+  orderId: propTypes.number,
 }
