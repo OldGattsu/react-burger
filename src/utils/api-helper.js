@@ -11,6 +11,7 @@ const checkReponse = (res) => {
 }
 
 export function sendRequest(endpoint, options) {
+  console.log('hah')
   return fetch(`${API_PATH}/${endpoint}`, options)
    .then(checkReponse)
 }

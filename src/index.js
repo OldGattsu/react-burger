@@ -12,6 +12,7 @@ import rootReducer from './store/reducers'
 const store = configureStore({
   reducer: rootReducer,
   middleware: [thunk],
+  devTools: process.env.NODE_ENV !== 'production',
 })
 
 ReactDOM.render(
