@@ -6,7 +6,7 @@ import {
 } from "../actions/ingredients"
 
 const initialState = {
-  ingredients: [],
+  data: [],
   ingredientsRequest: false,
   ingredientsSuccess: false,
   ingredientsFailed: false,
@@ -18,7 +18,7 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
       state.ingredientsRequest = true
     })
     .addCase(getIngredientsSuccess, (state, action) => {
-      state.ingredients = action.ingredients
+      state.data = action.payload.data
       state.ingredientsRequest = false
       state.ingredientsFailed = false
     })

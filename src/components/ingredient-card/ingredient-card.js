@@ -1,13 +1,24 @@
-import propTypes from 'prop-types';
-import clsx from 'clsx';
-import styles from './ingredient-card.module.css';
+import propTypes from 'prop-types'
+import clsx from 'clsx'
+import styles from './ingredient-card.module.css'
 
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDrag } from 'react-dnd'
 
-export default function IngredientCard({img, price, name, onShow}) {
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+
+export default function IngredientCard({id, img, price, name, onShow}) {
+  const [{ opacity }, ref] = useDrag({
+    type: 'ingredient',
+    item: { id },
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.5 : 1
+    })
+  });
   return (
     <div
       className={styles.ingredientCard}
+      ref={ref}
+      style={{opacity}}
       onClick={onShow}
     >
       <img className={styles.ingredientCardImage} src={img} alt={name} />

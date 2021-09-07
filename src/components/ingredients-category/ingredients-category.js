@@ -13,13 +13,14 @@ const IngredientsCategory = React.forwardRef(({name, data, onCardShow}, ref) => 
         styles.ingredientsCategoryContainer,
         'pt-6', 'pb-10', 'pl-4', 'pr-2',
       )}>
-        {data.map((ingredient, index) => {
+        {data.map((ingredient) => {
           return (
             <IngredientCard
+              id={ingredient._id}
               img={ingredient.image}
               price={ingredient.price}
               name={ingredient.name}
-              key={index}
+              key={ingredient._id}
               onShow={() => onCardShow(ingredient)}
             />
           )

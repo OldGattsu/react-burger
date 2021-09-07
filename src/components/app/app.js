@@ -1,30 +1,24 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './app.module.css';
+import React from 'react'
+import clsx from 'clsx'
+import styles from './app.module.css'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { getIngredients } from '../../store/actions/ingredients'
 
-import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import Loader from '../loader/loader';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import { sendRequest, INGREDIENTS } from '../../utils/api-helper'
-import { IngredientsContext } from '../../contexts/burgerConstructorContext';
+import AppHeader from '../app-header/app-header'
+import BurgerIngredients from '../burger-ingredients/burger-ingredients'
+import BurgerConstructor from '../burger-constructor/burger-constructor'
+import Loader from '../loader/loader'
 
 export default function App() {
-  // const [ingredients, setIngreidents] = React.useState([])
   const dispatch = useDispatch()
-  const ingredients = useSelector(state => state.ingredients.ingredients)
+  const ingredients = useSelector(state => state.ingredients.data)
   React.useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch])
-
-  // const getIngredients = () => {
-  //   sendRequest(INGREDIENTS)
-  //     .then((data) => setIngreidents(data.data))
-  // }
 
   return (
     <div>
@@ -37,10 +31,10 @@ export default function App() {
           ? (<Loader noBlackout />)
           : (
             <>
-              <BurgerIngredients ingredients={ingredients} />
-              <IngredientsContext.Provider value={ingredients}>
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients ingredients={ingredients} />
                 <BurgerConstructor />
-              </IngredientsContext.Provider>
+              </DndProvider>
             </>
           )
         }
