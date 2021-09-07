@@ -3,6 +3,8 @@ import {
   getIngredientsRequest,
   getIngredientsSuccess,
   getIngredientsFailed,
+  incrementIngredientCount,
+  decrementIngredientCount,
 } from "../actions/ingredients"
 
 const initialState = {
@@ -25,6 +27,24 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
     .addCase(getIngredientsFailed, (state) => {
       state.ingredientsFailed = true
       state.ingredientsRequest = false
+    })
+    .addCase(incrementIngredientCount, (state, action) => {
+      const ingredientIndex = state.data.findIndex((ingredient) => {
+        return ingredient._id === action.payload.id
+      })
+      if (state.data[ingredientIndex].count > 0) {
+        state.data[ingredientIndex].count++
+      } else {
+        state.data[ingredientIndex].count = 1
+      }
+    })
+    .addCase(decrementIngredientCount, (state, action) => {
+      const ingredientIndex = state.data.findIndex((ingredient) => {
+        return ingredient._id === action.payload.id
+      })
+      if (state.data[ingredientIndex].count) {
+        state.data[ingredientIndex].count--
+      }
     })
 })
 

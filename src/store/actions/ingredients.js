@@ -5,6 +5,9 @@ export const getIngredientsRequest = createAction('ingredients/getIngredientsReq
 export const getIngredientsSuccess = createAction('ingredients/getIngredientsSuccess')
 export const getIngredientsFailed = createAction('ingredients/getIngredientsFailed')
 
+export const incrementIngredientCount = createAction('ingredients/incrementIngredientCount')
+export const decrementIngredientCount = createAction('ingredients/decrementIngredientCount')
+
 export const getIngredients = () => (dispatch) => {
   dispatch(getIngredientsRequest())
   sendRequest(INGREDIENTS)

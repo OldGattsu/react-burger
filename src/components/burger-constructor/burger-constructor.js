@@ -4,6 +4,7 @@ import styles from './burger-constructor.module.css'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { moveIngredient, removeIngredient } from '../../store/actions/burgerConstructor'
+import { decrementIngredientCount, incrementIngredientCount } from '../../store/actions/ingredients'
 
 import { useDrop } from 'react-dnd'
 
@@ -31,6 +32,7 @@ export default function BurgerConstructor() {
     }),
     drop(id) {
       dispatch(moveIngredient(id))
+      dispatch(incrementIngredientCount(id))
     }
   });
 
@@ -90,6 +92,7 @@ export default function BurgerConstructor() {
   // ingredient
   const handleRemoveIngredient = (item) => {
     dispatch(removeIngredient(item))
+    dispatch(decrementIngredientCount(item._id))
   }
 
 

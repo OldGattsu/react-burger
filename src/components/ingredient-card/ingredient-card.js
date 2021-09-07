@@ -6,7 +6,7 @@ import { useDrag } from 'react-dnd'
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-export default function IngredientCard({id, img, price, name, onShow}) {
+export default function IngredientCard({id, img, price, name, count, onShow}) {
   const [{ opacity }, ref] = useDrag({
     type: 'ingredient',
     item: { id },
@@ -35,7 +35,7 @@ export default function IngredientCard({id, img, price, name, onShow}) {
         'text', 'text_type_main-default',
         'pt-1',
       )}>{name}</p>
-      <Counter count={1} size="default" />
+      <Counter count={count} size="default" />
     </div>
   )
 }

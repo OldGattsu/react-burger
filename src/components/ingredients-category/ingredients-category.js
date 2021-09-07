@@ -20,6 +20,7 @@ const IngredientsCategory = React.forwardRef(({name, data, onCardShow}, ref) => 
               img={ingredient.image}
               price={ingredient.price}
               name={ingredient.name}
+              count={ingredient.count}
               key={ingredient._id}
               onShow={() => onCardShow(ingredient)}
             />
