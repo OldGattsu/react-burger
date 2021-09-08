@@ -3,13 +3,14 @@ import clsx from 'clsx'
 import styles from './burger-constructor.module.css'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { moveIngredient, removeIngredient } from '../../store/actions/burgerConstructor'
+import { moveIngredient, removeIngredient, sortIngredient } from '../../store/actions/burgerConstructor'
 import { decrementIngredientCount, incrementIngredientCount } from '../../store/actions/ingredients'
 import { getOrderId, clearOrderId } from '../../store/actions/order'
 
 import { useDrop } from 'react-dnd'
 
-import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import SelectedIngredientCard from '../selected-ingredient-card/selected-ingredient-card'
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import DragHere from '../drag-here/drag-here'
@@ -26,47 +27,19 @@ export default function BurgerConstructor() {
     return ingredient.type === 'bun'
   })
 
+
   // dnd
-  const [, dropTarget] = useDrop({
+  const [{isDropping}, dropTarget] = useDrop({
     accept: 'ingredient',
     collect: monitor => ({
-      isHover: monitor.isOver()
+      isDropping: monitor.isOver()
     }),
     drop(id) {
       dispatch(moveIngredient(id))
       dispatch(incrementIngredientCount(id))
     }
-  });
+  })
 
-  // const [{ opacity }, ref] = useDrag({
-  //   type: 'ingredient',
-  //   item: { id },
-  //   collect: monitor => ({
-  //     opacity: monitor.isDragging() ? 0.5 : 1
-  //   }),
-  //   hover(item, monitor) {
-  //     if (!ref.current) {
-  //         return;
-  //     }
-  //     const dragIndex = item.index;
-  //     const hoverIndex = index
-  //     if (dragIndex === hoverIndex) {
-  //         return;
-  //     }
-  //     const hoverBoundingRect = ref.current?.getBoundingClientRect();
-  //     const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-  //     const clientOffset = monitor.getClientOffset();
-  //     const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-  //     if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-  //         return;
-  //     }
-  //     if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-  //         return;
-  //     }
-  //     moveCard(dragIndex, hoverIndex);
-  //     item.index = hoverIndex;
-  //   },
-  // });
 
   // height of BurgerConstructor
   const burgerConstructorRef = React.useRef(null)
@@ -92,13 +65,17 @@ export default function BurgerConstructor() {
 
 
   // ingredient
-  const handleRemoveIngredient = (item) => {
-    dispatch(removeIngredient(item))
-    dispatch(decrementIngredientCount(item._id))
+  const handleRemoveIngredient = (id, index) => {
+    dispatch(removeIngredient({id, index}))
+    dispatch(decrementIngredientCount(id))
+  }
+
+  const handleSortIngredient = (id, dragIndex, hoverIndex) => {
+    dispatch(sortIngredient({ id, dragIndex, hoverIndex }))
   }
 
 
-  // order details
+  // order
   const { orderId, orderRequest } = useSelector(state => {
     return {
       orderId: state.order.orderId,
@@ -147,7 +124,7 @@ export default function BurgerConstructor() {
           className={styles.burgerConstructor}
           ref={burgerConstructorRef}
         >
-          {selectedIngredients.length === 0 && (<DragHere/>)}
+          {selectedIngredients.length === 0 && (<DragHere dragging={isDropping}/>)}
           {selectedBun && (
             <div className={clsx(
               styles.lockedBun,
@@ -172,15 +149,17 @@ export default function BurgerConstructor() {
             {selectedIngredients.map((ingredient, index) => {
               return ingredient.type !== 'bun'
                 ? (
-                  <div className={styles.ingredientContainer} key={index}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                      text={ingredient.name}
-                      price={ingredient.price}
-                      thumbnail={ingredient.image_large}
-                      handleClose={() => handleRemoveIngredient(ingredient)}
-                    />
-                  </div>
+                  <SelectedIngredientCard
+                    id={ingredient._id}
+                    count={ingredient.index}
+                    index={index}
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image_large}
+                    handleClose={handleRemoveIngredient}
+                    handleSort={handleSortIngredient}
+                    key={index}
+                  />
                 )
                 : null
             })}

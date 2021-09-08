@@ -9,6 +9,11 @@
   box-sizing: border-box;
 }
 
+.dragHereHover {
+  transition: all 1s ease-out;
+  transform: scale(1.1);
+}
+
 .dragHereText {
   text-align: center;
   color: #8585AD;

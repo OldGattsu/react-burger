@@ -1,0 +1,9 @@
+.selectedIngredient{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selectedIngredient:not(:last-child) {
+  margin-bottom: 8px;
+ }

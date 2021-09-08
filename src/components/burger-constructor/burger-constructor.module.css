@@ -27,16 +27,6 @@
   justify-content: flex-end;
 }
 
-.ingredientContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ingredientContainer:not(:last-child) {
-  margin-bottom: 8px;
- }
-
 .burgerConstructorOrder {
   display: flex;
   justify-content: flex-end;
