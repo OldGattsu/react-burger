@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 
-export const addIngredient = createAction('constructor/addIngredient')
-export const removeIngredient = createAction('constructor/removeIngredient')
+export const addIngredient = createAction('burgerConstructor/addIngredient')
+export const removeIngredient = createAction('burgerConstructor/removeIngredient')
 
 export const moveIngredient = (item) => (dispatch, getState) => {
   const ingredients = getState().ingredients.data
@@ -10,4 +10,3 @@ export const moveIngredient = (item) => (dispatch, getState) => {
   })
   dispatch(addIngredient(selectedIngredient));
 };
-

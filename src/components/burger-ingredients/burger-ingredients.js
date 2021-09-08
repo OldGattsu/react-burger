@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import propTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './burger-ingredients.module.css';
 
 import ingredientsPropTypes from '../../prop-types/prop-types';
+
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setShownIngredient,
+  unsetShownIngredient,
+} from '../../store/actions/ingredient';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
@@ -14,6 +20,7 @@ import { getScrollBoxHeight } from '../../utils/methods';
 
 export default function BurgerIngredients({ingredients}) {
   const didMount = React.useRef(false)
+  const dispatch = useDispatch()
 
   // width of BurgerIngredients
   const burgerIngredientsRef = React.useRef(null)
@@ -41,31 +48,31 @@ export default function BurgerIngredients({ingredients}) {
   const categorySaucesRef = React.useRef(null)
   const categoryToppingsRef = React.useRef(null)
 
-  const tabScroll = React.useCallback(() => {
-    const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
-      ? window.scrollY
-      : burgerIngredientsScrollRef.current.offsetTop
-    const scrollTo = {
-      'buns': () => burgerIngredientsScrollRef.current.scrollTo({
-        behavior: "smooth",
-        top: categoryBunsRef.current.offsetTop - relativeTop,
-      }),
-      'sauces': () => burgerIngredientsScrollRef.current.scrollTo({
-        behavior: "smooth",
-        top: categorySaucesRef.current.offsetTop - relativeTop,
-      }),
-      'toppings': () => burgerIngredientsScrollRef.current.scrollTo({
-        behavior: "smooth",
-        top: categoryToppingsRef.current.offsetTop - relativeTop,
-      }),
-    }
+  // const tabScroll = React.useCallback(() => {
+  //   const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
+  //     ? window.scrollY
+  //     : burgerIngredientsScrollRef.current.offsetTop
+  //   const scrollTo = {
+  //     'buns': () => burgerIngredientsScrollRef.current.scrollTo({
+  //       behavior: "smooth",
+  //       top: categoryBunsRef.current.offsetTop - relativeTop,
+  //     }),
+  //     'sauces': () => burgerIngredientsScrollRef.current.scrollTo({
+  //       behavior: "smooth",
+  //       top: categorySaucesRef.current.offsetTop - relativeTop,
+  //     }),
+  //     'toppings': () => burgerIngredientsScrollRef.current.scrollTo({
+  //       behavior: "smooth",
+  //       top: categoryToppingsRef.current.offsetTop - relativeTop,
+  //     }),
+  //   }
 
-    scrollTo[currentTab]()
-  }, [currentTab])
+  //   scrollTo[currentTab]()
+  // }, [currentTab])
 
-  React.useEffect(() => {
-    didMount.current ? tabScroll() : didMount.current = true
-  }, [tabScroll, currentTab])
+  // React.useEffect(() => {
+  //   didMount.current ? tabScroll() : didMount.current = true
+  // }, [tabScroll, currentTab])
 
   const tabsList = [
     {
@@ -87,23 +94,14 @@ export default function BurgerIngredients({ingredients}) {
 
 
   // ingredient details
-  const [ingredientDetails, setIngredientDetails] = React.useState({
-    show: false,
-    data: {},
-  })
+  const shownIngredient = useSelector(state => state.ingredient.data)
 
-  const showIngredientDetails = (curIngredient) => {
-    setIngredientDetails({
-      show: true,
-      data: curIngredient,
-    })
+  const showIngredientModal = (ingredient) => {
+    dispatch(setShownIngredient(ingredient))
   }
 
-  const closeIngredientDetails = () => {
-    setIngredientDetails({
-      show: false,
-      data: {},
-    })
+  const closeIngredientModal = () => {
+    dispatch(unsetShownIngredient())
   }
 
 
@@ -125,18 +123,36 @@ export default function BurgerIngredients({ingredients}) {
       name: 'Булки',
       data: buns,
       ref: categoryBunsRef,
+      activeFor: 'buns',
     },
     {
       name: 'Соусы',
       data: sauces,
       ref: categorySaucesRef,
+      activeFor: 'sauces',
     },
     {
       name: 'Начинка',
       data: toppings,
       ref: categoryToppingsRef,
+      activeFor: 'toppings',
     },
   ]
+
+  React.useEffect(() => {
+    console.log(burgerIngredientsScrollRef.current.offsetTop)
+    burgerIngredientsScrollRef.current.addEventListener('scroll', () => {
+      let scrollDistance = burgerIngredientsScrollRef.current.scrollTop
+      categoriesList.forEach((category) => {
+        // console.log('category.ref.current.offsetTop', category.ref.current.offsetTop)
+        // console.log('burgerIngredientsScrollRef.current.scrollY', burgerIngredientsScrollRef.current.scrollY)
+        if (category.ref.current.offsetTop <= scrollDistance && category.ref.current.offsetTop + category.ref.current.offsetHeight > scrollDistance){
+          console.log('lol')
+          // setCurrentTab(category.activeFor)
+        }
+      })
+    })
+  }, [tabsList])
 
   return (
     <>
@@ -171,19 +187,18 @@ export default function BurgerIngredients({ingredients}) {
               data={category.data}
               ref={category.ref}
               key={index}
-              onCardShow={showIngredientDetails}
+              onCardShow={showIngredientModal}
             />
           ))}
         </div>
       </section>
-      {ingredientDetails.show && (
+      {Object.keys(shownIngredient).length > 0 && (
         <Modal
-          show={ingredientDetails.show}
           title="Детали ингредиента"
-          onClose={closeIngredientDetails}
+          onClose={closeIngredientModal}
         >
           <IngredientDetails
-            data={ingredientDetails.data}
+            data={shownIngredient}
           />
         </Modal>
       )}

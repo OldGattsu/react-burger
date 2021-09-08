@@ -5,21 +5,23 @@ import styles from './burger-constructor.module.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { moveIngredient, removeIngredient } from '../../store/actions/burgerConstructor'
 import { decrementIngredientCount, incrementIngredientCount } from '../../store/actions/ingredients'
+import { getOrderId, clearOrderId } from '../../store/actions/order'
 
 import { useDrop } from 'react-dnd'
 
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
+import DragHere from '../drag-here/drag-here'
 import Loader from '../loader/loader'
 
-import { sendRequest, ORDERS } from '../../utils/api-helper'
 import { getScrollBoxHeight } from '../../utils/methods'
 
 export default function BurgerConstructor() {
-  // get ingredients from store
   const dispatch = useDispatch()
-  const selectedIngredients = useSelector(state => state.burgerConstructor.selectedIngredients)
+
+  // get ingredients from store
+  const selectedIngredients = useSelector(state => state.burgerConstructor.data)
   const selectedBun = selectedIngredients.find((ingredient) => {
     return ingredient.type === 'bun'
   })
@@ -66,7 +68,7 @@ export default function BurgerConstructor() {
   //   },
   // });
 
-  // width of BurgerConstructor
+  // height of BurgerConstructor
   const burgerConstructorRef = React.useRef(null)
   const burgerConstructorScrollRef = React.useRef(null)
 
@@ -97,15 +99,11 @@ export default function BurgerConstructor() {
 
 
   // order details
-  const [orderDetails, setOrderDetails] = React.useState({
-    show: false,
-    orderId: null,
-    loading: false,
-  })
-
-  const closeOrderDetails = () => setOrderDetails({
-    show: false,
-    data: [],
+  const { orderId, orderRequest } = useSelector(state => {
+    return {
+      orderId: state.order.orderId,
+      orderRequest: state.order.orderRequest,
+    }
   })
 
   const getIngredientsIds = () => {
@@ -113,35 +111,16 @@ export default function BurgerConstructor() {
       return ingredient._id
     })
 
-    return {
-      "ingredients": ingredientsIds,
-    }
+    return { "ingredients": ingredientsIds, }
   }
 
-  const checkout = () => {
-    setOrderDetails({
-      ...orderDetails,
-      loading: true,
-    })
+  const showOrderModal = () => {
+    const ids = getIngredientsIds()
+    dispatch(getOrderId(ids))
+  }
 
-    sendRequest(ORDERS, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(getIngredientsIds()),
-    })
-      .then((data) => {
-        setOrderDetails({
-          show: true,
-          orderId: data.order.number,
-          loading: false,
-        })
-      })
-      .catch(() => {
-        setOrderDetails({
-          ...orderDetails,
-          loading: false,
-        })
-      })
+  const closeOrderModal = () => {
+    dispatch(clearOrderId())
   }
 
 
@@ -168,10 +147,11 @@ export default function BurgerConstructor() {
           className={styles.burgerConstructor}
           ref={burgerConstructorRef}
         >
+          {selectedIngredients.length === 0 && (<DragHere/>)}
           {selectedBun && (
             <div className={clsx(
               styles.lockedBun,
-              'mb-2', 'mr-4',
+              'mb-2', 'mr-2',
             )}>
               <ConstructorElement
                 type="top"
@@ -208,7 +188,7 @@ export default function BurgerConstructor() {
           {selectedBun && (
             <div className={clsx(
               styles.lockedBun,
-              'mt-2', 'mr-4',
+              'mt-2', 'mr--4',
             )}>
               <ConstructorElement
                 type="bottom"
@@ -219,29 +199,31 @@ export default function BurgerConstructor() {
               />
             </div>
           )}
-          <div className={clsx(
-            styles.burgerConstructorOrder,
-            'mt-10', 'pr-4',
-          )}>
-            <p className={clsx(
-              styles.burgerConstructorTotal,
-              'mr-10',
+          {selectedIngredients.length > 0 && (
+            <div className={clsx(
+              styles.burgerConstructorOrder,
+              'mt-10', 'pr-4',
             )}>
-              <span className={`text text_type_digits-medium mr-2`}>{totalPrice}</span>
-              <CurrencyIcon type="primary" />
-            </p>
-            <Button type="primary" size="large" onClick={checkout}>
-              Оформить заказ
-            </Button>
-          </div>
+              <p className={clsx(
+                styles.burgerConstructorTotal,
+                'mr-10',
+              )}>
+                <span className={`text text_type_digits-medium mr-2`}>{totalPrice}</span>
+                <CurrencyIcon type="primary" />
+              </p>
+              <Button type="primary" size="large" onClick={showOrderModal}>
+                Оформить заказ
+              </Button>
+            </div>
+          )}
         </div>
       </section>
-      {orderDetails.loading && (<Loader />)}
-      {orderDetails.show && (
+      {orderRequest && (<Loader />)}
+      {orderId && (
         <Modal
-          onClose={closeOrderDetails}
+          onClose={closeOrderModal}
         >
-          <OrderDetails orderId={orderDetails.orderId} />
+          <OrderDetails orderId={orderId} />
         </Modal>
       )}
     </>

@@ -1,11 +1,12 @@
 .burgerConstructor {
+  position: relative;
   width: 600px;
   height: calc(100vh - 308px);
   overflow: hidden;
 }
 
 .burgerConstructorScroll {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .burgerConstructorScroll::-webkit-scrollbar {

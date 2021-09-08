@@ -21,6 +21,7 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(getIngredientsSuccess, (state, action) => {
       state.data = action.payload.data
+      state.ingredientsSuccess = true
       state.ingredientsRequest = false
       state.ingredientsFailed = false
     })
@@ -32,15 +33,15 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
       const ingredientIndex = state.data.findIndex((ingredient) => {
         return ingredient._id === action.payload.id
       })
-      if (state.data[ingredientIndex].count > 0) {
-        state.data[ingredientIndex].count++
-      } else {
-        state.data[ingredientIndex].count = 1
+      if (state.data[ingredientIndex].type !== 'bun') {
+        state.data[ingredientIndex].count > 0
+          ? state.data[ingredientIndex].count++
+          : state.data[ingredientIndex].count = 1
       }
     })
     .addCase(decrementIngredientCount, (state, action) => {
       const ingredientIndex = state.data.findIndex((ingredient) => {
-        return ingredient._id === action.payload.id
+        return ingredient._id === action.payload
       })
       if (state.data[ingredientIndex].count) {
         state.data[ingredientIndex].count--

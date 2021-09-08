@@ -9,7 +9,7 @@
 }
 
 .burgerIngredientsScroll {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .burgerIngredientsScroll::-webkit-scrollbar {

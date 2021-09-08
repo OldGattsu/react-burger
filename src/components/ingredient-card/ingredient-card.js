@@ -35,7 +35,9 @@ export default function IngredientCard({id, img, price, name, count, onShow}) {
         'text', 'text_type_main-default',
         'pt-1',
       )}>{name}</p>
-      <Counter count={count} size="default" />
+      { count > 0 && (
+        <Counter count={count} size="default" />
+      )}
     </div>
   )
 }

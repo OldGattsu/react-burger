@@ -15,7 +15,19 @@ import Loader from '../loader/loader'
 
 export default function App() {
   const dispatch = useDispatch()
-  const ingredients = useSelector(state => state.ingredients.data)
+  const {
+    ingredients,
+    ingredientsRequest,
+    ingredientsSuccess,
+    ingredientsFailed,
+  } = useSelector(state => {
+    return {
+      ingredients: state.ingredients.data,
+      ingredientsRequest: state.ingredients.ingredientsRequest,
+      ingredientsSuccess: state.ingredients.ingredientsSuccess,
+      ingredientsFailed: state.ingredients.ingredientsFailed,
+    }
+  })
   React.useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch])
@@ -27,17 +39,16 @@ export default function App() {
         styles.main,
         'pb-10',
       )}>
-        {ingredients.length ===0
-          ? (<Loader noBlackout />)
-          : (
-            <>
-              <DndProvider backend={HTML5Backend}>
-                <BurgerIngredients ingredients={ingredients} />
-                <BurgerConstructor />
-              </DndProvider>
-            </>
-          )
-        }
+        {ingredientsRequest && (<Loader noBlackout/>)}
+        {ingredientsFailed && (<div>error</div>)}
+        {ingredientsSuccess && (
+          <>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients ingredients={ingredients} />
+              <BurgerConstructor />
+            </DndProvider>
+          </>
+        )}
       </main>
     </div>
   );
