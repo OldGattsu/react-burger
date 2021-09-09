@@ -16,7 +16,7 @@ import Modal from '../modal/modal';
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { getScrollBoxHeight } from '../../utils/methods';
+import { getScrollBoxHeight, getAbsoluteHeight } from '../../utils/methods';
 
 export default function BurgerIngredients({ingredients}) {
   const didMount = React.useRef(false)
@@ -41,71 +41,11 @@ export default function BurgerIngredients({ingredients}) {
   }, [])
 
 
-  // tabs
-  const [currentTab, setCurrentTab] = React.useState('buns')
-
+  // categories
   const categoryBunsRef = React.useRef(null)
   const categorySaucesRef = React.useRef(null)
   const categoryToppingsRef = React.useRef(null)
 
-  // const tabScroll = React.useCallback(() => {
-  //   const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
-  //     ? window.scrollY
-  //     : burgerIngredientsScrollRef.current.offsetTop
-  //   const scrollTo = {
-  //     'buns': () => burgerIngredientsScrollRef.current.scrollTo({
-  //       behavior: "smooth",
-  //       top: categoryBunsRef.current.offsetTop - relativeTop,
-  //     }),
-  //     'sauces': () => burgerIngredientsScrollRef.current.scrollTo({
-  //       behavior: "smooth",
-  //       top: categorySaucesRef.current.offsetTop - relativeTop,
-  //     }),
-  //     'toppings': () => burgerIngredientsScrollRef.current.scrollTo({
-  //       behavior: "smooth",
-  //       top: categoryToppingsRef.current.offsetTop - relativeTop,
-  //     }),
-  //   }
-
-  //   scrollTo[currentTab]()
-  // }, [currentTab])
-
-  // React.useEffect(() => {
-  //   didMount.current ? tabScroll() : didMount.current = true
-  // }, [tabScroll, currentTab])
-
-  const tabsList = [
-    {
-      name: 'Булки',
-      value: 'buns',
-      activeFor: 'buns',
-    },
-    {
-      name: 'Соусы',
-      value: 'sauces',
-      activeFor: 'sauces',
-    },
-    {
-      name: 'Начинка',
-      value: 'toppings',
-      activeFor: 'toppings',
-    }
-  ]
-
-
-  // ingredient details
-  const shownIngredient = useSelector(state => state.ingredient.data)
-
-  const showIngredientModal = (ingredient) => {
-    dispatch(setShownIngredient(ingredient))
-  }
-
-  const closeIngredientModal = () => {
-    dispatch(unsetShownIngredient())
-  }
-
-
-  // categories
   const getCategory = (type) => {
     const res = []
     ingredients.forEach((ingredient) => {
@@ -123,36 +63,80 @@ export default function BurgerIngredients({ingredients}) {
       name: 'Булки',
       data: buns,
       ref: categoryBunsRef,
-      activeFor: 'buns',
+      value: 'buns',
     },
     {
       name: 'Соусы',
       data: sauces,
       ref: categorySaucesRef,
-      activeFor: 'sauces',
+      value: 'sauces',
     },
     {
       name: 'Начинка',
       data: toppings,
       ref: categoryToppingsRef,
-      activeFor: 'toppings',
+      value: 'toppings',
     },
   ]
 
-  React.useEffect(() => {
-    console.log(burgerIngredientsScrollRef.current.offsetTop)
+  const getCurrentCategory = () => {
     burgerIngredientsScrollRef.current.addEventListener('scroll', () => {
-      let scrollDistance = burgerIngredientsScrollRef.current.scrollTop
+      const scrollDistance = burgerIngredientsScrollRef.current.scrollTop
+      const heightOfOtherContent = burgerIngredientsScrollRef.current.offsetTop
       categoriesList.forEach((category) => {
-        // console.log('category.ref.current.offsetTop', category.ref.current.offsetTop)
-        // console.log('burgerIngredientsScrollRef.current.scrollY', burgerIngredientsScrollRef.current.scrollY)
-        if (category.ref.current.offsetTop <= scrollDistance && category.ref.current.offsetTop + category.ref.current.offsetHeight > scrollDistance){
-          console.log('lol')
-          // setCurrentTab(category.activeFor)
+        const categoryTopPosition = category.ref.current.offsetTop - heightOfOtherContent
+        if (
+          scrollDistance >= categoryTopPosition
+          && scrollDistance <= categoryTopPosition + getAbsoluteHeight(category.ref.current)
+        ) {
+          setCurrentTab(category.value)
         }
       })
     })
-  }, [tabsList])
+  }
+
+  React.useEffect(() => {
+    getCurrentCategory()
+  }, [categoriesList])
+
+
+  // tabs
+  const [currentTab, setCurrentTab] = React.useState('buns')
+
+  const goToCategory = (category) => {
+    const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
+      ? window.scrollY
+      : burgerIngredientsScrollRef.current.offsetTop
+    const scrollTo = {
+      'buns': () => burgerIngredientsScrollRef.current.scrollTo({
+        behavior: "smooth",
+        top: categoryBunsRef.current.offsetTop - relativeTop,
+      }),
+      'sauces': () => burgerIngredientsScrollRef.current.scrollTo({
+        behavior: "smooth",
+        top: categorySaucesRef.current.offsetTop - relativeTop,
+      }),
+      'toppings': () => burgerIngredientsScrollRef.current.scrollTo({
+        behavior: "smooth",
+        top: categoryToppingsRef.current.offsetTop - relativeTop,
+      }),
+    }
+
+    scrollTo[category]()
+  }
+
+
+  // ingredient details
+  const shownIngredient = useSelector(state => state.ingredient.data)
+
+  const showIngredientModal = (ingredient) => {
+    dispatch(setShownIngredient(ingredient))
+  }
+
+  const closeIngredientModal = () => {
+    dispatch(unsetShownIngredient())
+  }
+
 
   return (
     <>
@@ -165,13 +149,13 @@ export default function BurgerIngredients({ingredients}) {
           styles.burgerIngredientsTabs,
           'mt-5',
         )}>
-          {tabsList.map((tab, index) => (
+          {categoriesList.map((category, index) => (
             <Tab
-              value={tab.value}
-              active={currentTab === tab.activeFor}
+              value={category.value}
+              active={currentTab === category.value}
               key={index}
-              onClick={setCurrentTab}
-            >{tab.name}</Tab>
+              onClick={() => goToCategory(category.value)}
+            >{category.name}</Tab>
           ))}
         </div>
         <div
