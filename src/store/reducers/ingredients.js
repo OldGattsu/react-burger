@@ -3,6 +3,7 @@ import {
   getIngredients,
   incrementIngredientCount,
   decrementIngredientCount,
+  clearIngredientsCounters,
 } from "../actions/ingredients"
 
 const initialState = {
@@ -49,6 +50,11 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
       if (state.data[ingredientIndex].count) {
         state.data[ingredientIndex].count--
       }
+    })
+    .addCase(clearIngredientsCounters, (state) => {
+      state.data.forEach(ingredient => {
+        if (ingredient.count > 0) ingredient.count = 0
+      })
     })
 })
 

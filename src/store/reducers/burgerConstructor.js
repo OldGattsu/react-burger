@@ -4,6 +4,7 @@ import {
   addIngredient,
   removeIngredient,
   sortIngredient,
+  clearConstructor,
 } from '../actions/burgerConstructor'
 
 const initialState = {
@@ -28,6 +29,9 @@ const burgerConstructor = createReducer(initialState, (builder) => {
         }).length
         state.data.push({...selectedInredient, index: countSameIngredients})
       }
+    })
+    .addCase(clearConstructor, (state, action) => {
+      state.data = []
     })
     .addCase(removeIngredient, (state, action) => {
       state.data = state.data.filter((ingredient) => {

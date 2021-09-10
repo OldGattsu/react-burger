@@ -8,4 +8,4 @@ export const getIngredients = createAsyncThunk(
 
 export const incrementIngredientCount = createAction('ingredients/incrementIngredientCount')
 export const decrementIngredientCount = createAction('ingredients/decrementIngredientCount')
-
+export const clearIngredientsCounters = createAction('ingredients/clearIngredientsCounters')

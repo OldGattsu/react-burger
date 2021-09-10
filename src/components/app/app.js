@@ -16,7 +16,6 @@ import Loader from '../loader/loader'
 export default function App() {
   const dispatch = useDispatch()
   const {
-    ingredients,
     ingredientsPending,
     ingredientsFulfilled,
     ingredientsRejected,
@@ -34,7 +33,7 @@ export default function App() {
 
   return (
     <div>
-      <AppHeader />
+      <AppHeader/>
       <main className={clsx(
         styles.main,
         'pb-10',
@@ -44,8 +43,8 @@ export default function App() {
         {ingredientsFulfilled && (
           <>
             <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients ingredients={ingredients} />
-              <BurgerConstructor />
+              <BurgerIngredients/>
+              <BurgerConstructor/>
             </DndProvider>
           </>
         )}

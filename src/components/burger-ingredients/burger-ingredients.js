@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import propTypes from 'prop-types'
 import clsx from 'clsx'
 import styles from './burger-ingredients.module.css'
-
-import ingredientsPropTypes from '../../prop-types/prop-types'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -18,8 +15,11 @@ import IngredientDetails from '../ingredient-details/ingredient-details'
 
 import { getScrollBoxHeight } from '../../utils/methods'
 
-export default function BurgerIngredients({ingredients}) {
+export default function BurgerIngredients() {
   const dispatch = useDispatch()
+
+  // get ingredients from store
+  const ingredients = useSelector(state => state.ingredients.data)
 
   // height of BurgerIngredients
   const burgerIngredientsRef = useRef(null)
@@ -178,8 +178,4 @@ export default function BurgerIngredients({ingredients}) {
       )}
     </>
   )
-}
-
-BurgerIngredients.propTypes = {
-  ingredients: propTypes.arrayOf(ingredientsPropTypes).isRequired,
 }

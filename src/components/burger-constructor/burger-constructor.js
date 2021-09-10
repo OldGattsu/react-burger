@@ -3,8 +3,17 @@ import clsx from 'clsx'
 import styles from './burger-constructor.module.css'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { moveIngredient, removeIngredient, sortIngredient } from '../../store/actions/burgerConstructor'
-import { decrementIngredientCount, incrementIngredientCount } from '../../store/actions/ingredients'
+import {
+  moveIngredient,
+  removeIngredient,
+  sortIngredient,
+  clearConstructor
+} from '../../store/actions/burgerConstructor'
+import {
+  decrementIngredientCount,
+  incrementIngredientCount,
+  clearIngredientsCounters
+} from '../../store/actions/ingredients'
 import { getOrderId, clearOrderId } from '../../store/actions/order'
 
 import { useDrop } from 'react-dnd'
@@ -101,6 +110,8 @@ export default function BurgerConstructor() {
 
   const closeOrderModal = () => {
     dispatch(clearOrderId())
+    dispatch(clearConstructor())
+    dispatch(clearIngredientsCounters())
   }
 
 
@@ -193,7 +204,12 @@ export default function BurgerConstructor() {
                 <span className={`text text_type_digits-medium mr-2`}>{totalPrice}</span>
                 <CurrencyIcon type="primary" />
               </p>
-              <Button type="primary" size="large" onClick={showOrderModal}>
+              <Button
+                type="primary"
+                size="large"
+                disabled={!selectedBun}
+                onClick={showOrderModal}
+              >
                 Оформить заказ
               </Button>
             </div>
