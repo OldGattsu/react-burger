@@ -1,6 +1,6 @@
-import propTypes from 'prop-types';
-import clsx from 'clsx';
-import styles from './ingredient-details.module.css';
+import propTypes from 'prop-types'
+import clsx from 'clsx'
+import styles from './ingredient-details.module.css'
 
 export default function IngredientDetails({data}) {
   const EnergyItem = ({name, value}) => {

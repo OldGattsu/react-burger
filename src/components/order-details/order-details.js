@@ -1,8 +1,8 @@
-import clsx from 'clsx';
-import propTypes from 'prop-types';
-import styles from './order-details.module.css';
+import clsx from 'clsx'
+import propTypes from 'prop-types'
+import styles from './order-details.module.css'
 
-import orderDoneImg from '../../images/order-done.svg';
+import orderDoneImg from '../../images/order-done.svg'
 
 export default function OrderDetails({orderId}) {
   return (

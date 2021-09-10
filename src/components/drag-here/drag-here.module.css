@@ -1,0 +1,26 @@
+.dragHere {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  border: 1px dashed #8585AD;;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+.dragHereHover {
+  transition: all 1s ease-out;
+  transform: scale(1.1);
+}
+
+.dragHereText {
+  text-align: center;
+  color: #8585AD;
+}
+
+.dragHereImg {
+  display: block;
+  max-width: 150px;
+  margin: 0 auto;
+}

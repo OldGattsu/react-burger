@@ -1,11 +1,11 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import clsx from 'clsx';
-import styles from './ingredients-category.module.css';
+import { forwardRef } from 'react'
+import propTypes from 'prop-types'
+import clsx from 'clsx'
+import styles from './ingredients-category.module.css'
 
-import IngredientCard from '../ingredient-card/ingredient-card';
+import IngredientCard from '../ingredient-card/ingredient-card'
 
-const IngredientsCategory = React.forwardRef(({name, data, onCardShow}, ref) => {
+const IngredientsCategory = forwardRef(({name, data, onCardShow}, ref) => {
   return (
     <div className={styles.ingredientsCategory} ref={ref}>
       <h2 className="text text_type_main-medium">{name}</h2>
@@ -13,13 +13,15 @@ const IngredientsCategory = React.forwardRef(({name, data, onCardShow}, ref) => 
         styles.ingredientsCategoryContainer,
         'pt-6', 'pb-10', 'pl-4', 'pr-2',
       )}>
-        {data.map((ingredient, index) => {
+        {data.map((ingredient) => {
           return (
             <IngredientCard
+              id={ingredient._id}
               img={ingredient.image}
               price={ingredient.price}
               name={ingredient.name}
-              key={index}
+              count={ingredient.count}
+              key={ingredient._id}
               onShow={() => onCardShow(ingredient)}
             />
           )

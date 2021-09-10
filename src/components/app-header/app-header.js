@@ -1,9 +1,9 @@
-import clsx from 'clsx';
-import styles from './app-header.module.css';
+import clsx from 'clsx'
+import styles from './app-header.module.css'
 
-import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Menu from '../menu/menu';
-import MenuLink from '../menu-link/menu-link';
+import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import Menu from '../menu/menu'
+import MenuLink from '../menu-link/menu-link'
 
 export default function AppHeader() {
   return (
