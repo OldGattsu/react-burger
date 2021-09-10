@@ -35,6 +35,11 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
         state.data[ingredientIndex].count > 0
           ? state.data[ingredientIndex].count++
           : state.data[ingredientIndex].count = 1
+      } else {
+        state.data.forEach(ingredient => {
+          if (ingredient.type === 'bun') ingredient.count = 0
+        })
+        state.data[ingredientIndex].count = 2
       }
     })
     .addCase(decrementIngredientCount, (state, action) => {

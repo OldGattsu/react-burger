@@ -16,7 +16,7 @@ import Modal from '../modal/modal';
 import IngredientsCategory from '../ingredients-category/ingredients-category'
 import IngredientDetails from '../ingredient-details/ingredient-details'
 
-import { getScrollBoxHeight, getAbsoluteHeight } from '../../utils/methods'
+import { getScrollBoxHeight } from '../../utils/methods'
 
 export default function BurgerIngredients({ingredients}) {
   const dispatch = useDispatch()
@@ -76,44 +76,43 @@ export default function BurgerIngredients({ingredients}) {
 
 
   // tabs
-  const [currentTab, setCurrentTab] = useState('buns')
+  const [currentTab, setCurrentTab] = useState('')
 
-  const goToCategory = (categoryName) => {
-    const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
-      ? window.scrollY
-      : burgerIngredientsScrollRef.current.offsetTop
-    const scrollTo = {}
-    categoriesList.forEach((category) => {
-      scrollTo[category.value] = () => {
-        burgerIngredientsScrollRef.current.scrollTo({
-          behavior: 'smooth',
-          top: category.ref.current.offsetTop - relativeTop,
-        })
-      }
-    })
+  // баги
 
-    scrollTo[categoryName]()
-  }
+  // const goToCategory = (categoryName) => {
+  //   const relativeTop = burgerIngredientsScrollRef.current.offsetTop
+  //   const scrollTo = {}
+  //   categoriesList.forEach((category) => {
+  //     scrollTo[category.value] = () => {
+  //       burgerIngredientsScrollRef.current.scrollTo({
+  //         behavior: 'smooth',
+  //         top: category.ref.current.offsetTop - relativeTop,
+  //       })
+  //     }
+  //   })
+
+  //   scrollTo[categoryName]()
+  // }
 
   const getCurrentCategory = useMemo(() => () => {
-    burgerIngredientsScrollRef.current.addEventListener('scroll', () => {
-      console.log('hi')
-      const scrollDistance = burgerIngredientsScrollRef.current.scrollTop
-      const heightOfOtherContent = getAbsoluteHeight(burgerIngredientsScrollRef.current)
-      categoriesList.forEach((category) => {
-        const categoryTopPosition = category.ref.current.offsetTop - heightOfOtherContent
-        if (
-          scrollDistance >= categoryTopPosition
-          && scrollDistance <= categoryTopPosition + getAbsoluteHeight(category.ref.current)
-        ) {
-          setCurrentTab(category.value)
-        }
-      })
+    const scrollDistance = burgerIngredientsScrollRef.current.scrollTop
+    const heightOfOtherContent = burgerIngredientsScrollRef.current.offsetTop
+    categoriesList.forEach((category) => {
+      const categoryTopPosition = category.ref.current.offsetTop - heightOfOtherContent
+      if (
+        scrollDistance >= categoryTopPosition
+        && scrollDistance <= categoryTopPosition + category.ref.current.offsetHeight
+        && currentTab !== category.value
+      ) {
+        setCurrentTab(category.value)
+      }
     })
-  },[categoriesList])
+  },[categoriesList, currentTab])
 
   useEffect(() => {
     getCurrentCategory()
+    burgerIngredientsScrollRef.current.addEventListener('scroll', () => getCurrentCategory())
   },[getCurrentCategory])
 
 
@@ -145,7 +144,7 @@ export default function BurgerIngredients({ingredients}) {
               value={category.value}
               active={currentTab === category.value}
               key={index}
-              onClick={() => goToCategory(category.value)}
+              // onClick={() => goToCategory(category.value)}
             >{category.name}</Tab>
           ))}
         </div>
