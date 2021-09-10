@@ -1,10 +1,10 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import clsx from 'clsx';
-import styles from './menu-link.module.css';
+import { useState } from 'react'
+import propTypes from 'prop-types'
+import clsx from 'clsx'
+import styles from './menu-link.module.css'
 
 export default function MenuLink ({name, icon, iconHover, first, last}) {
-  const [isHover, setHover] = React.useState(false)
+  const [isHover, setHover] = useState(false)
 
   const handleLinkMouseEnter = () => setHover(!isHover)
   const handleLinkMouseLeave = () => setHover(!isHover)

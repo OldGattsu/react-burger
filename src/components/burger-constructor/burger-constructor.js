@@ -1,4 +1,4 @@
-import React from 'react'
+import { useRef, useEffect, useMemo } from 'react'
 import clsx from 'clsx'
 import styles from './burger-constructor.module.css'
 
@@ -28,6 +28,29 @@ export default function BurgerConstructor() {
   })
 
 
+  // height of BurgerConstructor
+  const burgerConstructorRef = useRef(null)
+  const burgerConstructorScrollRef = useRef(null)
+
+  const setBurgerConstructorScrollHeight = () => {
+    const height = getScrollBoxHeight(burgerConstructorRef.current, 'burgerConstructorScroll')
+    burgerConstructorScrollRef.current.style.height = height
+  }
+
+  useEffect(() => {
+    setBurgerConstructorScrollHeight()
+  }, [selectedIngredients])
+
+
+  useEffect(() => {
+    window.addEventListener('resize', setBurgerConstructorScrollHeight)
+
+    return () => {
+      window.removeEventListener('resize', setBurgerConstructorScrollHeight)
+    }
+  }, [])
+
+
   // dnd
   const [{isDropping}, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -39,29 +62,6 @@ export default function BurgerConstructor() {
       dispatch(incrementIngredientCount(id))
     }
   })
-
-
-  // height of BurgerConstructor
-  const burgerConstructorRef = React.useRef(null)
-  const burgerConstructorScrollRef = React.useRef(null)
-
-  const setBurgerConstructorScrollHeight = () => {
-    const height = getScrollBoxHeight(burgerConstructorRef.current, 'burgerConstructorScroll')
-    burgerConstructorScrollRef.current.style.height = height
-  }
-
-  React.useEffect(() => {
-    setBurgerConstructorScrollHeight()
-  }, [selectedIngredients])
-
-
-  React.useEffect(() => {
-    window.addEventListener('resize', setBurgerConstructorScrollHeight)
-
-    return () => {
-      window.removeEventListener('resize', setBurgerConstructorScrollHeight)
-    }
-  }, [])
 
 
   // ingredient
@@ -76,10 +76,13 @@ export default function BurgerConstructor() {
 
 
   // order
-  const { orderId, orderRequest } = useSelector(state => {
+  const {
+    orderId,
+    orderPending,
+  } = useSelector(state => {
     return {
       orderId: state.order.orderId,
-      orderRequest: state.order.orderRequest,
+      orderPending: state.order.orderPending,
     }
   })
 
@@ -102,7 +105,7 @@ export default function BurgerConstructor() {
 
 
   // total
-  const totalPrice = React.useMemo(() => {
+  const totalPrice = useMemo(() => {
     let result = selectedIngredients.reduce((priceSum, ingredient) => {
       return ingredient.type !== 'bun'
         ? priceSum += +ingredient.price
@@ -197,7 +200,7 @@ export default function BurgerConstructor() {
           )}
         </div>
       </section>
-      {orderRequest && (<Loader />)}
+      {orderPending && (<Loader />)}
       {orderId && (
         <Modal
           onClose={closeOrderModal}

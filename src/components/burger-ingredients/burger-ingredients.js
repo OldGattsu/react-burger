@@ -1,37 +1,36 @@
-import React, { useEffect } from 'react';
-import propTypes from 'prop-types';
-import clsx from 'clsx';
-import styles from './burger-ingredients.module.css';
+import { useState, useEffect, useRef } from 'react'
+import propTypes from 'prop-types'
+import clsx from 'clsx'
+import styles from './burger-ingredients.module.css'
 
-import ingredientsPropTypes from '../../prop-types/prop-types';
+import ingredientsPropTypes from '../../prop-types/prop-types'
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 import {
   setShownIngredient,
   unsetShownIngredient,
-} from '../../store/actions/ingredient';
+} from '../../store/actions/ingredient'
 
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
-import IngredientsCategory from '../ingredients-category/ingredients-category';
-import IngredientDetails from '../ingredient-details/ingredient-details';
+import IngredientsCategory from '../ingredients-category/ingredients-category'
+import IngredientDetails from '../ingredient-details/ingredient-details'
 
-import { getScrollBoxHeight, getAbsoluteHeight } from '../../utils/methods';
+import { getScrollBoxHeight, getAbsoluteHeight } from '../../utils/methods'
 
 export default function BurgerIngredients({ingredients}) {
-  const didMount = React.useRef(false)
   const dispatch = useDispatch()
 
-  // width of BurgerIngredients
-  const burgerIngredientsRef = React.useRef(null)
-  const burgerIngredientsScrollRef = React.useRef(null)
+  // height of BurgerIngredients
+  const burgerIngredientsRef = useRef(null)
+  const burgerIngredientsScrollRef = useRef(null)
 
   const setBurgerIngredientsScrollHeight = () => {
     const height = getScrollBoxHeight(burgerIngredientsRef.current, 'burgerIngredientsScroll')
     burgerIngredientsScrollRef.current.style.height = height
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setBurgerIngredientsScrollHeight()
     window.addEventListener('resize', setBurgerIngredientsScrollHeight)
 
@@ -42,10 +41,6 @@ export default function BurgerIngredients({ingredients}) {
 
 
   // categories
-  const categoryBunsRef = React.useRef(null)
-  const categorySaucesRef = React.useRef(null)
-  const categoryToppingsRef = React.useRef(null)
-
   const getCategory = (type) => {
     const res = []
     ingredients.forEach((ingredient) => {
@@ -54,35 +49,56 @@ export default function BurgerIngredients({ingredients}) {
     return res
   }
 
-  const buns = getCategory('bun')
-  const sauces = getCategory('sauce')
-  const toppings = getCategory('main')
-
   const categoriesList = [
     {
       name: 'Булки',
-      data: buns,
-      ref: categoryBunsRef,
+      data: getCategory('bun'),
       value: 'buns',
+      ref: useRef(null),
     },
     {
       name: 'Соусы',
-      data: sauces,
-      ref: categorySaucesRef,
+      data: getCategory('sauce'),
       value: 'sauces',
+      ref: useRef(null),
     },
     {
       name: 'Начинка',
-      data: toppings,
-      ref: categoryToppingsRef,
+      data: getCategory('main'),
       value: 'toppings',
+      ref: useRef(null),
     },
   ]
+
+  useEffect(() => {
+    getCurrentCategory()
+  }, [categoriesList])
+
+
+  // tabs
+  const [currentTab, setCurrentTab] = useState('buns')
+
+  const goToCategory = (categoryName) => {
+    const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
+      ? window.scrollY
+      : burgerIngredientsScrollRef.current.offsetTop
+    const scrollTo = {}
+    categoriesList.forEach((category) => {
+      scrollTo[category.value] = () => {
+        burgerIngredientsScrollRef.current.scrollTo({
+          behavior: 'smooth',
+          top: category.ref.current.offsetTop - relativeTop,
+        })
+      }
+    })
+
+    scrollTo[categoryName]()
+  }
 
   const getCurrentCategory = () => {
     burgerIngredientsScrollRef.current.addEventListener('scroll', () => {
       const scrollDistance = burgerIngredientsScrollRef.current.scrollTop
-      const heightOfOtherContent = burgerIngredientsScrollRef.current.offsetTop
+      const heightOfOtherContent = getAbsoluteHeight(burgerIngredientsScrollRef.current)
       categoriesList.forEach((category) => {
         const categoryTopPosition = category.ref.current.offsetTop - heightOfOtherContent
         if (
@@ -93,36 +109,6 @@ export default function BurgerIngredients({ingredients}) {
         }
       })
     })
-  }
-
-  React.useEffect(() => {
-    getCurrentCategory()
-  }, [categoriesList])
-
-
-  // tabs
-  const [currentTab, setCurrentTab] = React.useState('buns')
-
-  const goToCategory = (category) => {
-    const relativeTop = window.scrollY > burgerIngredientsScrollRef.current.offsetTop
-      ? window.scrollY
-      : burgerIngredientsScrollRef.current.offsetTop
-    const scrollTo = {
-      'buns': () => burgerIngredientsScrollRef.current.scrollTo({
-        behavior: "smooth",
-        top: categoryBunsRef.current.offsetTop - relativeTop,
-      }),
-      'sauces': () => burgerIngredientsScrollRef.current.scrollTo({
-        behavior: "smooth",
-        top: categorySaucesRef.current.offsetTop - relativeTop,
-      }),
-      'toppings': () => burgerIngredientsScrollRef.current.scrollTo({
-        behavior: "smooth",
-        top: categoryToppingsRef.current.offsetTop - relativeTop,
-      }),
-    }
-
-    scrollTo[category]()
   }
 
 

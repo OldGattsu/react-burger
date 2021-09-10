@@ -1,32 +1,30 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  getOrderRequest,
-  getOrderSuccess,
-  getOrderFailed,
+  getOrderId,
   clearOrderId,
 } from '../actions/order'
 
 const initialState = {
   orderId: null,
-  orderRequest: false,
-  orderSuccess: false,
-  orderFailed: false,
+  orderPending: false,
+  orderFulfilled: false,
+  orderRejected: false,
 }
 
 const orderReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(getOrderRequest, (state) => {
-      state.orderRequest = true
+    .addCase(getOrderId.pending, (state) => {
+      state.orderPending = true
     })
-    .addCase(getOrderSuccess, (state, action) => {
+    .addCase(getOrderId.fulfilled, (state, action) => {
       state.orderId = action.payload.order.number
-      state.orderSuccess = true
-      state.orderRequest = false
-      state.orderFailed = false
+      state.orderFulfilled = true
+      state.orderPending = false
+      state.orderRejected = false
     })
-    .addCase(getOrderFailed, (state) => {
-      state.orderFailed = true
-      state.orderRequest = false
+    .addCase(getOrderId.rejected, (state) => {
+      state.orderRejected = true
+      state.orderPending = false
     })
     .addCase(clearOrderId, (state) => {
       state.orderId = null

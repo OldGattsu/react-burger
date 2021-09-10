@@ -1,33 +1,31 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  getIngredientsRequest,
-  getIngredientsSuccess,
-  getIngredientsFailed,
+  getIngredients,
   incrementIngredientCount,
   decrementIngredientCount,
 } from "../actions/ingredients"
 
 const initialState = {
   data: [],
-  ingredientsRequest: false,
-  ingredientsSuccess: false,
-  ingredientsFailed: false,
+  ingredientsPending: false,
+  ingredientsFulfilled: false,
+  ingredientsRejected: false,
 }
 
 const ingredientsReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(getIngredientsRequest, (state) => {
-      state.ingredientsRequest = true
+    .addCase(getIngredients.pending, (state) => {
+      state.ingredientsPending = true
     })
-    .addCase(getIngredientsSuccess, (state, action) => {
+    .addCase(getIngredients.fulfilled, (state, action) => {
       state.data = action.payload.data
-      state.ingredientsSuccess = true
-      state.ingredientsRequest = false
-      state.ingredientsFailed = false
+      state.ingredientsFulfilled = true
+      state.ingredientsPending = false
+      state.ingredientsRejected = false
     })
-    .addCase(getIngredientsFailed, (state) => {
-      state.ingredientsFailed = true
-      state.ingredientsRequest = false
+    .addCase(getIngredients.rejected, (state) => {
+      state.ingredientsRejected = true
+      state.ingredientsPending = false
     })
     .addCase(incrementIngredientCount, (state, action) => {
       const ingredientIndex = state.data.findIndex((ingredient) => {

@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import propTypes from 'prop-types'
 import styles from './selected-ingredient-card.module.css'
 
 import { useDrag, useDrop } from 'react-dnd'
@@ -62,4 +63,15 @@ export default function SelectedIngredientCard({
       />
     </div>
   )
+}
+
+SelectedIngredientCard.propTypes = {
+  id: propTypes.number.isRequired,
+  count: propTypes.number.isRequired,
+  index: propTypes.number.isRequired,
+  text: propTypes.string.isRequired,
+  price: propTypes.number.isRequired,
+  thumbnail: propTypes.string.isRequired,
+  handleClose: propTypes.func.isRequired,
+  handleSort: propTypes.func.isRequired,
 }

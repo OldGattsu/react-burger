@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import clsx from 'clsx'
 import styles from './app.module.css'
 
@@ -17,18 +17,18 @@ export default function App() {
   const dispatch = useDispatch()
   const {
     ingredients,
-    ingredientsRequest,
-    ingredientsSuccess,
-    ingredientsFailed,
+    ingredientsPending,
+    ingredientsFulfilled,
+    ingredientsRejected,
   } = useSelector(state => {
     return {
       ingredients: state.ingredients.data,
-      ingredientsRequest: state.ingredients.ingredientsRequest,
-      ingredientsSuccess: state.ingredients.ingredientsSuccess,
-      ingredientsFailed: state.ingredients.ingredientsFailed,
+      ingredientsPending: state.ingredients.ingredientsPending,
+      ingredientsFulfilled: state.ingredients.ingredientsFulfilled,
+      ingredientsRejected: state.ingredients.ingredientsRejected,
     }
   })
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch])
 
@@ -39,9 +39,9 @@ export default function App() {
         styles.main,
         'pb-10',
       )}>
-        {ingredientsRequest && (<Loader noBlackout/>)}
-        {ingredientsFailed && (<div>error</div>)}
-        {ingredientsSuccess && (
+        {ingredientsPending && (<Loader noBlackout/>)}
+        {ingredientsRejected && (<div>error</div>)}
+        {ingredientsFulfilled && (
           <>
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients ingredients={ingredients} />
