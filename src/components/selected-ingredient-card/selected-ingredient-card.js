@@ -33,21 +33,21 @@ export default function SelectedIngredientCard({
 
       if (dragIndex === hoverIndex) return
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
+      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      const clientOffset = monitor.getClientOffset()
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-          return;
+          return
       }
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-          return;
+          return
       }
 
       handleSort(id, dragIndex, hoverIndex)
 
-      item.index = hoverIndex;
+      item.index = hoverIndex
     },
   })
   drag(drop(ref))
@@ -66,7 +66,7 @@ export default function SelectedIngredientCard({
 }
 
 SelectedIngredientCard.propTypes = {
-  id: propTypes.number.isRequired,
+  id: propTypes.string.isRequired,
   count: propTypes.number.isRequired,
   index: propTypes.number.isRequired,
   text: propTypes.string.isRequired,

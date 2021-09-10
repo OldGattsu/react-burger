@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import propTypes from 'prop-types'
 import clsx from 'clsx'
 import styles from './burger-ingredients.module.css'
@@ -41,38 +41,38 @@ export default function BurgerIngredients({ingredients}) {
 
 
   // categories
-  const getCategory = (type) => {
+  const getCategory = useMemo(() => (type) => {
     const res = []
     ingredients.forEach((ingredient) => {
       if (ingredient.type === type) res.push(ingredient)
     })
     return res
-  }
+  }, [ingredients])
 
-  const categoriesList = [
+  const bunsCategoryRef = useRef()
+  const saucesCategoryRef = useRef()
+  const toppingsCategoryRef = useRef()
+
+  const categoriesList = useMemo(() => [
     {
       name: 'Булки',
-      data: getCategory('bun'),
       value: 'buns',
-      ref: useRef(null),
+      data: getCategory('bun'),
+      ref: bunsCategoryRef,
     },
     {
       name: 'Соусы',
-      data: getCategory('sauce'),
       value: 'sauces',
-      ref: useRef(null),
+      data: getCategory('sauce'),
+      ref: saucesCategoryRef,
     },
     {
       name: 'Начинка',
-      data: getCategory('main'),
       value: 'toppings',
-      ref: useRef(null),
+      data: getCategory('main'),
+      ref: toppingsCategoryRef,
     },
-  ]
-
-  useEffect(() => {
-    getCurrentCategory()
-  }, [categoriesList])
+  ], [getCategory])
 
 
   // tabs
@@ -95,8 +95,9 @@ export default function BurgerIngredients({ingredients}) {
     scrollTo[categoryName]()
   }
 
-  const getCurrentCategory = () => {
+  const getCurrentCategory = useMemo(() => () => {
     burgerIngredientsScrollRef.current.addEventListener('scroll', () => {
+      console.log('hi')
       const scrollDistance = burgerIngredientsScrollRef.current.scrollTop
       const heightOfOtherContent = getAbsoluteHeight(burgerIngredientsScrollRef.current)
       categoriesList.forEach((category) => {
@@ -109,7 +110,11 @@ export default function BurgerIngredients({ingredients}) {
         }
       })
     })
-  }
+  },[categoriesList])
+
+  useEffect(() => {
+    getCurrentCategory()
+  },[getCurrentCategory])
 
 
   // ingredient details
