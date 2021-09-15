@@ -30,7 +30,7 @@ const burgerConstructor = createReducer(initialState, (builder) => {
         state.data.push({...selectedInredient, index: countSameIngredients})
       }
     })
-    .addCase(clearConstructor, (state, action) => {
+    .addCase(clearConstructor, (state) => {
       state.data = []
     })
     .addCase(removeIngredient, (state, action) => {

@@ -3,6 +3,12 @@ const API_PATH = process.env.REACT_APP_API_PATH
 // endpoints
 export const INGREDIENTS = 'ingredients'
 export const ORDERS = 'orders'
+export const REGISTRATION = 'auth/register'
+export const LOGIN = 'auth/login'
+export const FORGOT_PASSWORD = 'password-reset'
+export const RESET_PASSWORD = 'password-reset/reset'
+export const LOGOUT = 'auth/logout'
+export const REFRESH_TOKEN = 'auth/token'
 
 const checkReponse = (res) => {
   return res.ok
