@@ -2,3 +2,25 @@
   max-width: 1240px;
   margin: 0 auto;
 }
+
+.emptypagewrapper {
+	width: 100%;
+	min-height: 100vh;
+	margin-top: -88px;
+	position:  relative;
+}
+
+.formContainer {
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+	width: 480px;
+	margin:  auto;
+  text-align: center;
+}
+
+.inputContainer {
+	display: flex;
+	justify-content: center;
+}
