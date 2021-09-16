@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
   max-width: 480px;
-  margin: 180px auto;
+  margin: 180px auto 0 auto;
 }

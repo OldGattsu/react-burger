@@ -8,13 +8,18 @@ import {
   refreshToken,
 } from "../actions/user"
 
+import {
+  setCookie,
+  getCookie,
+  deleteCookie
+} from '../../utils/methods'
+
 const initialState = {
   user: {},
-  isLogged: false,
+  isLoggedIn: false,
   accessToken: null,
   refreshToken: null,
 
-  registrationSuccess: false,
   registrationPending: false,
   registrationFulfilled: false,
   registrationRejected: false,
@@ -23,12 +28,10 @@ const initialState = {
   loginFulfilled: false,
   loginRejected: false,
 
-  forgotPasswordSuccess: false,
   forgotPasswordPending: false,
   forgotPasswordFulfilled: false,
   forgotPasswordRejected: false,
 
-  resetPasswordSuccess: false,
   resetPasswordPending: false,
   resetPasswordFulfilled: false,
   resetPasswordRejected: false,
@@ -42,7 +45,7 @@ const initialState = {
   refreshTokenRejected: false,
 }
 
-const ingredientsReducer = createReducer(initialState, (builder) => {
+const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(registration.pending, (state) => {
       state.registrationPending = true
@@ -50,13 +53,11 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
     .addCase(registration.fulfilled, (state, action) => {
       state.registrationFulfilled = true
       state.registrationPending = false
-
-      if (action.payload.success) {
-        state.registrationSuccess = true
-        state.user = action.payload.user
-        state.accessToken = action.payload.accessToken
-        state.refreshToken = action.payload.refreshToken
-      }
+      state.user = action.payload.user
+      state.accessToken = action.payload.accessToken
+      state.refreshToken = action.payload.refreshToken
+      setCookie('access_token', state.accessToken)
+      setCookie('refresh_token', state.refreshToken)
     })
     .addCase(registration.rejected, (state) => {
       state.registrationRejected = true
@@ -73,10 +74,6 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
     .addCase(forgotPassword.fulfilled, (state, action) => {
       state.forgotPasswordFulfilled = true
       state.forgotPasswordPending = false
-
-      if (action.payload.success) {
-        state.forgotPasswordSuccess = true
-      }
     })
     .addCase(forgotPassword.rejected, (state) => {
       state.forgotPasswordRejected = true
@@ -89,10 +86,6 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
     .addCase(resetPassword.fulfilled, (state, action) => {
       state.resetPasswordFulfilled = true
       state.resetPasswordPending = false
-
-      if (action.payload.success) {
-        state.forgotPasswordSuccess = true
-      }
     })
     .addCase(resetPassword.rejected, (state) => {
       state.resetPasswordRejected = true
@@ -100,4 +93,4 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
     })
 })
 
-export default ingredientsReducer
+export default userReducer
