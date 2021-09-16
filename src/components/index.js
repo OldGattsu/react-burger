@@ -1,5 +1,5 @@
 import AppHeader from "./app-header/app-header"
-import burgerConstructor from "../store/reducers/burgerConstructor"
+import BurgerConstructor from "./burger-constructor/burger-constructor"
 import BurgerIngredients from "./burger-ingredients/burger-ingredients"
 import DragHere from "./drag-here/drag-here"
 import IngredientCard from "./ingredient-card/ingredient-card"
@@ -17,7 +17,7 @@ import UserFormContainer from "./user-form-container/user-form-container"
 
 export {
   AppHeader,
-  burgerConstructor,
+  BurgerConstructor,
   BurgerIngredients,
   DragHere,
   IngredientCard,

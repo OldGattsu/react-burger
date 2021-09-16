@@ -11,27 +11,15 @@ import { UserFormContainer, UserForm } from  '../../components'
 
 import useForm from "../../hooks/useForm"
 
-export default function Login() {
+export default function ResetPassword() {
   const {
     formValues,
     onChangeForm,
   } = useForm()
 
   return (
-    <UserFormContainer title="Вход">
-      <UserForm buttonName="Войти">
-        <div className={clsx(
-          styles.userFormInput,
-          'mt-6',
-        )}>
-          <Input
-            onChange={onChangeForm}
-            value={formValues.email || ''}
-            name='email'
-            type='email'
-            placeholder='E-mail'
-          />
-        </div>
+    <UserFormContainer title="Восстановление пароля">
+      <UserForm buttonName="Сохранить">
         <div className={clsx(
           styles.userFormInput,
           'mt-6',
@@ -40,25 +28,29 @@ export default function Login() {
             onChange={onChangeForm}
             value={formValues.password || ''}
             name="password"
+            placeholder='Введите новый пароль'
+          />
+        </div>
+        <div className={clsx(
+          styles.userFormInput,
+          'mt-6',
+        )}>
+          <Input
+            onChange={onChangeForm}
+            value={formValues.code || ''}
+            name='email'
+            type='text'
+            placeholder='Введите код из письма'
           />
         </div>
       </UserForm>
       <p className='text text_type_main-default mb-4'>
-        Вы — новый пользователь?{" "}
+        Вспомнили пароль?{" "}
         <Link
           className={styles.userFormLink}
-          to='/register'
+          to='/login'
         >
-          Зарегистрироваться
-        </Link>
-      </p>
-      <p className='text text_type_main-default'>
-        Забыли пароль?{" "}
-        <Link
-          className={styles.userFormLink}
-          to='/forgot-password'
-        >
-          Восстановить пароль
+          Войти
         </Link>
       </p>
     </UserFormContainer>

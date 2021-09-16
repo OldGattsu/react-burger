@@ -9,32 +9,34 @@ export default function AppHeader() {
   return (
     <header className={clsx(
       styles.appHeader,
-      'mt-10',
+      'pt-6', 'pb-4',
     )}>
-      <Menu>
-        <li>
-          <MenuLink
-            name="Конструктор"
-            icon={<BurgerIcon type="primary"/>}
-            iconHover={<BurgerIcon type="secondary"/>}
-            first
-          />
-        </li>
-        <li>
-          <MenuLink
-            name="Лента заказов"
-            icon={<ListIcon type="primary"/>}
-            iconHover={<ListIcon type="secondary"/>}
-          />
-        </li>
-      </Menu>
-      <a className={styles.logo} href="/home"><Logo/></a>
-      <MenuLink
-        name="Личный кабинет"
-        icon={<ProfileIcon type="primary" />}
-        iconHover={<ProfileIcon type="secondary"/>}
-        last
-      />
+      <div className={styles.appHeaderContainer}>
+        <Menu>
+          <li>
+            <MenuLink
+              name="Конструктор"
+              icon={<BurgerIcon type="primary"/>}
+              iconHover={<BurgerIcon type="secondary"/>}
+              first
+            />
+          </li>
+          <li>
+            <MenuLink
+              name="Лента заказов"
+              icon={<ListIcon type="primary"/>}
+              iconHover={<ListIcon type="secondary"/>}
+            />
+          </li>
+        </Menu>
+        <a className={styles.logo} href="/home"><Logo/></a>
+        <MenuLink
+          name="Личный кабинет"
+          icon={<ProfileIcon type="primary" />}
+          iconHover={<ProfileIcon type="secondary"/>}
+          last
+        />
+      </div>
     </header>
   )
 }

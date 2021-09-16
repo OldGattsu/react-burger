@@ -5,7 +5,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export default function UserForm({
   children,
-  buttonText,
+  buttonName,
   buttonsText,
   onSubmit,
   onReset,
@@ -15,10 +15,10 @@ export default function UserForm({
       className={styles.userForm}
       onSubmit={onSubmit}
     >
-      <fieldset className={styles.fieldset}>{children}</fieldset>
+      <fieldset className={styles.userFormFieldset}>{children}</fieldset>
       <div className="mt-6 mb-20">
         {buttonsText ? (
-          <div className={styles.buttons}>
+          <div className={styles.userFormButtons}>
             <Button
               type="secondary"
               size="medium"
@@ -35,7 +35,7 @@ export default function UserForm({
           </div>
         ) : (
           <Button type="primary" size="medium">
-            {buttonText}
+            {buttonName}
           </Button>
         )}
       </div>

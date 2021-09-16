@@ -6,7 +6,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import AppHeader from '../app-header/app-header'
 import {
   Home,
-  Login
+  Login,
+  Registration,
+  ForgotPassword,
+  ResetPassword,
 } from '../../pages'
 
 export default function Main() {
@@ -25,6 +28,15 @@ export default function Main() {
             </Route>
             <Route path="/login" exact>
               <Login />
+            </Route>
+            <Route path="/registration" exact>
+              <Registration />
+            </Route>
+            <Route path="/forgot-password" exact>
+              <ForgotPassword />
+            </Route>
+            <Route path="/reset-password" exact>
+              <ResetPassword />
             </Route>
           </Switch>
         </main>
