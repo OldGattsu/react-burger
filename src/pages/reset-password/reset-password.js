@@ -1,25 +1,68 @@
+import { useEffect } from "react"
 import clsx from 'clsx'
 import styles from '../../components/user-form/user-form.module.css'
 
-import { useEffect, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
+import { resetPassword } from '../../store/actions/user'
+
+import { Link, Redirect, useHistory } from "react-router-dom"
+
 import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components"
-import { UserFormContainer, UserForm } from  '../../components'
+import { UserFormContainer, UserForm, Loader } from  '../../components'
 
 import useForm from "../../hooks/useForm"
 
 export default function ResetPassword() {
+  const dispatch = useDispatch()
+  const history = useHistory()
+
   const {
     formValues,
     onChangeForm,
+    resetForm,
   } = useForm()
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    dispatch(resetPassword(formValues))
+    resetForm()
+  }
+
+  const {
+    isLoggedIn,
+    forgotPasswordFulfilled,
+    resetPasswordPending,
+    resetPasswordFulfilled,
+  } = useSelector(state => {
+    return {
+      isLoggedIn: state.user.isLoggedIn,
+      forgotPasswordFulfilled: state.user.forgotPasswordFulfilled,
+      resetPasswordPending: state.user.resetPasswordPending,
+      resetPasswordFulfilled: state.user.resetPasswordFulfilled,
+    }
+  })
+
+  useEffect(() => {
+    if (isLoggedIn) history.replace('/')
+  }, [history, isLoggedIn])
+
+  useEffect(() => {
+    if (!forgotPasswordFulfilled
+      || resetPasswordFulfilled) history.replace('/login')
+  }, [
+      history,
+      resetPasswordFulfilled,
+      forgotPasswordFulfilled,
+    ])
+
+  if (resetPasswordPending) return (<Loader/>)
 
   return (
     <UserFormContainer title="Восстановление пароля">
-      <UserForm buttonName="Сохранить">
+      <UserForm buttonName="Сохранить" onSubmit={onSubmit}>
         <div className={clsx(
           styles.userFormInput,
           'mt-6',
@@ -37,15 +80,15 @@ export default function ResetPassword() {
         )}>
           <Input
             onChange={onChangeForm}
-            value={formValues.code || ''}
-            name='email'
+            value={formValues.token || ''}
+            name='token'
             type='text'
             placeholder='Введите код из письма'
           />
         </div>
       </UserForm>
       <p className='text text_type_main-default mb-4'>
-        Вспомнили пароль?{" "}
+        Вспомнили пароль?&nbsp;
         <Link
           className={styles.userFormLink}
           to='/login'

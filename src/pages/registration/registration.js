@@ -96,7 +96,7 @@ export default function Registration() {
         Уже зарегистрированы?&nbsp;
         <Link
           className={styles.userFormLink}
-          to='/register'
+          to='/login'
         >
           Войти
         </Link>
