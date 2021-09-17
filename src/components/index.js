@@ -14,6 +14,7 @@ import OrderDetails from "./order-details/order-details"
 import SelectedIngredientCard from "./selected-ingredient-card/selected-ingredient-card"
 import UserForm from "./user-form/user.form"
 import UserFormContainer from "./user-form-container/user-form-container"
+import ProfileNav from "./profile-nav/profile-nav"
 
 export {
   AppHeader,
@@ -32,4 +33,5 @@ export {
   SelectedIngredientCard,
   UserForm,
   UserFormContainer,
+  ProfileNav,
 }

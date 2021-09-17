@@ -1,0 +1,16 @@
+.grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  justify-content: center;
+  gap: 60px;
+  composes: mt-10 from global;
+}
+
+.form {
+  margin-top: 80px;
+  max-width: 480px;
+}
+
+.input {
+  display: flex;
+}

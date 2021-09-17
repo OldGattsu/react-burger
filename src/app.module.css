@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'JetBrains-Mono';
-  src: url('../../fonts/JetBrainsMono.woff2') format('woff2');
+  src: url('./fonts/JetBrainsMono.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Iceland';
-  src: url('../../fonts/Iceland.woff2') format('woff2');
+  src: url('./fonts/Iceland.woff2') format('woff2');
 }
 
 :global(body) {
@@ -39,7 +39,5 @@
 }
 
 .main {
-  composes: container from '../../base.module.css';
-  display: flex;
-  justify-content: space-between;
+  composes: container from './base.module.css';
 }

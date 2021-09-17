@@ -9,10 +9,14 @@ export default function UserForm({
   buttonsText,
   onSubmit,
   onReset,
+  className,
 }) {
   return (
     <form
-      className={styles.userForm}
+      className={clsx(
+        styles.userForm,
+        className,
+      )}
       onSubmit={onSubmit}
     >
       <fieldset className={styles.userFormFieldset}>{children}</fieldset>

@@ -3,14 +3,15 @@ import styles from './app.module.css'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import AppHeader from '../app-header/app-header'
+import AppHeader from './components/app-header/app-header'
 import {
   Home,
   Login,
   Registration,
   ForgotPassword,
   ResetPassword,
-} from '../../pages'
+  Profile,
+} from './pages'
 
 export default function Main() {
 
@@ -24,19 +25,22 @@ export default function Main() {
         )}>
           <Switch>
             <Route path="/" exact>
-              <Home />
+              <Home/>
             </Route>
             <Route path="/login" exact>
-              <Login />
+              <Login/>
             </Route>
             <Route path="/registration" exact>
-              <Registration />
+              <Registration/>
             </Route>
             <Route path="/forgot-password" exact>
-              <ForgotPassword />
+              <ForgotPassword/>
             </Route>
             <Route path="/reset-password" exact>
-              <ResetPassword />
+              <ResetPassword/>
+            </Route>
+            <Route path="/profile" exact>
+              <Profile/>
             </Route>
           </Switch>
         </main>

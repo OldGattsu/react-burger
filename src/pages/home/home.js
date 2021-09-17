@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import styles from './home.module.css'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { getIngredients } from '../../store/actions/ingredients'
@@ -37,8 +38,10 @@ export default function Main() {
       {ingredientsFulfilled && (
         <>
           <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients/>
-            <BurgerConstructor/>
+            <div className={styles.homeContainer}>
+              <BurgerIngredients/>
+              <BurgerConstructor/>
+            </div>
           </DndProvider>
         </>
       )}
