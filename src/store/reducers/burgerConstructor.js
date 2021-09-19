@@ -7,6 +7,8 @@ import {
   clearConstructor,
 } from '../actions/burgerConstructor'
 
+import { nanoid } from 'nanoid'
+
 const initialState = {
   selectedIngredients: [],
   selectedBun: null,
@@ -19,7 +21,7 @@ const burgerConstructor = createReducer(initialState, (builder) => {
       if (newIngredient.type === 'bun') {
         state.selectedBun = newIngredient
       } else {
-        state.selectedIngredients.push(newIngredient)
+        state.selectedIngredients.push({...newIngredient, subId: nanoid(4)})
       }
     })
     .addCase(clearConstructor, (state) => {
@@ -28,7 +30,8 @@ const burgerConstructor = createReducer(initialState, (builder) => {
     })
     .addCase(removeIngredient, (state, action) => {
       state.selectedIngredients = state.selectedIngredients.filter((ingredient) => {
-        return ingredient._id !== action.payload.id
+        return !((ingredient._id === action.payload.id)
+          && (ingredient.subId === action.payload.subId))
       })
     })
     .addCase(sortIngredient, (state, action) => {

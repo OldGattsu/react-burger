@@ -20,7 +20,15 @@ export default function BurgerIngredients() {
 
   // get ingredients from store
   const ingredients = useSelector(state => state.ingredients.data)
-  const selectedIngredients = useSelector(state => state.burgerConstructor.selectedIngredients)
+  const {
+    selectedIngredients,
+    selectedBun
+  } = useSelector(state => {
+    return {
+      selectedIngredients: state.burgerConstructor.selectedIngredients,
+      selectedBun: state.burgerConstructor.selectedBun,
+    }
+  })
 
   // height of BurgerIngredients
   const burgerIngredientsRef = useRef(null)
@@ -51,15 +59,14 @@ export default function BurgerIngredients() {
           ? (selectedIngredients.filter((selIngredient) => {
             return selIngredient._id === ingredient._id
           }).length)
-          : (selectedIngredients.filter((selIngredient) => {
-            return selIngredient._id === ingredient._id
-          }).length)
+          : (selectedBun && selectedBun._id === ingredient._id)
+          ? 2 : 0
         res.count = count
         categoryIngredients.push(res)
       }
     })
     return categoryIngredients
-  }, [ingredients, selectedIngredients])
+  }, [ingredients, selectedIngredients, selectedBun])
 
   const bunsCategoryRef = useRef()
   const saucesCategoryRef = useRef()

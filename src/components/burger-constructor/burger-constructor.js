@@ -73,8 +73,8 @@ export default function BurgerConstructor() {
 
 
   // ingredient
-  const handleRemoveIngredient = (id, index) => {
-    dispatch(removeIngredient({id, index}))
+  const handleRemoveIngredient = (id, subId) => {
+    dispatch(removeIngredient({id, subId}))
   }
 
   const handleSortIngredient = (id, dragIndex, hoverIndex) => {
@@ -159,10 +159,12 @@ export default function BurgerConstructor() {
             ref={burgerConstructorScrollRef}
           >
             {selectedIngredients.map((ingredient, index) => {
+              console.log(ingredient)
               return ingredient.type !== 'bun'
                 ? (
                   <SelectedIngredientCard
                     id={ingredient._id}
+                    subId={ingredient.subId}
                     index={index}
                     text={ingredient.name}
                     price={ingredient.price}
