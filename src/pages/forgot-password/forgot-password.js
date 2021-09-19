@@ -54,7 +54,7 @@ export default function ForgotPassword() {
 
   return (
     <UserFormContainer title="Восстановление пароля">
-      <UserForm buttonName="Восстановить" onSubmit={onSubmit}>
+      <UserForm buttonsName="Восстановить" onSubmit={onSubmit}>
         <div className={clsx(
           styles.userFormInput,
           'mt-6',

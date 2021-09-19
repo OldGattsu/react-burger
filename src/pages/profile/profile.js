@@ -1,9 +1,10 @@
-import {  useEffect } from "react"
+import { useEffect } from "react"
 
 import styles from "./profile.module.css"
 import userFormStyles from '../../components/user-form/user-form.module.css'
 
 import { useDispatch, useSelector } from "react-redux"
+import { getUser, updateUser } from "../../store/actions/user"
 
 import {
   Route,
@@ -11,6 +12,7 @@ import {
   useHistory,
   useLocation,
 } from "react-router-dom"
+
 import {
   EmailInput,
   PasswordInput,
@@ -20,14 +22,9 @@ import { UserForm, ProfileNav } from '../../components'
 
 import useForm from "../../hooks/useForm"
 
-// import { putUserThunk } from "../services/actions/user";
-
 export default function Profile() {
   const dispatch = useDispatch()
-  const history = useHistory()
-  const location = useLocation()
 
-  const { path } = useRouteMatch()
   const {
     formValues,
     onChangeForm,
@@ -45,72 +42,57 @@ export default function Profile() {
   })
 
   useEffect(() => {
-    resetForm(user);
-    return () => {
-      resetForm()
-    };
-  }, [resetForm, user])
+    dispatch(getUser())
+  }, [])
 
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     history.push("/login", { from: location })
-  //   }
-  // }, [history, isLoggedIn, location])
-
-  const handleSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    // dispatch(
-    //   putUserThunk({
-    //     name: values.name,
-    //     email: values.email,
-    //     password: values.password,
-    //   })
-    // );
+    dispatch(
+      updateUser(formValues)
+    );
   }
 
-  const handleReset = () => {
+  const onReset = () => {
     resetForm(user);
   }
 
   return (
     <>
-      <Route exact path={path}>
-        <section className={styles.grid}>
-          <ProfileNav />
-          <UserForm
-            className={styles.form}
-            buttonsText={["Сохранить", "Отмена"]}
-            onSubmit={handleSubmit}
-            onReset={handleReset}
-          >
-            <>
-              <div className={userFormStyles.userFormInput}>
-                <Input
-                  onChange={onChangeForm}
-                  value={formValues.name || ""}
-                  name={"name"}
-                  placeholder="Имя"
-                  icon={"EditIcon"}
-                />
-              </div>
-              <div className={`${userFormStyles.userFormInput} mt-6`}>
-                <EmailInput
-                  onChange={onChangeForm}
-                  value={formValues.email || ""}
-                  name={"email"}
-                />
-              </div>
-              <div className={`${userFormStyles.userFormInput} mt-6`}>
-                <PasswordInput
-                  onChange={onChangeForm}
-                  value={formValues.password || ""}
-                  name={"password"}
-                />
-              </div>
-            </>
-          </UserForm>
-        </section>
-      </Route>
+      <section className={styles.grid}>
+        <ProfileNav />
+        <UserForm
+          className={styles.form}
+          buttonsName={['Отмена', 'Сохранить']}
+          onSubmit={onSubmit}
+          onReset={onReset}
+        >
+          <>
+            <div className={userFormStyles.userFormInput}>
+              <Input
+                onChange={onChangeForm}
+                value={formValues.name || ""}
+                name={"name"}
+                placeholder="Имя"
+                icon={"EditIcon"}
+              />
+            </div>
+            <div className={`${userFormStyles.userFormInput} mt-6`}>
+              <EmailInput
+                onChange={onChangeForm}
+                value={formValues.email || ""}
+                name={"email"}
+              />
+            </div>
+            <div className={`${userFormStyles.userFormInput} mt-6`}>
+              <PasswordInput
+                onChange={onChangeForm}
+                value={formValues.password || ""}
+                name={"password"}
+              />
+            </div>
+          </>
+        </UserForm>
+      </section>
     </>
   )
 }

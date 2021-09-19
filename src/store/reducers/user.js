@@ -4,19 +4,16 @@ import {
   login,
   forgotPassword,
   resetPassword,
+  getUser,
+  updateUser,
   logout,
   refreshToken,
 } from "../actions/user"
 
-import {
-  setCookie,
-  getCookie,
-  deleteCookie
-} from '../../utils/methods'
-
 const initialState = {
   user: {},
   isLoggedIn: false,
+  isUserLoaded: false,
   accessToken: null,
   refreshToken: null,
 
@@ -36,6 +33,14 @@ const initialState = {
   resetPasswordFulfilled: false,
   resetPasswordRejected: false,
 
+  getUserPending: false,
+  getUserFulfilled: false,
+  getUserRejected: false,
+
+  updateUserPending: false,
+  updateUserFulfilled: false,
+  updateUserRejected: false,
+
   logoutPending: false,
   logoutFulfilled: false,
   logoutRejected: false,
@@ -47,27 +52,41 @@ const initialState = {
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
+    // registration
     .addCase(registration.pending, (state) => {
       state.registrationPending = true
     })
     .addCase(registration.fulfilled, (state, action) => {
       state.registrationFulfilled = true
       state.registrationPending = false
-      state.user = action.payload.user
+      state.user = action.payload
       state.accessToken = action.payload.accessToken
       state.refreshToken = action.payload.refreshToken
-      setCookie('access_token', state.accessToken)
-      setCookie('refresh_token', state.refreshToken)
+      state.isLoggedIn = true
     })
     .addCase(registration.rejected, (state) => {
       state.registrationRejected = true
       state.registrationPending = false
     })
 
+    // login
     .addCase(login.pending, (state) => {
-      state.ingredientsPending = true
+      state.loginPending = true
+    })
+    .addCase(login.fulfilled, (state, action) => {
+      state.loginFulfilled = true
+      state.loginPending = false
+      state.user = action.payload
+      state.accessToken = action.payload.accessToken
+      state.refreshToken = action.payload.refreshToken
+      state.isLoggedIn = true
+    })
+    .addCase(login.rejected, (state) => {
+      state.loginRejected = true
+      state.loginPending = false
     })
 
+    // forgot password
     .addCase(forgotPassword.pending, (state) => {
       state.forgotPasswordPending = true
     })
@@ -80,6 +99,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.forgotPasswordPending = false
     })
 
+    // reset password
     .addCase(resetPassword.pending, (state) => {
       state.resetPasswordPending = true
     })
@@ -90,6 +110,37 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(resetPassword.rejected, (state) => {
       state.resetPasswordRejected = true
       state.resetPasswordPending = false
+    })
+
+    // get user
+    .addCase(getUser.pending, (state) => {
+      state.getUserPending = true
+    })
+    .addCase(getUser.fulfilled, (state, action) => {
+      state.getUserFulfilled = true
+      state.getUserPending = false
+      state.user = action.payload.user
+      state.isLoggedIn = true
+      state.isUserLoaded = true
+    })
+    .addCase(getUser.rejected, (state) => {
+      state.getUserRejected = true
+      state.getUserPending = false
+      state.isUserLoaded = true
+    })
+
+    // update user
+    .addCase(updateUser.pending, (state) => {
+      state.updateUserPending = true
+    })
+    .addCase(updateUser.fulfilled, (state, action) => {
+      state.updateUserFulfilled = true
+      state.updateUserPending = false
+      state.user = action.payload.user
+    })
+    .addCase(updateUser.rejected, (state) => {
+      state.updateUserRejected = true
+      state.updateUserPending = false
     })
 })
 

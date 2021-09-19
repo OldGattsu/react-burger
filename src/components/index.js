@@ -15,6 +15,7 @@ import SelectedIngredientCard from "./selected-ingredient-card/selected-ingredie
 import UserForm from "./user-form/user.form"
 import UserFormContainer from "./user-form-container/user-form-container"
 import ProfileNav from "./profile-nav/profile-nav"
+import ProtectedRoute from './protected-route/protected-route'
 
 export {
   AppHeader,
@@ -34,4 +35,5 @@ export {
   UserForm,
   UserFormContainer,
   ProfileNav,
+  ProtectedRoute,
 }

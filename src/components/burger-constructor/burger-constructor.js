@@ -9,11 +9,6 @@ import {
   sortIngredient,
   clearConstructor
 } from '../../store/actions/burgerConstructor'
-import {
-  decrementIngredientCount,
-  incrementIngredientCount,
-  clearIngredientsCounters
-} from '../../store/actions/ingredients'
 import { getOrderId, clearOrderId } from '../../store/actions/order'
 
 import { useDrop } from 'react-dnd'
@@ -31,9 +26,14 @@ export default function BurgerConstructor() {
   const dispatch = useDispatch()
 
   // get ingredients from store
-  const selectedIngredients = useSelector(state => state.burgerConstructor.data)
-  const selectedBun = selectedIngredients.find((ingredient) => {
-    return ingredient.type === 'bun'
+  const {
+    selectedIngredients,
+    selectedBun
+  } = useSelector(state => {
+    return {
+      selectedIngredients: state.burgerConstructor.selectedIngredients,
+      selectedBun: state.burgerConstructor.selectedBun,
+    }
   })
 
 
@@ -48,7 +48,7 @@ export default function BurgerConstructor() {
 
   useEffect(() => {
     setBurgerConstructorScrollHeight()
-  }, [selectedIngredients])
+  }, [selectedIngredients, selectedBun])
 
 
   useEffect(() => {
@@ -68,7 +68,6 @@ export default function BurgerConstructor() {
     }),
     drop(id) {
       dispatch(moveIngredient(id))
-      dispatch(incrementIngredientCount(id))
     }
   })
 
@@ -76,7 +75,6 @@ export default function BurgerConstructor() {
   // ingredient
   const handleRemoveIngredient = (id, index) => {
     dispatch(removeIngredient({id, index}))
-    dispatch(decrementIngredientCount(id))
   }
 
   const handleSortIngredient = (id, dragIndex, hoverIndex) => {
@@ -111,7 +109,6 @@ export default function BurgerConstructor() {
   const closeOrderModal = () => {
     dispatch(clearOrderId())
     dispatch(clearConstructor())
-    dispatch(clearIngredientsCounters())
   }
 
 
@@ -138,7 +135,8 @@ export default function BurgerConstructor() {
           className={styles.burgerConstructor}
           ref={burgerConstructorRef}
         >
-          {selectedIngredients.length === 0 && (<DragHere dragging={isDropping}/>)}
+          {(selectedIngredients.length === 0 && !selectedBun)
+            && (<DragHere dragging={isDropping}/>)}
           {selectedBun && (
             <div className={clsx(
               styles.lockedBun,
@@ -165,7 +163,6 @@ export default function BurgerConstructor() {
                 ? (
                   <SelectedIngredientCard
                     id={ingredient._id}
-                    count={ingredient.index}
                     index={index}
                     text={ingredient.name}
                     price={ingredient.price}
@@ -181,7 +178,7 @@ export default function BurgerConstructor() {
           {selectedBun && (
             <div className={clsx(
               styles.lockedBun,
-              'mt-2', 'mr--4',
+              'mt-2', 'mr-2',
             )}>
               <ConstructorElement
                 type="bottom"

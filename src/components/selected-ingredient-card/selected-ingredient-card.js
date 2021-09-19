@@ -8,7 +8,6 @@ import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burge
 
 export default function SelectedIngredientCard({
   id,
-  count,
   index,
   text,
   price,
@@ -59,7 +58,7 @@ export default function SelectedIngredientCard({
         text={text}
         price={price}
         thumbnail={thumbnail}
-        handleClose={() => handleClose(id, count)}
+        handleClose={() => handleClose(id)}
       />
     </div>
   )
@@ -67,7 +66,6 @@ export default function SelectedIngredientCard({
 
 SelectedIngredientCard.propTypes = {
   id: propTypes.string.isRequired,
-  count: propTypes.number.isRequired,
   index: propTypes.number.isRequired,
   text: propTypes.string.isRequired,
   price: propTypes.number.isRequired,

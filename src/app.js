@@ -1,9 +1,13 @@
+import { useEffect } from 'react'
 import clsx from 'clsx'
 import styles from './app.module.css'
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom'
 
-import AppHeader from './components/app-header/app-header'
+import {
+  AppHeader,
+  ProtectedRoute,
+ } from './components'
 import {
   Home,
   Login,
@@ -14,6 +18,8 @@ import {
 } from './pages'
 
 export default function Main() {
+  // const location = useLocation()
+  const location = '/'
 
   return (
     <>
@@ -39,9 +45,9 @@ export default function Main() {
             <Route path="/reset-password" exact>
               <ResetPassword/>
             </Route>
-            <Route path="/profile" exact>
+            <ProtectedRoute path="/profile" location={location}>
               <Profile/>
-            </Route>
+            </ProtectedRoute>
           </Switch>
         </main>
       </Router>

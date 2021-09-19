@@ -20,6 +20,7 @@ export default function BurgerIngredients() {
 
   // get ingredients from store
   const ingredients = useSelector(state => state.ingredients.data)
+  const selectedIngredients = useSelector(state => state.burgerConstructor.selectedIngredients)
 
   // height of BurgerIngredients
   const burgerIngredientsRef = useRef(null)
@@ -42,12 +43,23 @@ export default function BurgerIngredients() {
 
   // categories
   const getCategory = useMemo(() => (type) => {
-    const res = []
-    ingredients.forEach((ingredient) => {
-      if (ingredient.type === type) res.push(ingredient)
+    const categoryIngredients = []
+    ingredients.map((ingredient) => {
+      if (ingredient.type === type) {
+        const res = {...ingredient}
+        const count = ingredient.type !== 'bun'
+          ? (selectedIngredients.filter((selIngredient) => {
+            return selIngredient._id === ingredient._id
+          }).length)
+          : (selectedIngredients.filter((selIngredient) => {
+            return selIngredient._id === ingredient._id
+          }).length)
+        res.count = count
+        categoryIngredients.push(res)
+      }
     })
-    return res
-  }, [ingredients])
+    return categoryIngredients
+  }, [ingredients, selectedIngredients])
 
   const bunsCategoryRef = useRef()
   const saucesCategoryRef = useRef()
@@ -77,23 +89,6 @@ export default function BurgerIngredients() {
 
   // tabs
   const [currentTab, setCurrentTab] = useState('')
-
-  // баги
-
-  // const goToCategory = (categoryName) => {
-  //   const relativeTop = burgerIngredientsScrollRef.current.offsetTop
-  //   const scrollTo = {}
-  //   categoriesList.forEach((category) => {
-  //     scrollTo[category.value] = () => {
-  //       burgerIngredientsScrollRef.current.scrollTo({
-  //         behavior: 'smooth',
-  //         top: category.ref.current.offsetTop - relativeTop,
-  //       })
-  //     }
-  //   })
-
-  //   scrollTo[categoryName]()
-  // }
 
   const getCurrentCategory = useMemo(() => () => {
     const scrollDistance = burgerIngredientsScrollRef.current.scrollTop
@@ -144,7 +139,6 @@ export default function BurgerIngredients() {
               value={category.value}
               active={currentTab === category.value}
               key={index}
-              // onClick={() => goToCategory(category.value)}
             >{category.name}</Tab>
           ))}
         </div>

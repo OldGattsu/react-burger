@@ -1,7 +1,13 @@
 import clsx from 'clsx'
 import styles from './app-header.module.css'
 
-import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { NavLink } from 'react-router-dom'
+import {
+  Logo,
+  BurgerIcon,
+  ListIcon,
+  ProfileIcon
+} from '@ya.praktikum/react-developer-burger-ui-components'
 import Menu from '../menu/menu'
 import MenuLink from '../menu-link/menu-link'
 
@@ -16,6 +22,7 @@ export default function AppHeader() {
           <li>
             <MenuLink
               name="Конструктор"
+              to="/"
               icon={<BurgerIcon type="primary"/>}
               iconHover={<BurgerIcon type="secondary"/>}
               first
@@ -24,15 +31,17 @@ export default function AppHeader() {
           <li>
             <MenuLink
               name="Лента заказов"
+              to="/feed"
               icon={<ListIcon type="primary"/>}
               iconHover={<ListIcon type="secondary"/>}
             />
           </li>
         </Menu>
-        <a className={styles.logo} href="/home"><Logo/></a>
+        <NavLink className={styles.logo} to="/"><Logo/></NavLink>
         <MenuLink
           name="Личный кабинет"
-          icon={<ProfileIcon type="primary" />}
+          to="/profile"
+          icon={<ProfileIcon type="primary"/>}
           iconHover={<ProfileIcon type="secondary"/>}
           last
         />

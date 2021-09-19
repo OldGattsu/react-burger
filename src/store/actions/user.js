@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk, unwrapResult } from '@reduxjs/toolkit'
 import {
   sendRequest,
   REGISTRATION,
@@ -7,7 +7,14 @@ import {
   RESET_PASSWORD,
   LOGOUT,
   REFRESH_TOKEN,
+  USER,
 } from "../../utils/api-helper"
+
+import {
+  setCookie,
+  getCookie,
+  deleteCookie
+} from '../../utils/methods'
 
 export const registration = createAsyncThunk(
   'user/registration',
@@ -15,6 +22,10 @@ export const registration = createAsyncThunk(
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data),
+  }).then(({ accessToken, refreshToken, user }) => {
+    setCookie('access_token', accessToken)
+    setCookie('refresh_token', refreshToken)
+    return user
   })
 )
 
@@ -24,6 +35,10 @@ export const login = createAsyncThunk(
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data),
+  }).then(({ accessToken, refreshToken, user }) => {
+    setCookie('access_token', accessToken, {expires: 2000})
+    setCookie('refresh_token', refreshToken, {expires: 2000})
+    return user
   })
 )
 
@@ -56,11 +71,42 @@ export const logout = createAsyncThunk(
 
 export const refreshToken = createAsyncThunk(
   'user/refreshToken',
-  async(data) => sendRequest(REFRESH_TOKEN, {
+  async(_, { dispatch, rejectWithValue }) => sendRequest(REFRESH_TOKEN, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data),
+    body: JSON.stringify({ token: getCookie('refresh_token') }),
+  }).then(({ accessToken, refreshToken }) => {
+    setCookie('access_token', accessToken, {expires: 2000})
+    setCookie('refresh_token', refreshToken, {expires: 2000})
+    dispatch(getUser())
+  })
+  .catch(() => {
+    return rejectWithValue('Not authenticated, please login.')
   })
 )
 
-export const clearOrderId = createAction('order/clearOrder')
+export const getUser = createAsyncThunk(
+  'user/getUser',
+  async(_, {dispatch, rejectWithValue}) => await sendRequest(USER, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': getCookie('access_token'),
+    },
+  }).catch((err) => {
+    dispatch(refreshToken())
+    return rejectWithValue(err)
+  })
+)
+
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async(data) => sendRequest(USER, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': getCookie('access_token'),
+    },
+    body: JSON.stringify(data),
+  })
+)

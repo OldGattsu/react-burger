@@ -56,7 +56,7 @@ export default function Registration() {
 
   return (
     <UserFormContainer title="Регистрация">
-      <UserForm buttonName="Зарегистрироваться" onSubmit={onSubmit}>
+      <UserForm buttonsName="Зарегистрироваться" onSubmit={onSubmit}>
         <div className={clsx(
           styles.userFormInput,
           'mt-6',

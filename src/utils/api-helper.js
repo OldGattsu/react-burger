@@ -9,6 +9,7 @@ export const FORGOT_PASSWORD = 'password-reset'
 export const RESET_PASSWORD = 'password-reset/reset'
 export const LOGOUT = 'auth/logout'
 export const REFRESH_TOKEN = 'auth/token'
+export const USER = 'auth/user'
 
 const checkReponse = (res) => {
   return res.ok
