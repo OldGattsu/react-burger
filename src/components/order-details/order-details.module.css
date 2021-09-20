@@ -23,3 +23,8 @@
   align-items: center;
   margin: 0;
 }
+
+.orderImage{
+  display: block;
+  min-height: 102px;
+}

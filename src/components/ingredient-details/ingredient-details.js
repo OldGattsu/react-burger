@@ -2,7 +2,33 @@ import propTypes from 'prop-types'
 import clsx from 'clsx'
 import styles from './ingredient-details.module.css'
 
-export default function IngredientDetails({data}) {
+export default function IngredientDetails({
+  name,
+  imageLarge,
+  calories,
+  proteins,
+  fat,
+  carbohydrates,
+}) {
+  const energyList = [
+    {
+      name: 'Калории,ккал',
+      value: calories,
+    },
+    {
+      name: 'Белки,г',
+      value: proteins,
+    },
+    {
+      name: 'Жиры,г',
+      value: fat,
+    },
+    {
+      name: 'Углеводы,г',
+      value: carbohydrates,
+    },
+  ]
+
   const EnergyItem = ({name, value}) => {
     return (
       <div className={styles.energyItem}>
@@ -19,27 +45,6 @@ export default function IngredientDetails({data}) {
     )
   }
 
-  const energyList = [
-    {
-      name: 'Калории,ккал',
-      value: data.calories,
-    },
-    {
-      name: 'Белки,г',
-      value: data.proteins,
-    },
-    {
-      name: 'Жиры,г',
-      value: data.fat,
-    },
-    {
-      name: 'Углеводы,г',
-      value: data.carbohydrates,
-    },
-  ]
-
-  if (data.length < 0) return null
-
   return (
     <div className={styles.ingredientDetails}>
       <img
@@ -47,14 +52,14 @@ export default function IngredientDetails({data}) {
           styles.ingredientImage,
           'mb-4',
         )}
-        src={data.image_large}
-        alt={data.name}
+        src={imageLarge}
+        alt={name}
       />
       <p className={clsx(
         styles.ingredientName,
         'text', 'text_type_main-medium',
         'mb-8',
-      )}>{data.name}</p>
+      )}>{name}</p>
       <div className={styles.ingredientEnergy}>
         {energyList.map((energy, index) => (
           <EnergyItem
@@ -69,12 +74,10 @@ export default function IngredientDetails({data}) {
 }
 
 IngredientDetails.propTypes = {
-  data: propTypes.shape({
-    image_large: propTypes.string.isRequired,
-    name: propTypes.string.isRequired,
-    calories: propTypes.number.isRequired,
-    proteins: propTypes.number.isRequired,
-    fat: propTypes.number.isRequired,
-    carbohydrates: propTypes.number.isRequired,
-  }).isRequired,
+  imageLarge: propTypes.string.isRequired,
+  name: propTypes.string.isRequired,
+  calories: propTypes.number.isRequired,
+  proteins: propTypes.number.isRequired,
+  fat: propTypes.number.isRequired,
+  carbohydrates: propTypes.number.isRequired,
 }

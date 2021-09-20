@@ -8,6 +8,8 @@ import {
   unsetShownIngredient,
 } from '../../store/actions/ingredient'
 
+import { useHistory, useLocation } from 'react-router-dom'
+
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import IngredientsCategory from '../ingredients-category/ingredients-category'
@@ -17,6 +19,8 @@ import { getScrollBoxHeight } from '../../utils/methods'
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch()
+  const history = useHistory()
+  const location = useLocation()
 
   // get ingredients from store
   const ingredients = useSelector(state => state.ingredients.data)
@@ -52,7 +56,7 @@ export default function BurgerIngredients() {
   // categories
   const getCategory = useMemo(() => (type) => {
     const categoryIngredients = []
-    ingredients.map((ingredient) => {
+    ingredients.forEach((ingredient) => {
       if (ingredient.type === type) {
         const res = {...ingredient}
         const count = ingredient.type !== 'bun'
@@ -123,6 +127,10 @@ export default function BurgerIngredients() {
 
   const showIngredientModal = (ingredient) => {
     dispatch(setShownIngredient(ingredient))
+    history.push({
+      pathname: `/ingredients/${ingredient._id}`,
+      state: { background: location }
+    })
   }
 
   const closeIngredientModal = () => {
@@ -167,16 +175,21 @@ export default function BurgerIngredients() {
           ))}
         </div>
       </section>
-      {Object.keys(shownIngredient).length > 0 && (
+      {/* {Object.keys(shownIngredient).length > 0 && (
         <Modal
           title="Детали ингредиента"
           onClose={closeIngredientModal}
         >
           <IngredientDetails
-            data={shownIngredient}
+            name={shownIngredient.name}
+            imageLarge={shownIngredient.image_large}
+            calories={shownIngredient.calories}
+            proteins={shownIngredient.proteins}
+            fat={shownIngredient.fat}
+            carbohydrates={shownIngredient.carbohydrates}
           />
         </Modal>
-      )}
+      )} */}
     </>
   )
 }

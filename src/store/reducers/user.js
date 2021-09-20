@@ -11,7 +11,7 @@ import {
 } from "../actions/user"
 
 const initialState = {
-  user: {},
+  user: null,
   isLoggedIn: false,
   isUserLoaded: false,
   accessToken: null,
@@ -84,6 +84,20 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.rejected, (state) => {
       state.loginRejected = true
       state.loginPending = false
+    })
+
+    // logout
+    .addCase(logout.pending, (state) => {
+      state.logoutPending = true
+    })
+    .addCase(logout.fulfilled, (state, action) => {
+      state.logoutFulfilled = true
+      state.logoutPending = false
+      state.isLoggedIn = false
+    })
+    .addCase(logout.rejected, (state) => {
+      state.logoutRejected = true
+      state.logoutPending = false
     })
 
     // forgot password

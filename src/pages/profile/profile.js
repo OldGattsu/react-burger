@@ -24,6 +24,7 @@ import useForm from "../../hooks/useForm"
 
 export default function Profile() {
   const dispatch = useDispatch()
+  const { path } = useRouteMatch()
 
   const {
     formValues,
@@ -41,10 +42,6 @@ export default function Profile() {
     }
   })
 
-  useEffect(() => {
-    dispatch(getUser())
-  }, [])
-
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -56,8 +53,13 @@ export default function Profile() {
     resetForm(user);
   }
 
+  useEffect(() => {
+    if (!user) dispatch(getUser())
+    resetForm(user)
+  }, [])
+
   return (
-    <>
+    <Route exact path={path}>
       <section className={styles.grid}>
         <ProfileNav />
         <UserForm
@@ -93,6 +95,6 @@ export default function Profile() {
           </>
         </UserForm>
       </section>
-    </>
+    </Route>
   )
 }

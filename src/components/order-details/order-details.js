@@ -22,7 +22,10 @@ export default function OrderDetails({orderId}) {
         )}>идентификатор заказа</span>
       </p>
       <img
-        className="mb-15"
+        className={clsx(
+          styles.orderImage,
+          'mb-15',
+        )}
         src={orderDoneImg}
         alt="Order done"
       />

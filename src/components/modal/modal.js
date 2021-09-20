@@ -21,6 +21,8 @@ export default function Modal({children, title, onClose}) {
 		}
 	})
 
+	if (!children) return null
+
 	return (
 		<ModalOverlay onClose={onClose}>
 			<div

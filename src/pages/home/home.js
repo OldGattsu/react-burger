@@ -1,8 +1,6 @@
-import { useEffect } from 'react'
 import styles from './home.module.css'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { getIngredients } from '../../store/actions/ingredients'
+import { useSelector } from 'react-redux'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -14,22 +12,17 @@ import {
 } from '../../components'
 
 export default function Main() {
-  const dispatch = useDispatch()
   const {
     ingredientsPending,
     ingredientsFulfilled,
     ingredientsRejected,
   } = useSelector(state => {
     return {
-      ingredients: state.ingredients.data,
       ingredientsPending: state.ingredients.ingredientsPending,
       ingredientsFulfilled: state.ingredients.ingredientsFulfilled,
       ingredientsRejected: state.ingredients.ingredientsRejected,
     }
   })
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch])
 
   return (
     <>

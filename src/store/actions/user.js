@@ -62,10 +62,15 @@ export const resetPassword = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   'user/logout',
-  async(data) => sendRequest(LOGOUT, {
+  async() => sendRequest(LOGOUT, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      'token': getCookie('refresh_token'),
+    }),
+  }).then(() => {
+    deleteCookie('access_token')
+    deleteCookie('refresh_token')
   })
 )
 

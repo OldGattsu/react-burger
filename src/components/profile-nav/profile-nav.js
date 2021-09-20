@@ -1,16 +1,36 @@
-import styles from "./profile-nav.module.css";
+import { useEffect } from 'react'
+import styles from './profile-nav.module.css'
 
-import { useDispatch } from "react-redux"
-import { logout } from "../../store/actions/user";
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../store/actions/user'
 
-import { NavLink } from "react-router-dom";
+import { useHistory, NavLink } from 'react-router-dom'
+
+import Loader from '../loader/loader'
 
 export default function ProfileNav() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const {
+    logoutPending,
+    logoutFulfilled,
+  } = useSelector(state => {
+    return {
+      logoutPending: state.user.logoutPending,
+      logoutFulfilled: state.user.logoutFulfilled,
+    }
+  })
 
   const onLogout = () => {
     dispatch(logout());
-  };
+  }
+
+  useEffect(() => {
+    if (logoutFulfilled) history.replace('/login')
+  }, [history, logoutFulfilled])
+
+  if (logoutPending) return <Loader/>
 
   return (
     <ul className={styles.menu}>

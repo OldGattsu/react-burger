@@ -159,7 +159,6 @@ export default function BurgerConstructor() {
             ref={burgerConstructorScrollRef}
           >
             {selectedIngredients.map((ingredient, index) => {
-              console.log(ingredient)
               return ingredient.type !== 'bun'
                 ? (
                   <SelectedIngredientCard
