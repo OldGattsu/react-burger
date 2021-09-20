@@ -28,9 +28,14 @@ export default function Main() {
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation()
-  console.log('loc', location)
-
   const background = location.state && location.state.background
+
+  useEffect(() => {
+    history.replace({
+      state: { background: undefined },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const closeIngredientModal = () => {
     dispatch(unsetShownIngredient())
@@ -53,7 +58,7 @@ export default function Main() {
         styles.main,
         'pb-10',
       )}>
-        <Switch>
+        <Switch location={background || location}>
           <Route path="/" exact>
             <Home/>
           </Route>
@@ -76,24 +81,25 @@ export default function Main() {
             <Ingredient/>
           </Route>
         </Switch>
-        <Route exact path="/ingredients/:id">
+
         {/* {background && <Route path="/contact/:name" children={<Modal />} />} */}
           {background && isIngredientModalShow && (
-            <Modal
-              title="Детали ингредиента"
-              onClose={closeIngredientModal}
-            >
-              <IngredientDetails
-                name={shownIngredient.name}
-                imageLarge={shownIngredient.image_large}
-                calories={shownIngredient.calories}
-                proteins={shownIngredient.proteins}
-                fat={shownIngredient.fat}
-                carbohydrates={shownIngredient.carbohydrates}
-              />
-            </Modal>
+            <Route path="/ingredients/:id">
+              <Modal
+                title="Детали ингредиента"
+                onClose={closeIngredientModal}
+              >
+                <IngredientDetails
+                  name={shownIngredient.name}
+                  imageLarge={shownIngredient.image_large}
+                  calories={shownIngredient.calories}
+                  proteins={shownIngredient.proteins}
+                  fat={shownIngredient.fat}
+                  carbohydrates={shownIngredient.carbohydrates}
+                />
+              </Modal>
+            </Route>
           )}
-        </Route>
       </main>
     </>
   )

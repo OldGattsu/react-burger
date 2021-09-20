@@ -126,6 +126,7 @@ export default function BurgerIngredients() {
   const shownIngredient = useSelector(state => state.ingredient.data)
 
   const showIngredientModal = (ingredient) => {
+    console.log('halo')
     dispatch(setShownIngredient(ingredient))
     history.push({
       pathname: `/ingredients/${ingredient._id}`,
