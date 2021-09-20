@@ -8,6 +8,7 @@ import {
   updateUser,
   logout,
   refreshToken,
+  resetStatuses,
 } from "../actions/user"
 
 const initialState = {
@@ -52,6 +53,14 @@ const initialState = {
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
+    //reset statuses
+    .addCase(resetStatuses, (state, action) => {
+      const group = action.payload
+      state[`${group}Pending`] = false
+      state[`${group}Fulfilled`] = false
+      state[`${group}Rejected`] = false
+    })
+
     // registration
     .addCase(registration.pending, (state) => {
       state.registrationPending = true
@@ -94,6 +103,9 @@ const userReducer = createReducer(initialState, (builder) => {
       state.logoutFulfilled = true
       state.logoutPending = false
       state.isLoggedIn = false
+      state.user = null
+      state.accessToken = null
+      state.refreshToken = null
     })
     .addCase(logout.rejected, (state) => {
       state.logoutRejected = true

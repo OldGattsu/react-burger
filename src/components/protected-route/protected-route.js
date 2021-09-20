@@ -7,18 +7,16 @@ import { Route, Redirect } from 'react-router-dom'
 
 export default function ProtectedRoute({ children, ...rest }) {
   const dispatch = useDispatch();
-  const { isLoggedIn, isUserLoaded } = useSelector((state) => state.user);
+  const { isLoggedIn, isUserLoaded, user } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      dispatch(getUser());
-    }
-  }, [isLoggedIn, dispatch]);
+  // useEffect(() => {
+  //     dispatch(getUser());
+  // }, [isLoggedIn, user, dispatch]);
 
-  if (!isLoggedIn && !isUserLoaded) {
+  if (!isUserLoaded) {
     return null;
   }
-
+  console.log(isLoggedIn)
   return (
     <Route
       {...rest}

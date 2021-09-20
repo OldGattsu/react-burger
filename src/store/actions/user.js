@@ -16,6 +16,8 @@ import {
   deleteCookie
 } from '../../utils/methods'
 
+export const resetStatuses = createAction('user/resetStatuses')
+
 export const registration = createAsyncThunk(
   'user/registration',
   async(data) => sendRequest(REGISTRATION, {

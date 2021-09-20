@@ -4,6 +4,7 @@ import styles from './app.module.css'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { getIngredients } from './store/actions/ingredients'
+import { getUser } from './store/actions/user'
 import { unsetShownIngredient } from './store/actions/ingredient'
 
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
@@ -49,6 +50,7 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(getIngredients())
+    dispatch(getUser())
   }, [dispatch])
 
   return (
@@ -81,25 +83,23 @@ export default function Main() {
             <Ingredient/>
           </Route>
         </Switch>
-
-        {/* {background && <Route path="/contact/:name" children={<Modal />} />} */}
-          {background && isIngredientModalShow && (
-            <Route path="/ingredients/:id">
-              <Modal
-                title="Детали ингредиента"
-                onClose={closeIngredientModal}
-              >
-                <IngredientDetails
-                  name={shownIngredient.name}
-                  imageLarge={shownIngredient.image_large}
-                  calories={shownIngredient.calories}
-                  proteins={shownIngredient.proteins}
-                  fat={shownIngredient.fat}
-                  carbohydrates={shownIngredient.carbohydrates}
-                />
-              </Modal>
-            </Route>
-          )}
+        {background && isIngredientModalShow && (
+          <Route path="/ingredients/:id">
+            <Modal
+              title="Детали ингредиента"
+              onClose={closeIngredientModal}
+            >
+              <IngredientDetails
+                name={shownIngredient.name}
+                imageLarge={shownIngredient.image_large}
+                calories={shownIngredient.calories}
+                proteins={shownIngredient.proteins}
+                fat={shownIngredient.fat}
+                carbohydrates={shownIngredient.carbohydrates}
+              />
+            </Modal>
+          </Route>
+        )}
       </main>
     </>
   )

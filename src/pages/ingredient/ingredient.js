@@ -30,6 +30,7 @@ export default function Ingredient() {
   }, [id, ingredients])
 
   if (ingredientsPending) return (<Loader/>)
+
   if (ingredientsRejected) return (<div>error</div>)
 
   return (
