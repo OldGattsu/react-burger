@@ -1,29 +1,25 @@
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import clsx from 'clsx'
 import styles from '../../components/user-form/user-form.module.css'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { resetPassword } from '../../store/actions/user'
 
-import { Link, Redirect, useHistory } from "react-router-dom"
+import { Link, Redirect, useHistory } from 'react-router-dom'
 
 import {
   Input,
   PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components"
-import { UserFormContainer, UserForm, Loader } from  '../../components'
+} from '@ya.praktikum/react-developer-burger-ui-components'
+import { UserFormContainer, UserForm, Loader } from '../../components'
 
-import useForm from "../../hooks/useForm"
+import useForm from '../../hooks/useForm'
 
 export default function ResetPassword() {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const {
-    formValues,
-    onChangeForm,
-    resetForm,
-  } = useForm()
+  const { formValues, onChangeForm, resetForm } = useForm()
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -36,7 +32,7 @@ export default function ResetPassword() {
     forgotPasswordFulfilled,
     resetPasswordPending,
     resetPasswordFulfilled,
-  } = useSelector(state => {
+  } = useSelector((state) => {
     return {
       isLoggedIn: state.user.isLoggedIn,
       forgotPasswordFulfilled: state.user.forgotPasswordFulfilled,
@@ -46,38 +42,26 @@ export default function ResetPassword() {
   })
 
   useEffect(() => {
-    if (isLoggedIn) history.replace('/')
-  }, [history, isLoggedIn])
+    if (!forgotPasswordFulfilled || resetPasswordFulfilled)
+      history.replace('/login')
+  }, [history, resetPasswordFulfilled, forgotPasswordFulfilled])
 
-  useEffect(() => {
-    if (!forgotPasswordFulfilled
-      || resetPasswordFulfilled) history.replace('/login')
-  }, [
-      history,
-      resetPasswordFulfilled,
-      forgotPasswordFulfilled,
-    ])
+  if (isLoggedIn) return <Redirect to='/' />
 
-  if (resetPasswordPending) return (<Loader/>)
+  if (resetPasswordPending) return <Loader />
 
   return (
-    <UserFormContainer title="Восстановление пароля">
-      <UserForm buttonsName="Сохранить" onSubmit={onSubmit}>
-        <div className={clsx(
-          styles.userFormInput,
-          'mt-6',
-        )}>
+    <UserFormContainer title='Восстановление пароля'>
+      <UserForm buttonsName='Сохранить' onSubmit={onSubmit}>
+        <div className={clsx(styles.userFormInput, 'mt-6')}>
           <PasswordInput
             onChange={onChangeForm}
             value={formValues.password || ''}
-            name="password"
+            name='password'
             placeholder='Введите новый пароль'
           />
         </div>
-        <div className={clsx(
-          styles.userFormInput,
-          'mt-6',
-        )}>
+        <div className={clsx(styles.userFormInput, 'mt-6')}>
           <Input
             onChange={onChangeForm}
             value={formValues.token || ''}
@@ -87,12 +71,9 @@ export default function ResetPassword() {
           />
         </div>
       </UserForm>
-      <p className='text text_type_main-default mb-4'>
+      <p className={clsx('text', 'text_type_main-default', 'mb-4')}>
         Вспомнили пароль?&nbsp;
-        <Link
-          className={styles.userFormLink}
-          to='/login'
-        >
+        <Link className={styles.userFormLink} to='/login'>
           Войти
         </Link>
       </p>

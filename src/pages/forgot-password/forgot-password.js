@@ -61,7 +61,7 @@ export default function ForgotPassword() {
           />
         </div>
       </UserForm>
-      <p className='text text_type_main-default mb-4'>
+      <p className={clsx('text', 'text_type_main-default', 'mb-4')}>
         Вспомнили пароль?&nbsp;
         <Link className={styles.userFormLink} to='/login'>
           Войти

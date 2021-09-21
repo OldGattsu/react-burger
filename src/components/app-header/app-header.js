@@ -8,8 +8,7 @@ import {
   ListIcon,
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import Menu from '../menu/menu'
-import MenuLink from '../menu-link/menu-link'
+import { Menu, MenuLink } from '..'
 
 export default function AppHeader() {
   return (

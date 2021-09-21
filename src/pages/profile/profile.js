@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import clsx from 'clsx'
 
 import styles from './profile.module.css'
 import userFormStyles from '../../components/user-form/user-form.module.css'
@@ -43,7 +44,7 @@ export default function Profile() {
   useEffect(() => {
     if (!user) dispatch(getUser())
     resetForm(user)
-  }, [])
+  }, [dispatch, resetForm, user])
 
   if (!isUserLoaded) return <Loader />
 
@@ -66,14 +67,14 @@ export default function Profile() {
               icon={'EditIcon'}
             />
           </div>
-          <div className={`${userFormStyles.userFormInput} mt-6`}>
+          <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
             <EmailInput
               onChange={onChangeForm}
               value={formValues.email || ''}
               name={'email'}
             />
           </div>
-          <div className={`${userFormStyles.userFormInput} mt-6`}>
+          <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
             <PasswordInput
               onChange={onChangeForm}
               value={formValues.password || ''}

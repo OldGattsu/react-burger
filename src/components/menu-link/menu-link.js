@@ -5,7 +5,7 @@ import styles from './menu-link.module.css'
 
 import { useLocation, NavLink } from 'react-router-dom'
 
-export default function MenuLink ({name, to, icon, iconHover, first, last}) {
+export default function MenuLink({ name, to, icon, iconHover, first, last }) {
   const { pathname } = useLocation()
   const [isHover, setHover] = useState(false)
 
@@ -18,8 +18,10 @@ export default function MenuLink ({name, to, icon, iconHover, first, last}) {
         styles.menuLink,
         !first && 'pl-4',
         !last && 'pr-4',
-        'pt-4', 'pb-4',
-        'text', 'text_type_main-default',
+        'pt-4',
+        'pb-4',
+        'text',
+        'text_type_main-default'
       )}
       activeClassName={styles.menuLinkActive}
       to={to}
@@ -27,10 +29,7 @@ export default function MenuLink ({name, to, icon, iconHover, first, last}) {
       onMouseEnter={handleLinkMouseEnter}
       onMouseLeave={handleLinkMouseLeave}
     >
-      <span className={clsx(
-        styles.menuLinkIcon,
-        'mr-2',
-      )}>
+      <span className={clsx(styles.menuLinkIcon, 'mr-2')}>
         {isHover || pathname === to ? iconHover : icon}
       </span>
       <span className={styles.menuLinkName}>{name}</span>

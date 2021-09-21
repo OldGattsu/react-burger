@@ -14,7 +14,7 @@ import {
   ProtectedRoute,
   Modal,
   IngredientDetails,
- } from './components'
+} from './components'
 import {
   Home,
   Login,
@@ -34,16 +34,16 @@ export default function Main() {
   useEffect(() => {
     history.replace({
       state: { background: undefined },
-    });
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   const closeIngredientModal = () => {
     dispatch(unsetShownIngredient())
-    history.goBack();
+    history.goBack()
   }
 
-  const shownIngredient = useSelector(state => state.ingredient.data)
+  const shownIngredient = useSelector((state) => state.ingredient.data)
   const isIngredientModalShow = useMemo(() => {
     return Object.keys(shownIngredient).length > 0
   }, [shownIngredient])
@@ -55,40 +55,34 @@ export default function Main() {
 
   return (
     <>
-      <AppHeader/>
-      <main className={clsx(
-        styles.main,
-        'pb-10',
-      )}>
+      <AppHeader />
+      <main className={clsx(styles.main, 'pb-10')}>
         <Switch location={background || location}>
-          <Route path="/" exact>
-            <Home/>
+          <Route path='/' exact>
+            <Home />
           </Route>
-          <Route path="/login" exact>
-            <Login/>
+          <Route path='/login' exact>
+            <Login />
           </Route>
-          <Route path="/registration" exact>
-            <Registration/>
+          <Route path='/registration' exact>
+            <Registration />
           </Route>
-          <Route path="/forgot-password" exact>
-            <ForgotPassword/>
+          <Route path='/forgot-password' exact>
+            <ForgotPassword />
           </Route>
-          <Route path="/reset-password" exact>
-            <ResetPassword/>
+          <Route path='/reset-password' exact>
+            <ResetPassword />
           </Route>
-          <ProtectedRoute path="/profile">
-            <Profile/>
+          <ProtectedRoute path='/profile'>
+            <Profile />
           </ProtectedRoute>
-          <Route path="/ingredients/:id" exact>
-            <Ingredient/>
+          <Route path='/ingredients/:id' exact>
+            <Ingredient />
           </Route>
         </Switch>
         {background && isIngredientModalShow && (
-          <Route path="/ingredients/:id">
-            <Modal
-              title="Детали ингредиента"
-              onClose={closeIngredientModal}
-            >
+          <Route path='/ingredients/:id'>
+            <Modal title='Детали ингредиента' onClose={closeIngredientModal}>
               <IngredientDetails
                 name={shownIngredient.name}
                 imageLarge={shownIngredient.image_large}

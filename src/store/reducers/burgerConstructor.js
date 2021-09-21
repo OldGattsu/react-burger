@@ -21,7 +21,7 @@ const burgerConstructor = createReducer(initialState, (builder) => {
       if (newIngredient.type === 'bun') {
         state.selectedBun = newIngredient
       } else {
-        state.selectedIngredients.push({...newIngredient, subId: nanoid(4)})
+        state.selectedIngredients.push({ ...newIngredient, subId: nanoid(4) })
       }
     })
     .addCase(clearConstructor, (state) => {
@@ -29,15 +29,23 @@ const burgerConstructor = createReducer(initialState, (builder) => {
       state.selectedBun = null
     })
     .addCase(removeIngredient, (state, action) => {
-      state.selectedIngredients = state.selectedIngredients.filter((ingredient) => {
-        return !((ingredient._id === action.payload.id)
-          && (ingredient.subId === action.payload.subId))
-      })
+      state.selectedIngredients = state.selectedIngredients.filter(
+        (ingredient) => {
+          return !(
+            ingredient._id === action.payload.id &&
+            ingredient.subId === action.payload.subId
+          )
+        }
+      )
     })
     .addCase(sortIngredient, (state, action) => {
       const dragIngredient = state.selectedIngredients[action.payload.dragIndex]
       state.selectedIngredients.splice(action.payload.dragIndex, 1)
-      state.selectedIngredients.splice(action.payload.hoverIndex, 0, dragIngredient)
+      state.selectedIngredients.splice(
+        action.payload.hoverIndex,
+        0,
+        dragIngredient
+      )
     })
 })
 

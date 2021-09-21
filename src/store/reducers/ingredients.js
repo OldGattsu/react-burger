@@ -1,7 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {
-  getIngredients,
-} from "../actions/ingredients"
+import { getIngredients } from '../actions/ingredients'
 
 const initialState = {
   data: [],

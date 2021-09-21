@@ -48,9 +48,9 @@ export default function Registration() {
 
   if (!isUserLoaded) return null
 
-  if (isLoggedIn) return (<Redirect to='/' />)
+  if (isLoggedIn) return <Redirect to='/' />
 
-  if (registrationPending) return (<Loader />)
+  if (registrationPending) return <Loader />
 
   return (
     <UserFormContainer title='Регистрация'>
@@ -81,7 +81,7 @@ export default function Registration() {
           />
         </div>
       </UserForm>
-      <p className='text text_type_main-default mb-4'>
+      <p className={clsx('text', 'text_type_main-default', 'mb-4')}>
         Уже зарегистрированы?&nbsp;
         <Link className={styles.userFormLink} to='/login'>
           Войти

@@ -49,14 +49,14 @@ export default function Login() {
       dispatch(resetStatuses('login'))
       history.replace('/')
     }
-  }, [history, loginFulfilled])
+  }, [dispatch, history, loginFulfilled])
 
   useEffect(() => {
     if (loginRejected) {
       dispatch(resetStatuses('login'))
       resetForm()
     }
-  }, [loginRejected])
+  }, [dispatch, loginRejected, resetForm])
 
   if (!isUserLoaded) return null
 
@@ -84,13 +84,13 @@ export default function Login() {
           />
         </div>
       </UserForm>
-      <p className='text text_type_main-default mb-4'>
+      <p className={clsx('text', 'text_type_main-default', 'mb-4')}>
         Вы — новый пользователь?&nbsp;
         <Link className={styles.userFormLink} to='/registration'>
           Зарегистрироваться
         </Link>
       </p>
-      <p className='text text_type_main-default'>
+      <p className={clsx('text', 'text_type_main-default')}>
         Забыли пароль?&nbsp;
         <Link className={styles.userFormLink} to='/forgot-password'>
           Восстановить пароль

@@ -7,9 +7,8 @@ import {
   getUser,
   updateUser,
   logout,
-  refreshToken,
   resetStatuses,
-} from "../actions/user"
+} from '../actions/user'
 
 const initialState = {
   user: null,
