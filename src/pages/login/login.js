@@ -46,7 +46,7 @@ export default function Login() {
   useEffect(() => {
     if (loginFulfilled) {
       dispatch(resetStatuses('login'))
-      history.replace((location.state && location.state.from) || '/profile')
+      history.replace((location.state && location.state.from) || '/')
     }
   }, [dispatch, history, loginFulfilled, location.state])
 
