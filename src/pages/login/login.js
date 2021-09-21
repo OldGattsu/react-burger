@@ -5,7 +5,7 @@ import styles from '../../components/user-form/user-form.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, resetStatuses } from '../../store/actions/user'
 
-import { Link, Redirect, useHistory } from 'react-router-dom'
+import { Link, Redirect, useLocation, useHistory } from 'react-router-dom'
 import {
   Input,
   PasswordInput,
@@ -16,6 +16,7 @@ import useForm from '../../hooks/useForm'
 
 export default function Login() {
   const dispatch = useDispatch()
+  const location = useLocation()
   const history = useHistory()
 
   const { formValues, onChangeForm, resetForm } = useForm()
@@ -42,14 +43,12 @@ export default function Login() {
     }
   })
 
-  console.log('isloggedin', isLoggedIn)
-
   useEffect(() => {
     if (loginFulfilled) {
       dispatch(resetStatuses('login'))
-      history.replace('/')
+      history.replace((location.state && location.state.from) || '/profile')
     }
-  }, [dispatch, history, loginFulfilled])
+  }, [dispatch, history, loginFulfilled, location.state])
 
   useEffect(() => {
     if (loginRejected) {

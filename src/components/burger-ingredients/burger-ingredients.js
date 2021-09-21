@@ -131,7 +131,6 @@ export default function BurgerIngredients() {
 
   // ingredient details
   const showIngredientModal = (ingredient) => {
-    console.log('halo')
     dispatch(setShownIngredient(ingredient))
     history.push({
       pathname: `/ingredients/${ingredient._id}`,

@@ -11,6 +11,8 @@ import {
 } from '../../store/actions/burgerConstructor'
 import { getOrderId, clearOrderId } from '../../store/actions/order'
 
+import { useHistory, useLocation } from 'react-router-dom'
+
 import { useDrop } from 'react-dnd'
 
 import {
@@ -30,6 +32,10 @@ import { getScrollBoxHeight } from '../../utils/methods'
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch()
+  const history = useHistory()
+  const location = useLocation()
+
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn)
 
   // get ingredients from store
   const { selectedIngredients, selectedBun } = useSelector((state) => {
@@ -92,16 +98,20 @@ export default function BurgerConstructor() {
   })
 
   const getIngredientsIds = () => {
-    const ingredientsIds = selectedIngredients.map((ingredient) => {
-      return ingredient._id
-    })
+    const ingredientsIds = selectedIngredients.map(
+      (ingredient) => ingredient._id
+    )
 
     return { ingredients: ingredientsIds }
   }
 
   const showOrderModal = () => {
-    const ids = getIngredientsIds()
-    dispatch(getOrderId(ids))
+    if (!isLoggedIn) {
+      history.push('/login', { from: location })
+    } else {
+      const ids = getIngredientsIds()
+      dispatch(getOrderId(ids))
+    }
   }
 
   const closeOrderModal = () => {

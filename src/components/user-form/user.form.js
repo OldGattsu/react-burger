@@ -15,7 +15,7 @@ export default function UserForm({
     <form className={clsx(styles.userForm, className)} onSubmit={onSubmit}>
       <fieldset className={styles.userFormFieldset}>{children}</fieldset>
       <div className={clsx('mt-6', 'mb-20')}>
-        {buttonsName && buttonsName.isArray ? (
+        {buttonsName && Array.isArray(buttonsName) ? (
           <div className={styles.userFormButtons}>
             <Button type='secondary' size='medium' onClick={onReset}>
               {buttonsName[0]}

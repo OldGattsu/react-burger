@@ -1,27 +1,17 @@
 import clsx from 'clsx'
 import styles from './profile-nav.module.css'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logout } from '../../store/actions/user'
 
 import { NavLink } from 'react-router-dom'
 
-import Loader from '../loader/loader'
-
 export default function ProfileNav() {
   const dispatch = useDispatch()
-
-  const { logoutPending } = useSelector((state) => {
-    return {
-      logoutPending: state.user.logoutPending,
-    }
-  })
 
   const onLogout = () => {
     dispatch(logout())
   }
-
-  if (logoutPending) return <Loader />
 
   return (
     <nav className={styles.nav}>
