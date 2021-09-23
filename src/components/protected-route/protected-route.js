@@ -3,10 +3,12 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetStatuses } from '../../store/actions/user'
 
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, useLocation } from 'react-router-dom'
 
 export default function ProtectedRoute({ children, ...rest }) {
   const dispatch = useDispatch()
+  const location = useLocation()
+
   const { isLoggedIn, isUserLoaded, logoutFulfilled } = useSelector((state) => {
     return {
       isLoggedIn: state.user.isLoggedIn,
@@ -26,7 +28,20 @@ export default function ProtectedRoute({ children, ...rest }) {
   return (
     <Route
       {...rest}
-      render={() => (isLoggedIn ? children : <Redirect to='/login' />)}
+      render={() =>
+        isLoggedIn ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: {
+                from: location,
+              },
+            }}
+          />
+        )
+      }
     />
   )
 }

@@ -3,9 +3,9 @@ import clsx from 'clsx'
 import styles from './app.module.css'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getIngredients } from './store/actions/ingredients'
-import { getUser } from './store/actions/user'
-import { unsetShownIngredient } from './store/actions/ingredient'
+import { getIngredients } from '../../store/actions/ingredients'
+import { getUser } from '../../store/actions/user'
+import { unsetShownIngredient } from '../../store/actions/ingredient'
 
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
 
@@ -14,7 +14,7 @@ import {
   ProtectedRoute,
   Modal,
   IngredientDetails,
-} from './components'
+} from '..'
 import {
   Home,
   Login,
@@ -23,7 +23,7 @@ import {
   ResetPassword,
   Profile,
   Ingredient,
-} from './pages'
+} from '../../pages'
 
 export default function Main() {
   const dispatch = useDispatch()
