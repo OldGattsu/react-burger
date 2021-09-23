@@ -1,8 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {
-  getOrderId,
-  clearOrderId,
-} from '../actions/order'
+import { getOrderId, clearOrderId } from '../actions/order'
 
 const initialState = {
   orderId: null,

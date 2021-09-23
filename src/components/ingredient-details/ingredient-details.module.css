@@ -9,6 +9,11 @@
   text-align: center;
 }
 
+.ingredientImage{
+  display: block;
+  min-height: 240px;
+}
+
 .ingredientEnergy {
   display: grid;
   grid-auto-flow: column;

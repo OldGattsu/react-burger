@@ -26,8 +26,18 @@
   cursor: pointer;
 }
 
+:global(.constructor-element__text) {
+  flex-grow: 1;
+}
+
+:global(.input__container) {
+  flex-grow: 1;
+}
+
+:global(.input_size_default) {
+  min-width: 100%;
+}
+
 .main {
   composes: container from '../../base.module.css';
-  display: flex;
-  justify-content: space-between;
 }

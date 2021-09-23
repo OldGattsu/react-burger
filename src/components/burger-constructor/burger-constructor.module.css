@@ -6,7 +6,7 @@
 }
 
 .burgerConstructorScroll {
-  overflow-y: auto;
+  overflow-y: overlay;
 }
 
 .burgerConstructorScroll::-webkit-scrollbar {

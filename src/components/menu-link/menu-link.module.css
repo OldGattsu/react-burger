@@ -9,6 +9,10 @@
   color: #8585AD;
 }
 
+.menuLinkActive {
+  color: #8585AD;
+}
+
 .menuLinkIcon{
   display: flex;
 }

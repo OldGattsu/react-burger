@@ -7,42 +7,45 @@ import {
   clearConstructor,
 } from '../actions/burgerConstructor'
 
+import { nanoid } from 'nanoid'
+
 const initialState = {
-  data: [],
+  selectedIngredients: [],
+  selectedBun: null,
 }
 
 const burgerConstructor = createReducer(initialState, (builder) => {
   builder
     .addCase(addIngredient, (state, action) => {
-      const selectedInredient = action.payload
-      const hasBun = state.data.find((ingredient) => {
-        return ingredient.type === 'bun'
-      })
-      if (selectedInredient.type === 'bun' && hasBun) {
-        const bunIndex = state.data.findIndex((ingredient) => {
-          return ingredient.type === 'bun'
-        })
-        state.data[bunIndex] = selectedInredient
+      const newIngredient = action.payload
+      if (newIngredient.type === 'bun') {
+        state.selectedBun = newIngredient
       } else {
-        const countSameIngredients = state.data.filter((ingredient) => {
-          return ingredient._id === selectedInredient._id
-        }).length
-        state.data.push({...selectedInredient, index: countSameIngredients})
+        state.selectedIngredients.push({ ...newIngredient, subId: nanoid(4) })
       }
     })
-    .addCase(clearConstructor, (state, action) => {
-      state.data = []
+    .addCase(clearConstructor, (state) => {
+      state.selectedIngredients = []
+      state.selectedBun = null
     })
     .addCase(removeIngredient, (state, action) => {
-      state.data = state.data.filter((ingredient) => {
-        return !((ingredient._id === action.payload.id)
-          && (ingredient.index === action.payload.index))
-      })
+      state.selectedIngredients = state.selectedIngredients.filter(
+        (ingredient) => {
+          return !(
+            ingredient._id === action.payload.id &&
+            ingredient.subId === action.payload.subId
+          )
+        }
+      )
     })
     .addCase(sortIngredient, (state, action) => {
-      const dragIngredient = state.data[action.payload.dragIndex]
-      state.data.splice(action.payload.dragIndex, 1)
-      state.data.splice(action.payload.hoverIndex, 0, dragIngredient)
+      const dragIngredient = state.selectedIngredients[action.payload.dragIndex]
+      state.selectedIngredients.splice(action.payload.dragIndex, 1)
+      state.selectedIngredients.splice(
+        action.payload.hoverIndex,
+        0,
+        dragIngredient
+      )
     })
 })
 

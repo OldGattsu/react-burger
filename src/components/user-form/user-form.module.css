@@ -1,0 +1,27 @@
+.userForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.userFormFieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.userFormButtons {
+  align-self: flex-end;
+}
+
+.userFormInput {
+  display: flex;
+}
+
+.userFormLink {
+  text-decoration: none;
+  color: #4C4CFF;
+}

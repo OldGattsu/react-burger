@@ -1,54 +1,100 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import clsx from 'clsx'
 import styles from './app.module.css'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getIngredients } from '../../store/actions/ingredients'
+import { getUser } from '../../store/actions/user'
+import { unsetShownIngredient } from '../../store/actions/ingredient'
 
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
 
-import AppHeader from '../app-header/app-header'
-import BurgerIngredients from '../burger-ingredients/burger-ingredients'
-import BurgerConstructor from '../burger-constructor/burger-constructor'
-import Loader from '../loader/loader'
+import {
+  AppHeader,
+  ProtectedRoute,
+  Modal,
+  IngredientDetails,
+} from '..'
+import {
+  Home,
+  Login,
+  Registration,
+  ForgotPassword,
+  ResetPassword,
+  Profile,
+  Ingredient,
+} from '../../pages'
 
-export default function App() {
+export default function Main() {
   const dispatch = useDispatch()
-  const {
-    ingredientsPending,
-    ingredientsFulfilled,
-    ingredientsRejected,
-  } = useSelector(state => {
-    return {
-      ingredients: state.ingredients.data,
-      ingredientsPending: state.ingredients.ingredientsPending,
-      ingredientsFulfilled: state.ingredients.ingredientsFulfilled,
-      ingredientsRejected: state.ingredients.ingredientsRejected,
-    }
-  })
+  const history = useHistory()
+  const location = useLocation()
+  const background = location.state && location.state.background
+
+  useEffect(() => {
+    history.replace({
+      state: { background: undefined },
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const closeIngredientModal = () => {
+    dispatch(unsetShownIngredient())
+    history.goBack()
+  }
+
+  const shownIngredient = useSelector((state) => state.ingredient.data)
+  const isIngredientModalShow = useMemo(() => {
+    return Object.keys(shownIngredient).length > 0
+  }, [shownIngredient])
+
   useEffect(() => {
     dispatch(getIngredients())
+    dispatch(getUser())
   }, [dispatch])
 
   return (
-    <div>
-      <AppHeader/>
-      <main className={clsx(
-        styles.main,
-        'pb-10',
-      )}>
-        {ingredientsPending && (<Loader noBlackout/>)}
-        {ingredientsRejected && (<div>error</div>)}
-        {ingredientsFulfilled && (
-          <>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients/>
-              <BurgerConstructor/>
-            </DndProvider>
-          </>
+    <>
+      <AppHeader />
+      <main className={clsx(styles.main, 'pb-10')}>
+        <Switch location={background || location}>
+          <Route path='/' exact>
+            <Home />
+          </Route>
+          <Route path='/login' exact>
+            <Login />
+          </Route>
+          <Route path='/registration' exact>
+            <Registration />
+          </Route>
+          <Route path='/forgot-password' exact>
+            <ForgotPassword />
+          </Route>
+          <Route path='/reset-password' exact>
+            <ResetPassword />
+          </Route>
+          <ProtectedRoute path='/profile'>
+            <Profile />
+          </ProtectedRoute>
+          <Route path='/ingredients/:id' exact>
+            <Ingredient />
+          </Route>
+        </Switch>
+        {background && isIngredientModalShow && (
+          <Route path='/ingredients/:id'>
+            <Modal title='Детали ингредиента' onClose={closeIngredientModal}>
+              <IngredientDetails
+                name={shownIngredient.name}
+                imageLarge={shownIngredient.image_large}
+                calories={shownIngredient.calories}
+                proteins={shownIngredient.proteins}
+                fat={shownIngredient.fat}
+                carbohydrates={shownIngredient.carbohydrates}
+              />
+            </Modal>
+          </Route>
         )}
       </main>
-    </div>
-  );
+    </>
+  )
 }

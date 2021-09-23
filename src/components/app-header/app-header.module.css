@@ -1,4 +1,8 @@
 .appHeader {
+  background-color: #1C1C21;
+}
+
+.appHeaderContainer {
   composes: container from '../../base.module.css';
   display: flex;
   justify-content: space-between;

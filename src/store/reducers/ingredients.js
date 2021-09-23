@@ -1,10 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {
-  getIngredients,
-  incrementIngredientCount,
-  decrementIngredientCount,
-  clearIngredientsCounters,
-} from "../actions/ingredients"
+import { getIngredients } from '../actions/ingredients'
 
 const initialState = {
   data: [],
@@ -27,34 +22,6 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
     .addCase(getIngredients.rejected, (state) => {
       state.ingredientsRejected = true
       state.ingredientsPending = false
-    })
-    .addCase(incrementIngredientCount, (state, action) => {
-      const ingredientIndex = state.data.findIndex((ingredient) => {
-        return ingredient._id === action.payload.id
-      })
-      if (state.data[ingredientIndex].type !== 'bun') {
-        state.data[ingredientIndex].count > 0
-          ? state.data[ingredientIndex].count++
-          : state.data[ingredientIndex].count = 1
-      } else {
-        state.data.forEach(ingredient => {
-          if (ingredient.type === 'bun') ingredient.count = 0
-        })
-        state.data[ingredientIndex].count = 2
-      }
-    })
-    .addCase(decrementIngredientCount, (state, action) => {
-      const ingredientIndex = state.data.findIndex((ingredient) => {
-        return ingredient._id === action.payload
-      })
-      if (state.data[ingredientIndex].count) {
-        state.data[ingredientIndex].count--
-      }
-    })
-    .addCase(clearIngredientsCounters, (state) => {
-      state.data.forEach(ingredient => {
-        if (ingredient.count > 0) ingredient.count = 0
-      })
     })
 })
 
