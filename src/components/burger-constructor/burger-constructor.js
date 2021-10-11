@@ -75,8 +75,8 @@ export default function BurgerConstructor() {
     collect: (monitor) => ({
       isDropping: monitor.isOver(),
     }),
-    drop(id) {
-      dispatch(moveIngredient(id))
+    drop(item) {
+      dispatch(moveIngredient(item))
     },
   })
 
