@@ -1,7 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { getIngredients } from '../actions/ingredients'
 
-const initialState = {
+import { TIngredients } from '../../types/ingredient'
+
+export interface IIngredientsState {
+  data: TIngredients,
+  ingredientsPending: boolean,
+  ingredientsFulfilled: boolean,
+  ingredientsRejected: boolean,
+}
+
+const initialState: IIngredientsState = {
   data: [],
   ingredientsPending: false,
   ingredientsFulfilled: false,
@@ -14,7 +23,7 @@ const ingredientsReducer = createReducer(initialState, (builder) => {
       state.ingredientsPending = true
     })
     .addCase(getIngredients.fulfilled, (state, action) => {
-      state.data = action.payload.data
+      state.data = action.payload
       state.ingredientsFulfilled = true
       state.ingredientsPending = false
       state.ingredientsRejected = false

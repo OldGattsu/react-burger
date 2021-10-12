@@ -1,7 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { getOrderId, clearOrderId } from '../actions/order'
 
-const initialState = {
+export interface IOrderState {
+  orderId: number | null
+  orderPending: boolean
+  orderFulfilled: boolean
+  orderRejected: boolean
+}
+
+const initialState: IOrderState = {
   orderId: null,
   orderPending: false,
   orderFulfilled: false,

@@ -9,7 +9,14 @@ import {
 
 import { nanoid } from 'nanoid'
 
-const initialState = {
+import { IIngredient } from '../../types/ingredient'
+
+export interface IBurgerConstructorState {
+  selectedIngredients: IIngredient[]
+  selectedBun: IIngredient | null
+}
+
+const initialState: IBurgerConstructorState = {
   selectedIngredients: [],
   selectedBun: null,
 }
@@ -30,7 +37,7 @@ const burgerConstructor = createReducer(initialState, (builder) => {
     })
     .addCase(removeIngredient, (state, action) => {
       state.selectedIngredients = state.selectedIngredients.filter(
-        (ingredient) => {
+        (ingredient: IIngredient) => {
           return !(
             ingredient._id === action.payload.id &&
             ingredient.subId === action.payload.subId

@@ -2,19 +2,14 @@ import { useEffect, useMemo } from 'react'
 import clsx from 'clsx'
 import styles from './app.module.css'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../store/hooks'
 import { getIngredients } from '../../store/actions/ingredients'
 import { getUser } from '../../store/actions/user'
 import { unsetShownIngredient } from '../../store/actions/ingredient'
 
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
 
-import {
-  AppHeader,
-  ProtectedRoute,
-  Modal,
-  IngredientDetails,
-} from '..'
+import { AppHeader, ProtectedRoute, Modal, IngredientDetails } from '..'
 import {
   Home,
   Login,
@@ -28,7 +23,7 @@ import {
 export default function Main() {
   const dispatch = useDispatch()
   const history = useHistory()
-  const location = useLocation()
+  const location = useLocation<{ background: undefined }>()
   const background = location.state && location.state.background
 
   useEffect(() => {

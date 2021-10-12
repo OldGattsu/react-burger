@@ -1,7 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { setShownIngredient, unsetShownIngredient } from '../actions/ingredient'
 
-const initialState = {
+import { IIngredient } from '../../types/ingredient'
+
+export interface IIngredientState {
+  data: IIngredient | {}
+}
+
+const initialState: IIngredientState = {
   data: {},
 }
 

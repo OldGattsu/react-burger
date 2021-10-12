@@ -1,11 +1,11 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { sendRequest, ORDERS } from '../../utils/api-helper'
-import { IIngredient } from '../../types/ingredient'
+import { IOrder } from '../../types/order'
+import { IThunkApi } from '../types'
 
-
-export const getOrderId = createAsyncThunk<IIngredient, number[]>(
+export const getOrderId = createAsyncThunk<IOrder, number[], IThunkApi>(
   'order/getOrderId',
-  async (ids: number[]) =>
+  async (ids) =>
     sendRequest(ORDERS, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -13,4 +13,4 @@ export const getOrderId = createAsyncThunk<IIngredient, number[]>(
     })
 )
 
-export const clearOrderId = createAction('order/clearOrder')
+export const clearOrderId = createAction<void>('order/clearOrder')

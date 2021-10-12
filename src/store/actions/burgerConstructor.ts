@@ -3,14 +3,14 @@ import { AppDispatch, RootState } from '../types'
 import { IIngredient, TIngredients } from '../../types/ingredient'
 
 export interface IRemoveIngredient {
-  readonly id: number
-  readonly subId: number
+  id: string
+  subId: string
 }
 
 export interface ISortIngredient {
-  readonly id: number
-  readonly dragIndex: number
-  readonly hoverIndex: number
+  id: number
+  dragIndex: number
+  hoverIndex: number
 }
 
 export const addIngredient = createAction<IIngredient>(
@@ -22,7 +22,7 @@ export const removeIngredient = createAction<IRemoveIngredient>(
 export const sortIngredient = createAction<ISortIngredient>(
   'burgerConstructor/sortIngredient'
 )
-export const clearConstructor = createAction(
+export const clearConstructor = createAction<void>(
   'burgerConstructor/clearConstructor'
 )
 

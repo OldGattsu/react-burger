@@ -1,6 +1,7 @@
 export interface IIngredient {
   _id: string
   id?: string
+  subId?: string,
   key?: string
   name: string
   type: string

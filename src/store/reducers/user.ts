@@ -10,7 +10,49 @@ import {
   resetStatuses,
 } from '../actions/user'
 
-const initialState = {
+import { IUser } from '../../types/user'
+
+export interface IUserState {
+  user: IUser | null,
+  isLoggedIn: boolean,
+  isUserLoaded: boolean,
+  accessToken: string | null,
+  refreshToken: string | null,
+
+  registrationPending: boolean,
+  registrationFulfilled: boolean,
+  registrationRejected: boolean,
+
+  loginPending: boolean,
+  loginFulfilled: boolean,
+  loginRejected: boolean,
+
+  forgotPasswordPending: boolean,
+  forgotPasswordFulfilled: boolean,
+  forgotPasswordRejected: boolean,
+
+  resetPasswordPending: boolean,
+  resetPasswordFulfilled: boolean,
+  resetPasswordRejected: boolean,
+
+  getUserPending: boolean,
+  getUserFulfilled: boolean,
+  getUserRejected: boolean,
+
+  updateUserPending: boolean,
+  updateUserFulfilled: boolean,
+  updateUserRejected: boolean,
+
+  logoutPending: boolean,
+  logoutFulfilled: boolean,
+  logoutRejected: boolean,
+
+  refreshTokenPending: boolean,
+  refreshTokenFulfilled: boolean,
+  refreshTokenRejected: boolean,
+}
+
+const initialState: IUserState = {
   user: null,
   isLoggedIn: false,
   isUserLoaded: false,
@@ -55,9 +97,12 @@ const userReducer = createReducer(initialState, (builder) => {
     //reset statuses
     .addCase(resetStatuses, (state, action) => {
       const group = action.payload
+      // @ts-ignore
       state[`${group}Pending`] = false
+      // @ts-ignore
       state[`${group}Fulfilled`] = false
-      state[`${group}Rejected`] = false
+      // @ts-ignore
+      state[`${group}Rejected`] = false // @ts-ignore
     })
 
     // registration
@@ -67,7 +112,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(registration.fulfilled, (state, action) => {
       state.registrationFulfilled = true
       state.registrationPending = false
-      state.user = action.payload
+      state.user = action.payload.user
       state.accessToken = action.payload.accessToken
       state.refreshToken = action.payload.refreshToken
       state.isLoggedIn = true
@@ -84,7 +129,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.fulfilled, (state, action) => {
       state.loginFulfilled = true
       state.loginPending = false
-      state.user = action.payload
+      state.user = action.payload.user
       state.accessToken = action.payload.accessToken
       state.refreshToken = action.payload.refreshToken
       state.isLoggedIn = true
