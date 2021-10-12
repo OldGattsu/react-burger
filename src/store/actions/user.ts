@@ -90,7 +90,7 @@ export const logout = createAsyncThunk<
   })
 )
 
-export const refreshToken = createAsyncThunk<ISuccessMessage | void, void, any>(
+export const refreshToken = createAsyncThunk<ISuccessMessage | void, void, IThunkApi>(
   'user/refreshToken',
   async (_, { dispatch, rejectWithValue }) =>
     sendRequest(REFRESH_TOKEN, {
