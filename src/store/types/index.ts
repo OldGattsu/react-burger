@@ -7,5 +7,4 @@ export type AppDispatch = typeof store.dispatch
 export interface IThunkApi {
   dispatch: AppDispatch
   state: RootState
-  rejectWithValue: any
 }

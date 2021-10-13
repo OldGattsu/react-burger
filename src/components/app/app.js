@@ -18,12 +18,13 @@ import {
   ResetPassword,
   Profile,
   Ingredient,
+  FeedPage,
 } from '../../pages'
 
 export default function Main() {
   const dispatch = useDispatch()
   const history = useHistory()
-  const location = useLocation<{ background: undefined }>()
+  const location = useLocation()
   const background = location.state && location.state.background
 
   useEffect(() => {
@@ -73,6 +74,9 @@ export default function Main() {
           </ProtectedRoute>
           <Route path='/ingredients/:id' exact>
             <Ingredient />
+          </Route>
+          <Route path='/feed' exact>
+            <FeedPage />
           </Route>
         </Switch>
         {background && isIngredientModalShow && (

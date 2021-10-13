@@ -5,6 +5,7 @@ import burgerConstructor from './burgerConstructor'
 import ingredient from './ingredient'
 import order from './order'
 import user from './user'
+import websocket from './ws'
 
 const rootReducer = combineReducers({
   ingredients,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   ingredient,
   order,
   user,
+  websocket,
 })
 
 export default rootReducer

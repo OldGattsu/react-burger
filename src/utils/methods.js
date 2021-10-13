@@ -53,3 +53,22 @@ export function setCookie(name, value, props) {
 export function deleteCookie(name) {
   setCookie(name, null, { expires: -1 })
 }
+
+// function isValidDate(date) {
+//   const dateWrapper = new Date(date);
+//   return !isNaN(dateWrapper.getDate());
+// }
+
+
+// export function formatDate(date) {
+//   if (!isValidDate(date)) return null;
+
+//   const oldDate = DateTime.fromISO(date);
+//   const timeZone = oldDate.offsetNameShort;
+//   const time = oldDate.toLocaleString(DateTime.TIME_24_SIMPLE);
+//   const day = oldDate.toRelativeCalendar();
+
+//   const newDate = `${day}, ${time} ${timeZone}`;
+
+//   return newDate;
+// }
