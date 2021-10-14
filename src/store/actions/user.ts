@@ -90,7 +90,7 @@ export const logout = createAsyncThunk<
   })
 )
 
-export const refreshToken = createAsyncThunk<ISuccessMessage | void, void, any>(
+export const refreshToken = createAsyncThunk<ISuccessMessage | void, void, IThunkApi>(
   'user/refreshToken',
   async (_, { dispatch, rejectWithValue }) =>
     sendRequest(REFRESH_TOKEN, {
@@ -108,7 +108,7 @@ export const refreshToken = createAsyncThunk<ISuccessMessage | void, void, any>(
       })
 )
 
-export const getUser = createAsyncThunk<{ user: IUser }, void, any>(
+export const getUser = createAsyncThunk<{ user: IUser }, void, IThunkApi>(
   'user/getUser',
   async (_, { dispatch, rejectWithValue }) =>
     await sendRequest(USER, {
@@ -123,7 +123,7 @@ export const getUser = createAsyncThunk<{ user: IUser }, void, any>(
     })
 )
 
-export const updateUser = createAsyncThunk<{ user: IUser }, IUser, any>(
+export const updateUser = createAsyncThunk<{ user: IUser }, IUser, IThunkApi>(
   'user/updateUser',
   async (data) =>
     sendRequest(USER, {
