@@ -1,8 +1,11 @@
-import { useSelector } from 'react-redux'
+import { FC } from 'react'
+import { useSelector } from '../../store/hooks'
 import statsStyles from './stats.module.css'
 
-function Stats() {
-  const { orders } = useSelector((state) => state.ws)
+import { Loader } from '..'
+
+const Stats: FC = () => {
+  const { orders } = useSelector((state) => state.websocket)
 
   const finishedOrders = orders.orders
     .filter((order) => order.status === 'done')
@@ -11,6 +14,10 @@ function Stats() {
   const inWorkOrders = orders.orders
     .filter((order) => order.status === 'pending')
     .slice(0, 20)
+
+  if (orders.orders.length === 0) {
+    return <Loader />
+  }
 
   return (
     <>

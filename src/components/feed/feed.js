@@ -3,7 +3,7 @@ import { OrderCard } from '..'
 import feedStyles from './feed.module.css'
 
 function Feed() {
-  const { orders } = useSelector((state) => state.ws)
+  const { orders } = useSelector((state) => state.websocket)
 
   return (
     <section>

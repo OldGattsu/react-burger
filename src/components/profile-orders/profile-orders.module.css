@@ -1,7 +1,6 @@
-.orders {
+.section {
   overflow-y: auto;
   max-height: calc(100vh - 202px);
   display: grid;
   gap: 24px;
-  padding-right: 8px;
 }

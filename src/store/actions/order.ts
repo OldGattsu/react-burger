@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { sendRequest, ORDERS } from '../../utils/api-helper'
-import { IOrder } from '../../types/order'
+import { IOrder } from '../types/order'
 import { IThunkApi } from '../types'
 
 export const getOrderId = createAsyncThunk<IOrder, number[], IThunkApi>(
@@ -14,3 +14,6 @@ export const getOrderId = createAsyncThunk<IOrder, number[], IThunkApi>(
 )
 
 export const clearOrderId = createAction<void>('order/clearOrder')
+
+export const showOrderModal = createAction<IOrder>('order/showModal')
+export const closeOrderModal = createAction<void>('order/closeModal')

@@ -1,12 +1,14 @@
 import clsx from 'clsx'
 import styles from './profile-nav.module.css'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../store/hooks'
 import { logout } from '../../store/actions/user'
 
 import { NavLink } from 'react-router-dom'
 
-export default function ProfileNav() {
+import { FC } from 'react'
+
+const ProfileNav: FC = () => {
   const dispatch = useDispatch()
 
   const onLogout = () => {
@@ -57,3 +59,5 @@ export default function ProfileNav() {
     </nav>
   )
 }
+
+export default ProfileNav

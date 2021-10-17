@@ -15,7 +15,7 @@ import {
   Input,
   Loader,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { UserForm, ProfileNav } from '../../components'
+import { UserForm, ProfileNav, ProfileOrders, Order } from '../../components'
 
 import useForm from '../../hooks/useForm'
 
@@ -49,40 +49,51 @@ export default function Profile() {
   if (!isUserLoaded) return <Loader />
 
   return (
-    <Route exact path={path}>
-      <section className={styles.grid}>
-        <ProfileNav />
-        <UserForm
-          className={styles.form}
-          buttonsName={['Отмена', 'Сохранить']}
-          onSubmit={onSubmit}
-          onReset={onReset}
-        >
-          <div className={userFormStyles.userFormInput}>
-            <Input
-              onChange={onChangeForm}
-              value={formValues.name || ''}
-              name={'name'}
-              placeholder='Имя'
-              icon={'EditIcon'}
-            />
-          </div>
-          <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
-            <EmailInput
-              onChange={onChangeForm}
-              value={formValues.email || ''}
-              name={'email'}
-            />
-          </div>
-          <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
-            <PasswordInput
-              onChange={onChangeForm}
-              value={formValues.password || ''}
-              name={'password'}
-            />
-          </div>
-        </UserForm>
-      </section>
-    </Route>
+    <>
+      <Route exact path={path}>
+        <section className={styles.grid}>
+          <ProfileNav />
+          <UserForm
+            className={styles.form}
+            buttonsName={['Отмена', 'Сохранить']}
+            onSubmit={onSubmit}
+            onReset={onReset}
+          >
+            <div className={userFormStyles.userFormInput}>
+              <Input
+                onChange={onChangeForm}
+                value={formValues.name || ''}
+                name={'name'}
+                placeholder='Имя'
+                icon={'EditIcon'}
+              />
+            </div>
+            <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
+              <EmailInput
+                onChange={onChangeForm}
+                value={formValues.email || ''}
+                name={'email'}
+              />
+            </div>
+            <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
+              <PasswordInput
+                onChange={onChangeForm}
+                value={formValues.password || ''}
+                name={'password'}
+              />
+            </div>
+          </UserForm>
+        </section>
+      </Route>
+      <Route exact path={`${path}/orders`}>
+        <section className={styles.grid}>
+          <ProfileNav />
+          <ProfileOrders />
+        </section>
+      </Route>
+      <Route exact path={`${path}/orders/:id`}>
+        <Order />
+      </Route>
+    </>
   )
 }

@@ -1,15 +1,16 @@
-import { useRef, useEffect } from 'react'
-import propTypes from 'prop-types'
+import { useRef, useEffect, FC, KeyboardEvent } from 'react'
 import clsx from 'clsx'
 import styles from './modal.module.css'
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ModalOverlay } from '..'
 
-export default function Modal({ children, title, onClose }) {
+import IModal from './modal.types'
+
+const Modal: FC<IModal> = ({ children, title, onClose }) => {
   const modalRef = useRef(null)
 
-  const handleEscClose = (e) => {
+  const handleEscClose = (e: any): void => {
     if (e.keyCode === 27) onClose()
   }
 
@@ -56,8 +57,4 @@ export default function Modal({ children, title, onClose }) {
   )
 }
 
-Modal.propTypes = {
-  children: propTypes.node.isRequired,
-  title: propTypes.string,
-  onClose: propTypes.func.isRequired,
-}
+export default Modal

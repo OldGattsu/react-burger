@@ -1,11 +1,14 @@
 import { useEffect } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../store/hooks'
 import { resetStatuses } from '../../store/actions/user'
 
 import { Route, Redirect, useLocation } from 'react-router-dom'
 
-export default function ProtectedRoute({ children, ...rest }) {
+import { FC } from 'react'
+import IProtectedRoute from './protected-route.types'
+
+const ProtectedRoute: FC<IProtectedRoute> = ({ children, ...rest }) => {
   const dispatch = useDispatch()
   const location = useLocation()
 

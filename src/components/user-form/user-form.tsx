@@ -1,16 +1,17 @@
 import clsx from 'clsx'
-import propTypes from 'prop-types'
+import { FC } from 'react'
+import { IUserForm } from './user-form.types'
 import styles from './user-form.module.css'
 
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-export default function UserForm({
+const UserForm: FC<IUserForm> = ({
   children,
   buttonsName,
   onSubmit,
   onReset,
   className,
-}) {
+}) => {
   return (
     <form className={clsx(styles.userForm, className)} onSubmit={onSubmit}>
       <fieldset className={styles.userFormFieldset}>{children}</fieldset>
@@ -34,11 +35,4 @@ export default function UserForm({
   )
 }
 
-UserForm.propTypes = {
-  children: propTypes.node.isRequired,
-  buttonsName: propTypes.oneOfType([propTypes.string, propTypes.array])
-    .isRequired,
-  onSubmit: propTypes.func.isRequired,
-  onReset: propTypes.func,
-  className: propTypes.string,
-}
+export default UserForm

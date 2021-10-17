@@ -1,6 +1,7 @@
 import { RootState } from '../types'
 import { Middleware } from 'redux'
 import { wsActions } from '..'
+import { wsGetOrders } from '../actions/ws'
 
 export type WsActions = typeof wsActions
 
@@ -15,7 +16,8 @@ export const createSocketMiddleware = (
       const { type } = action
       const { wsInit, wsStop, onOrder, onOpen, onClose, onError } = wsActions
       if (type === wsInit) {
-        socket = new WebSocket(action.url)
+        console.log('actionasdsad', action)
+        socket = new WebSocket(action.payload)
         if (socket) {
           socket.onopen = (event) => {
             dispatch({ type: onOpen, payload: event })
@@ -31,7 +33,7 @@ export const createSocketMiddleware = (
           const parsedData = JSON.parse(data)
           const { success, ...restParsedData } = parsedData
 
-          dispatch({ type: onOrder, payload: restParsedData })
+          dispatch(wsGetOrders(restParsedData))
         }
 
         socket.onclose = (event) => {

@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import propTypes from 'prop-types'
+import { useState, FC } from 'react'
 import clsx from 'clsx'
 import styles from './menu-link.module.css'
 
 import { useLocation, NavLink } from 'react-router-dom'
 
-export default function MenuLink({ name, to, icon, iconHover, first, last }) {
+import IMenuLink from './menu-link.types'
+
+const MenuLink: FC<IMenuLink> = ({ name, to, icon, iconHover, first, last }) => {
   const { pathname } = useLocation()
   const [isHover, setHover] = useState(false)
 
@@ -37,11 +38,4 @@ export default function MenuLink({ name, to, icon, iconHover, first, last }) {
   )
 }
 
-MenuLink.propTypes = {
-  name: propTypes.string.isRequired,
-  to: propTypes.string.isRequired,
-  icon: propTypes.element.isRequired,
-  iconHover: propTypes.element.isRequired,
-  first: propTypes.bool,
-  last: propTypes.bool,
-}
+export default MenuLink

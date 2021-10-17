@@ -1,15 +1,18 @@
 import { useRef } from 'react'
-import propTypes from 'prop-types'
 import styles from './selected-ingredient-card.module.css'
 
 import { useDrag, useDrop } from 'react-dnd'
+
+import { FC } from 'react'
+import ISelectedIngredientCard from './selected-ingredient-card.types'
+import { IIngredient } from '../../types/ingredient'
 
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-export default function SelectedIngredientCard({
+const SelectedIngredientCard: FC<ISelectedIngredientCard> = ({
   id,
   subId,
   index,
@@ -18,8 +21,8 @@ export default function SelectedIngredientCard({
   thumbnail,
   handleClose,
   handleSort,
-}) {
-  const ref = useRef(null)
+}) => {
+  const ref = useRef<HTMLDivElement>(null)
   const [{ isDragging }, drag] = useDrag({
     type: 'selectedIngredient',
     item: { id, index },
@@ -30,17 +33,17 @@ export default function SelectedIngredientCard({
 
   const [, drop] = useDrop({
     accept: 'selectedIngredient',
-    hover: (item, monitor) => {
+    hover: (item: IIngredient, monitor) => {
       const dragIndex = item.index
       const hoverIndex = index
 
       if (dragIndex === hoverIndex) return
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      const hoverBoundingRect: DOMRect = ref.current?.getBoundingClientRect()
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset()
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      const hoverClientY = clientOffset?.y - hoverBoundingRect.top
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
@@ -69,13 +72,4 @@ export default function SelectedIngredientCard({
   )
 }
 
-SelectedIngredientCard.propTypes = {
-  id: propTypes.string.isRequired,
-  subId: propTypes.string.isRequired,
-  index: propTypes.number.isRequired,
-  text: propTypes.string.isRequired,
-  price: propTypes.number.isRequired,
-  thumbnail: propTypes.string.isRequired,
-  handleClose: propTypes.func.isRequired,
-  handleSort: propTypes.func.isRequired,
-}
+export default SelectedIngredientCard

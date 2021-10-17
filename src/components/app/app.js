@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from '../../store/hooks'
 import { getIngredients } from '../../store/actions/ingredients'
 import { getUser } from '../../store/actions/user'
 import { unsetShownIngredient } from '../../store/actions/ingredient'
+import { closeOrderModal } from '../../store/actions/order' 
 
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
 
-import { AppHeader, ProtectedRoute, Modal, IngredientDetails } from '..'
+import { AppHeader, ProtectedRoute, Modal, IngredientDetails, Order } from '..'
 import {
   Home,
   Login,
@@ -43,6 +44,12 @@ export default function Main() {
   const isIngredientModalShow = useMemo(() => {
     return Object.keys(shownIngredient).length > 0
   }, [shownIngredient])
+
+  const isOrderModalShow = useSelector((state) => state.order.orderModal)
+  const unsetOrderModal = () => {
+    dispatch(closeOrderModal())
+    history.goBack()
+  }
 
   useEffect(() => {
     dispatch(getIngredients())
@@ -78,18 +85,35 @@ export default function Main() {
           <Route path='/feed' exact>
             <FeedPage />
           </Route>
+          <Route path="/feed/:id">
+            <Order />
+          </Route>
         </Switch>
         {background && isIngredientModalShow && (
-          <Route path='/ingredients/:id'>
-            <Modal title='Детали ингредиента' onClose={closeIngredientModal}>
-              <IngredientDetails
-                name={shownIngredient.name}
-                imageLarge={shownIngredient.image_large}
-                calories={shownIngredient.calories}
-                proteins={shownIngredient.proteins}
-                fat={shownIngredient.fat}
-                carbohydrates={shownIngredient.carbohydrates}
-              />
+            <Route path='/ingredients/:id'>
+              <Modal title='Детали ингредиента' onClose={closeIngredientModal}>
+                <IngredientDetails
+                  name={shownIngredient.name}
+                  imageLarge={shownIngredient.image_large}
+                  calories={shownIngredient.calories}
+                  proteins={shownIngredient.proteins}
+                  fat={shownIngredient.fat}
+                  carbohydrates={shownIngredient.carbohydrates}
+                />
+              </Modal>
+            </Route>
+        )}
+        {background && isOrderModalShow && (
+          <Route path="/feed/:id">
+            <Modal onClose={unsetOrderModal}>
+              <Order />
+            </Modal>
+          </Route>
+        )}
+        {background && isOrderModalShow && (
+          <Route path="/profile/orders/:id">
+            <Modal onClose={unsetOrderModal}>
+              <Order />
             </Modal>
           </Route>
         )}

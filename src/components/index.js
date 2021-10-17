@@ -12,13 +12,15 @@ import Modal from './modal/modal'
 import ModalOverlay from './modal-overlay/modal-overlay'
 import OrderDetails from './order-details/order-details'
 import SelectedIngredientCard from './selected-ingredient-card/selected-ingredient-card'
-import UserForm from './user-form/user.form'
+import UserForm from './user-form/user-form'
 import UserFormContainer from './user-form-container/user-form-container'
 import ProfileNav from './profile-nav/profile-nav'
 import ProtectedRoute from './protected-route/protected-route'
 import OrderCard from './order-card/order-card'
 import Feed from './feed/feed'
 import Stats from './stats/stats'
+import Order from './order/order'
+import ProfileOrders from './profile-orders/profile-orders'
 
 export {
   AppHeader,
@@ -42,4 +44,6 @@ export {
   OrderCard,
   Feed,
   Stats,
+  Order,
+  ProfileOrders,
 }

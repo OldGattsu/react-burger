@@ -1,9 +1,9 @@
-export const WS_SET_INGREDIENTS: 'WS_SET_INGREDIENTS' = 'WS_SET_INGREDIENTS'
-export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START'
-export const WS_CONNECTION_STOP: 'WS_CONNECTION_STOP' = 'WS_CONNECTION_STOP'
-export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' =
-  'WS_CONNECTION_SUCCESS'
-export const WS_CONNECTION_ERROR: 'WS_CONNECTION_ERROR' = 'WS_CONNECTION_ERROR'
-export const WS_CONNECTION_CLOSED: 'WS_CONNECTION_CLOSED' =
-  'WS_CONNECTION_CLOSED'
-export const WS_GET_ORDERS: 'WS_GET_ORDERS' = 'WS_GET_ORDERS'
+export const WS_SET_INGREDIENTS: 'ws/setIngredients' = 'ws/setIngredients'
+export const WS_CONNECTION_START: 'ws/connectionStart' = 'ws/connectionStart'
+export const WS_CONNECTION_STOP: 'ws/connectionStop' = 'ws/connectionStop'
+export const WS_CONNECTION_SUCCESS: 'ws/setIngredients' =
+  'ws/setIngredients'
+export const WS_CONNECTION_ERROR: 'ws/connectionSuccess' = 'ws/connectionSuccess'
+export const WS_CONNECTION_CLOSED: 'ws/connectionClosed' =
+  'ws/connectionClosed'
+export const WS_GET_ORDERS: 'ws/connectionError' = 'ws/connectionError'

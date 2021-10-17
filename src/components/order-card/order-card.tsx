@@ -1,22 +1,26 @@
 import { useCallback } from 'react'
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch } from 'react-redux'
-// import { openOrderDetailsAction } from '../../store/actions/ingredients'
+import { useDispatch } from '../../store/hooks'
+import { showOrderModal } from '../../store/actions/order'
 import orderStyles from './order-card.module.css'
 
-function OrderCard({ order, fromFeed }) {
-  // const history = useHistory()
-  // const location = useLocation()
-  // const { url } = useRouteMatch()
-  // const dispatch = useDispatch()
+import { FC } from 'react'
+import { IOrderCard } from './order-card.types'
+
+const OrderCard: FC<IOrderCard> = ({ order, fromFeed }) => {
+  const history = useHistory()
+  const location = useLocation()
+  const { url } = useRouteMatch()
+  const dispatch = useDispatch()
 
   const handleClick = useCallback(() => {
-    // dispatch(openOrderDetailsAction(order))
-    // history.replace({
-    //   pathname: `${url}/${order._id}`,
-    //   state: { background: location },
-    // })
+    console.log('lol', order)
+    dispatch(showOrderModal(order))
+    history.push({
+      pathname: `${url}/${order._id}`,
+      state: { background: location },
+    })
   }, [])
 
   const iconToRender = order.ingredients.slice(0, 5)
