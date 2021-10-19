@@ -20,6 +20,7 @@ function ProfileOrders() {
         }`
       )
     )
+
     return () => {
       dispatch(wsConnectionStop())
     }

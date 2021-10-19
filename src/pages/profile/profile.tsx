@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react'
+import { useEffect, FC, FormEvent } from 'react'
 import clsx from 'clsx'
 
 import styles from './profile.module.css'
@@ -24,7 +24,7 @@ const Profile: FC = () => {
 
   const { formValues, onChangeForm, resetForm } = useForm()
 
-  const onSubmit = (e: MouseEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault()
     dispatch(updateUser(formValues))
   }

@@ -10,7 +10,7 @@ import IModal from './modal.types'
 const Modal: FC<IModal> = ({ children, title, onClose }) => {
   const modalRef = useRef(null)
 
-  const handleEscClose = (e: any): void => {
+  const handleEscClose = (e: KeyboardEvent): void => {
     if (e.keyCode === 27) onClose()
   }
 

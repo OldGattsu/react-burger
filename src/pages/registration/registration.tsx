@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react'
+import { useEffect, FC, FormEvent } from 'react'
 import clsx from 'clsx'
 import styles from '../../components/user-form/user-form.module.css'
 
@@ -22,7 +22,7 @@ const Registration: FC = () => {
 
   const { formValues, onChangeForm, resetForm } = useForm()
 
-  const onSubmit = (e: MouseEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault()
     dispatch(registration(formValues))
     resetForm()

@@ -29,10 +29,10 @@ export const clearConstructor = createAction<void>(
 export const moveIngredient =
   (item: IIngredient) => (dispatch: AppDispatch, getState: () => RootState) => {
     const ingredients: TIngredients = getState().ingredients.data
-    const selectedIngredient: any = ingredients.find(
+    const selectedIngredient = ingredients.find(
       (ingredient: IIngredient) => {
         return ingredient._id === item.id
       }
-    )
+    ) as IIngredient
     dispatch(addIngredient(selectedIngredient))
   }

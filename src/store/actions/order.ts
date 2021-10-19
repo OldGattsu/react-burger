@@ -1,5 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { sendRequest, ORDERS } from '../../utils/api-helper'
+import { getCookie } from '../../utils/methods'
+
 import { IOrder } from '../types/order'
 
 interface IIds {
@@ -11,7 +13,11 @@ export const getOrderId = createAsyncThunk<IOrder, IIds, any>(
   async (ids) => {
     const res: any = await sendRequest(ORDERS, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: getCookie('access_token'),
+
+      },
       body: JSON.stringify(ids),
     })
     return res.order

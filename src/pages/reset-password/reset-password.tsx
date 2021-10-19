@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react'
+import { useEffect, FC, FormEvent } from 'react'
 import clsx from 'clsx'
 import styles from '../../components/user-form/user-form.module.css'
 
@@ -21,7 +21,7 @@ const ResetPassword: FC = () => {
 
   const { formValues, onChangeForm, resetForm } = useForm()
 
-  const onSubmit = (e: MouseEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault()
     dispatch(resetPassword(formValues))
     resetForm()
