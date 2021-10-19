@@ -1,5 +1,5 @@
 export default interface IModal {
   children: JSX.Element
-  title: string
+  title?: string
   onClose: () => void
 }

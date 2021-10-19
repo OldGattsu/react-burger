@@ -1,4 +1,3 @@
-import store from '..'
 import rootReducer from '../reducers'
 import { Dispatch } from 'react'
 

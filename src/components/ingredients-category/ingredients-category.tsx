@@ -1,11 +1,12 @@
 import { forwardRef } from 'react'
-import propTypes from 'prop-types'
 import clsx from 'clsx'
 import styles from './ingredients-category.module.css'
 
 import { IngredientCard } from '..'
+import IIngredientsCategory from './ingredients-category.types'
 
-const IngredientsCategory = forwardRef(({ name, data, onCardShow }, ref) => {
+
+const IngredientsCategory = forwardRef<HTMLDivElement, IIngredientsCategory>(({ name, data, onCardShow }, ref) => {
   return (
     <div className={styles.ingredientsCategory} ref={ref}>
       <h2 className='text text_type_main-medium'>{name}</h2>
@@ -35,11 +36,5 @@ const IngredientsCategory = forwardRef(({ name, data, onCardShow }, ref) => {
     </div>
   )
 })
-
-IngredientsCategory.propTypes = {
-  name: propTypes.string.isRequired,
-  data: propTypes.array.isRequired,
-  onCardShow: propTypes.func.isRequired,
-}
 
 export default IngredientsCategory

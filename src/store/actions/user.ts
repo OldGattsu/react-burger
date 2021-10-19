@@ -18,7 +18,7 @@ import { IThunkApi } from '../types'
 
 export const resetStatuses = createAction<string>('user/resetStatuses')
 
-export const registration = createAsyncThunk<ILogin, IUser, IThunkApi>(
+export const registration = createAsyncThunk<ILogin, IUser, any>(
   'user/registration',
   async (data) =>
     sendRequest(REGISTRATION, {
@@ -32,7 +32,7 @@ export const registration = createAsyncThunk<ILogin, IUser, IThunkApi>(
     })
 )
 
-export const login = createAsyncThunk<ILogin, IUser, IThunkApi>(
+export const login = createAsyncThunk<ILogin, IUser, any>(
   'user/login',
   async (data) =>
     sendRequest(LOGIN, {
@@ -49,7 +49,7 @@ export const login = createAsyncThunk<ILogin, IUser, IThunkApi>(
 export const forgotPassword = createAsyncThunk<
   ISuccessMessage,
   { email: string },
-  IThunkApi
+  any
 >('user/forgotPassword', async (data) =>
   sendRequest(FORGOT_PASSWORD, {
     method: 'POST',
@@ -64,7 +64,7 @@ export const resetPassword = createAsyncThunk<
     email: string
     token: string
   },
-  IThunkApi
+  any
 >('user/resetPassword', async (data) =>
   sendRequest(RESET_PASSWORD, {
     method: 'POST',
@@ -76,7 +76,7 @@ export const resetPassword = createAsyncThunk<
 export const logout = createAsyncThunk<
   ISuccessMessage | void,
   void,
-  IThunkApi
+  any
 >('user/logout', async () =>
   sendRequest(LOGOUT, {
     method: 'POST',

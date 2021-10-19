@@ -1,9 +1,10 @@
-import propTypes from 'prop-types'
 import clsx from 'clsx'
 import styles from './drag-here.module.css'
 import dragHereImg from '../../images/drag-here.svg'
 
-export default function DragHere({ dragging }) {
+import { FC } from 'react'
+
+const DragHere: FC<{ dragging: boolean }> = ({ dragging }) => {
   return (
     <div className={clsx(styles.dragHere)}>
       <div className={clsx(dragging && styles.dragHereHover)}>
@@ -22,7 +23,4 @@ export default function DragHere({ dragging }) {
     </div>
   )
 }
-
-DragHere.propTypes = {
-  dragging: propTypes.bool,
-}
+export default DragHere

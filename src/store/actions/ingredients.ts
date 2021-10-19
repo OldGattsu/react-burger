@@ -4,7 +4,7 @@ import { TIngredients } from '../../types/ingredient'
 import { IThunkApi } from '../types'
 import { wsSetIngredients } from './ws'
 
-export const getIngredients = createAsyncThunk<TIngredients, void, IThunkApi>(
+export const getIngredients = createAsyncThunk<TIngredients, void, any>(
   'ingredients/getIngredients',
   async () => {
     const res = await sendRequest(INGREDIENTS)

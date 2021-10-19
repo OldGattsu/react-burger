@@ -8,7 +8,7 @@ export interface IRemoveIngredient {
 }
 
 export interface ISortIngredient {
-  id: number
+  id: string
   dragIndex: number
   hoverIndex: number
 }

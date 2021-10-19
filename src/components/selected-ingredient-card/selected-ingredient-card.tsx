@@ -39,11 +39,12 @@ const SelectedIngredientCard: FC<ISelectedIngredientCard> = ({
 
       if (dragIndex === hoverIndex) return
 
+      // @ts-ignore
       const hoverBoundingRect: DOMRect = ref.current?.getBoundingClientRect()
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset()
-      const hoverClientY = clientOffset?.y - hoverBoundingRect.top
+      const hoverClientY = clientOffset?.y ? clientOffset.y - hoverBoundingRect.top : 0
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return

@@ -1,4 +1,3 @@
-import propTypes from 'prop-types'
 import clsx from 'clsx'
 import styles from './ingredient-card.module.css'
 
@@ -9,14 +8,17 @@ import {
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-export default function IngredientCard({
+import { FC } from 'react'
+import IIngredientCard from './ingredient-card.types'
+
+const IngredientCard: FC<IIngredientCard> = ({
   id,
   count,
   img,
   price,
   name,
   onShow,
-}) {
+}) => {
   const [{ opacity }, ref] = useDrag({
     type: 'ingredient',
     item: { id },
@@ -30,6 +32,7 @@ export default function IngredientCard({
       ref={ref}
       style={{ opacity }}
       onClick={onShow}
+      data-test-id="ingredient"
     >
       <img className={styles.ingredientCardImage} src={img} alt={name} />
       <p
@@ -59,11 +62,4 @@ export default function IngredientCard({
   )
 }
 
-IngredientCard.propTypes = {
-  id: propTypes.string.isRequired,
-  count: propTypes.number,
-  img: propTypes.string.isRequired,
-  price: propTypes.number.isRequired,
-  name: propTypes.string.isRequired,
-  onShow: propTypes.func.isRequired,
-}
+export default IngredientCard

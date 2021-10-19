@@ -102,7 +102,7 @@ const userReducer = createReducer(initialState, (builder) => {
       // @ts-ignore
       state[`${group}Fulfilled`] = false
       // @ts-ignore
-      state[`${group}Rejected`] = false // @ts-ignore
+      state[`${group}Rejected`] = false
     })
 
     // registration
@@ -213,5 +213,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.updateUserPending = false
     })
 })
+
+console.log('user red', userReducer)
 
 export default userReducer

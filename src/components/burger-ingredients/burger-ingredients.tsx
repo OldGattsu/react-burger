@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, RefObject } from 'react'
 import clsx from 'clsx'
 import styles from './burger-ingredients.module.css'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../store/hooks'
 import { setShownIngredient } from '../../store/actions/ingredient'
 
 import { useHistory, useLocation } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientsCategory } from '..'
 
 import { getScrollBoxHeight } from '../../utils/methods'
+import { IIngredient, TIngredients } from '../../types/ingredient'
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch()
@@ -27,15 +28,17 @@ export default function BurgerIngredients() {
   })
 
   // height of BurgerIngredients
-  const burgerIngredientsRef = useRef(null)
-  const burgerIngredientsScrollRef = useRef(null)
+  const burgerIngredientsRef = useRef<HTMLDivElement>(null)
+  const burgerIngredientsScrollRef = useRef<HTMLDivElement>(null)
 
   const setBurgerIngredientsScrollHeight = () => {
     const height = getScrollBoxHeight(
       burgerIngredientsRef.current,
       'burgerIngredientsScroll'
     )
-    burgerIngredientsScrollRef.current.style.height = height
+    if (burgerIngredientsScrollRef.current) {
+      burgerIngredientsScrollRef.current.style.height = height
+    }
   }
 
   useEffect(() => {
@@ -49,8 +52,8 @@ export default function BurgerIngredients() {
 
   // categories
   const getCategory = useMemo(
-    () => (type) => {
-      const categoryIngredients = []
+    () => (type: string) => {
+      const categoryIngredients: TIngredients = []
       ingredients.forEach((ingredient) => {
         if (ingredient.type === type) {
           const res = { ...ingredient }
@@ -104,14 +107,18 @@ export default function BurgerIngredients() {
 
   const getCurrentCategory = useMemo(
     () => () => {
-      const scrollDistance = burgerIngredientsScrollRef.current.scrollTop
-      const heightOfOtherContent = burgerIngredientsScrollRef.current.offsetTop
+      const scrollDistance = burgerIngredientsScrollRef?.current?.scrollTop
+      const heightOfOtherContent = burgerIngredientsScrollRef?.current?.offsetTop
       categoriesList.forEach((category) => {
         const categoryTopPosition =
-          category.ref.current.offsetTop - heightOfOtherContent
+        // @ts-ignore
+          category.ref?.current?.offsetTop - heightOfOtherContent
         if (
+          scrollDistance &&
+          category.ref &&
           scrollDistance >= categoryTopPosition &&
           scrollDistance <=
+          // @ts-ignore
             categoryTopPosition + category.ref.current.offsetHeight &&
           currentTab !== category.value
         ) {
@@ -124,13 +131,13 @@ export default function BurgerIngredients() {
 
   useEffect(() => {
     getCurrentCategory()
-    burgerIngredientsScrollRef.current.addEventListener('scroll', () =>
+    burgerIngredientsScrollRef?.current?.addEventListener('scroll', () =>
       getCurrentCategory()
     )
   }, [getCurrentCategory])
 
   // ingredient details
-  const showIngredientModal = (ingredient) => {
+  const showIngredientModal = (ingredient: IIngredient) => {
     dispatch(setShownIngredient(ingredient))
     history.push({
       pathname: `/ingredients/${ingredient._id}`,
@@ -162,6 +169,7 @@ export default function BurgerIngredients() {
           <IngredientsCategory
             name={category.name}
             data={category.data}
+            // @ts-ignore
             ref={category.ref}
             key={index}
             onCardShow={showIngredientModal}

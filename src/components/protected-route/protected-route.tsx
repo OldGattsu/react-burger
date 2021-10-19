@@ -48,3 +48,5 @@ const ProtectedRoute: FC<IProtectedRoute> = ({ children, ...rest }) => {
     />
   )
 }
+
+export default ProtectedRoute

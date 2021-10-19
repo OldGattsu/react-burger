@@ -10,7 +10,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Menu, MenuLink } from '..'
 
-export default function AppHeader() {
+import { FC } from 'react'
+
+const AppHeader: FC = () => {
   return (
     <header className={clsx(styles.appHeader, 'pt-6', 'pb-4')}>
       <div className={styles.appHeaderContainer}>
@@ -47,3 +49,5 @@ export default function AppHeader() {
     </header>
   )
 }
+
+export default AppHeader

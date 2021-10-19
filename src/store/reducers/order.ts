@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { IOrder } from '../../types/order'
+import { IOrder } from '../types/order'
 import { getOrderId, clearOrderId, showOrderModal, closeOrderModal } from '../actions/order'
 
 export interface IOrderState {
@@ -26,7 +26,7 @@ const orderReducer = createReducer(initialState, (builder) => {
       state.orderPending = true
     })
     .addCase(getOrderId.fulfilled, (state, action) => {
-      state.orderId = action.payload.order.number
+      state.orderId = action.payload.number
       state.orderFulfilled = true
       state.orderPending = false
       state.orderRejected = false

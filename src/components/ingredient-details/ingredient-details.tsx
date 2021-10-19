@@ -1,15 +1,17 @@
-import propTypes from 'prop-types'
 import clsx from 'clsx'
 import styles from './ingredient-details.module.css'
 
-export default function IngredientDetails({
+import { FC } from 'react'
+import { IEnergyItem, IIngredientDetails } from './ingredient-details.types'
+
+const IngredientDetails: FC<IIngredientDetails> = ({
   name,
   imageLarge,
   calories,
   proteins,
   fat,
   carbohydrates,
-}) {
+}) => {
   const energyList = [
     {
       name: 'Калории,ккал',
@@ -29,7 +31,7 @@ export default function IngredientDetails({
     },
   ]
 
-  const EnergyItem = ({ name, value }) => {
+  const EnergyItem: FC<IEnergyItem> = ({ name, value }) => {
     return (
       <div className={styles.energyItem}>
         <span
@@ -83,11 +85,4 @@ export default function IngredientDetails({
   )
 }
 
-IngredientDetails.propTypes = {
-  name: propTypes.string.isRequired,
-  imageLarge: propTypes.string.isRequired,
-  calories: propTypes.number.isRequired,
-  proteins: propTypes.number.isRequired,
-  fat: propTypes.number.isRequired,
-  carbohydrates: propTypes.number.isRequired,
-}
+export default IngredientDetails

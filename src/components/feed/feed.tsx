@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../store/hooks'
 import { OrderCard } from '..'
 import feedStyles from './feed.module.css'
 

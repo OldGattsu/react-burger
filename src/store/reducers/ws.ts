@@ -18,7 +18,7 @@ const initialState: IWebsocketState = {
   orders: { orders: [], total: 0, totalToday: 0 },
 };
 
-const websocket = createReducer(initialState, (builder) => {
+const websocketReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(wsSetIngredients.fulfilled, (state, action) => {
       state.ingredients = action.payload
@@ -59,4 +59,4 @@ const websocket = createReducer(initialState, (builder) => {
   })
 })
 
-export default websocket
+export default websocketReducer

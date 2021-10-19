@@ -3,6 +3,6 @@ export default interface IMenuLink {
   to: string
   icon: JSX.Element
   iconHover: JSX.Element
-  first: boolean
-  last: boolean
+  first?: boolean
+  last?: boolean
 }

@@ -2,7 +2,7 @@ import { useRef, useEffect, useMemo } from 'react'
 import clsx from 'clsx'
 import styles from './burger-constructor.module.css'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../store/hooks'
 import {
   moveIngredient,
   removeIngredient,
@@ -29,13 +29,14 @@ import {
 } from '..'
 
 import { getScrollBoxHeight } from '../../utils/methods'
+import { IIngredient } from '../../types/ingredient'
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation()
 
-  const isLoggedIn = useSelector(state => state.user.isLoggedIn)
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn)
 
   // get ingredients from store
   const { selectedIngredients, selectedBun } = useSelector((state) => {
@@ -46,15 +47,17 @@ export default function BurgerConstructor() {
   })
 
   // height of BurgerConstructor
-  const burgerConstructorRef = useRef(null)
-  const burgerConstructorScrollRef = useRef(null)
+  const burgerConstructorRef = useRef<HTMLDivElement>(null)
+  const burgerConstructorScrollRef = useRef<HTMLDivElement>(null)
 
   const setBurgerConstructorScrollHeight = () => {
     const height = getScrollBoxHeight(
       burgerConstructorRef.current,
       'burgerConstructorScroll'
     )
-    burgerConstructorScrollRef.current.style.height = height
+    if (burgerConstructorScrollRef?.current?.style) {
+      burgerConstructorScrollRef.current.style.height = height
+    }
   }
 
   useEffect(() => {
@@ -75,17 +78,21 @@ export default function BurgerConstructor() {
     collect: (monitor) => ({
       isDropping: monitor.isOver(),
     }),
-    drop(item) {
+    drop(item: IIngredient) {
       dispatch(moveIngredient(item))
     },
   })
 
   // ingredient
-  const handleRemoveIngredient = (id, subId) => {
+  const handleRemoveIngredient = (id: string, subId: string) => {
     dispatch(removeIngredient({ id, subId }))
   }
 
-  const handleSortIngredient = (id, dragIndex, hoverIndex) => {
+  const handleSortIngredient = (
+    id: string,
+    dragIndex: number,
+    hoverIndex: number
+  ) => {
     dispatch(sortIngredient({ id, dragIndex, hoverIndex }))
   }
 
@@ -132,7 +139,11 @@ export default function BurgerConstructor() {
 
   return (
     <>
-      <section className={clsx('mt-25', 'mb-10')} ref={dropTarget}>
+      <section
+        className={clsx('mt-25', 'mb-10')}
+        ref={dropTarget}
+        data-test-id='dropTarget'
+      >
         <div className={styles.burgerConstructor} ref={burgerConstructorRef}>
           {selectedIngredients.length === 0 && !selectedBun && (
             <DragHere dragging={isDropping} />
@@ -153,7 +164,7 @@ export default function BurgerConstructor() {
             ref={burgerConstructorScrollRef}
           >
             {selectedIngredients.map((ingredient, index) => {
-              return ingredient.type !== 'bun' ? (
+              return ingredient.type !== 'bun' && ingredient.subId ? (
                 <SelectedIngredientCard
                   id={ingredient._id}
                   subId={ingredient.subId}
@@ -192,6 +203,7 @@ export default function BurgerConstructor() {
               <Button
                 type='primary'
                 size='large'
+                // @ts-ignore
                 disabled={!selectedBun}
                 onClick={showOrderModal}
               >

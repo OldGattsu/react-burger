@@ -5,7 +5,7 @@ import LoaderSpinner from 'react-loader-spinner'
 
 import { FC } from 'react'
 
-const Loader: FC<{ noBlackout: boolean }> = ({ noBlackout }) => {
+const Loader: FC<{ noBlackout?: boolean }> = ({ noBlackout }) => {
   return (
     <ModalOverlay noBlackout={noBlackout}>
       <div className={styles.loader}>
