@@ -1,10 +1,13 @@
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useEffect, FC } from 'react'
+import styles from './order.module.css'
+import clsx from 'clsx'
+
 import { useParams } from 'react-router-dom'
 import { wsConnectionStart, wsConnectionStop } from '../../store/actions/ws'
 import { useDispatch, useSelector } from '../../store/hooks'
-import orderStyles from './order.module.css'
 import { getCookie } from '../../utils/methods'
+
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 const Order: FC = () => {
   const dispatch = useDispatch()
@@ -33,32 +36,43 @@ const Order: FC = () => {
   }
 
   return (
-    <section className={orderStyles.order}>
+    <section className={styles.order}>
       <p
-        className={`${orderStyles.number} text text_type_digits-default mb-10`}
+        className={clsx(
+          styles.number,
+          'text',
+          'text_type_digits-default',
+          'mb-10'
+        )}
       >
         #{order?.number}
       </p>
-      <h2 className='text text_type_main-medium mb-3'>{order?.name}</h2>
-      <p className='text text_type_main-default mb-15'>Создан</p>
-      <p className='text text_type_main-medium mb-6'>Состав:</p>
-      <ul className={`${orderStyles.itemsList} pr-6`}>
+      <h2 className={clsx('text', 'text_type_main-medium', 'mb-3')}>
+        {order?.name}
+      </h2>
+      <p className={clsx('text', 'text_type_main-default', 'mb-15')}>Создан</p>
+      <p className={clsx('text', 'text_type_main-medium', 'mb-6')}>Состав:</p>
+      <ul className={clsx(styles.itemsList, 'pr-6')}>
         {order?.ingredients.map((item) => (
-          <li className={orderStyles.item} key={item.key}>
-            <div className={`${orderStyles.pict} mr-4`}>
+          <li className={styles.item} key={item.key}>
+            <div className={clsx(styles.pict, 'mr-4')}>
               <img
-                className={orderStyles.img}
+                className={styles.img}
                 src={item.image_mobile}
                 alt={item.name}
               />
             </div>
             <p
-              className={`${orderStyles.itemName} text text_type_main-default`}
+              className={clsx(
+                styles.itemName,
+                'text',
+                'text_type_main-default'
+              )}
             >
               {item.name}
             </p>
-            <div className={orderStyles.priceContainer}>
-              <span className='text text_type_digits-default'>
+            <div className={styles.priceContainer}>
+              <span className={clsx('text', 'text_type_digits-default')}>
                 1 x {item.price}
               </span>
               <CurrencyIcon type='primary' />
@@ -66,14 +80,21 @@ const Order: FC = () => {
           </li>
         ))}
       </ul>
-      <div className={`${orderStyles.info} mt-10`}>
+      <div className={clsx(styles.info, 'mt-10')}>
         <span
-          className={`${orderStyles.date} text text_type_main-default text_color_inactive`}
+          className={clsx(
+            styles.date,
+            'text',
+            'text_type_main-default',
+            'text_color_inactive'
+          )}
         >
           {order.createdAt}
         </span>
-        <div className={orderStyles.priceContainer}>
-          <span className='text text_type_digits-default mr-2'>480</span>
+        <div className={styles.priceContainer}>
+          <span className={clsx('text', 'text_type_digits-default', 'mr-2')}>
+            678
+          </span>
           <CurrencyIcon type='primary' />
         </div>
       </div>
