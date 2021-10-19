@@ -1,11 +1,13 @@
+import { FC } from 'react'
+import styles from './order-card.module.css'
+import clsx from 'clsx'
+
 import { useCallback } from 'react'
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDispatch } from '../../store/hooks'
 import { showOrderModal } from '../../store/actions/order'
-import orderStyles from './order-card.module.css'
 
-import { FC } from 'react'
 import { IOrderCard } from './order-card.types'
 
 const OrderCard: FC<IOrderCard> = ({ order, fromFeed }) => {
@@ -25,19 +27,25 @@ const OrderCard: FC<IOrderCard> = ({ order, fromFeed }) => {
 
   const iconToRender = order.ingredients.slice(0, 5)
   return (
-    <article className={`${orderStyles.card} p-6`} onClick={handleClick}>
-      <div className={orderStyles.info}>
-        <p className='text text_type_digits-default mb-6'>#{order.number}</p>
-        <h2 className='text text_type_main-medium mb-2'>{order.name}</h2>
+    <article className={clsx(styles.card, 'p-6')} onClick={handleClick}>
+      <div className={styles.info}>
+        <p className={clsx('text', 'text_type_digits-default', 'mb-6')}>
+          #{order.number}
+        </p>
+        <h2 className={clsx('text', 'text_type_main-medium', 'mb-2')}>
+          {order.name}
+        </h2>
         {!fromFeed && (
-          <p className='text text_type_main-default mb-6'>Создан</p>
+          <p className={clsx('text', 'text_type_main-default', 'mb-6')}>
+            Создан
+          </p>
         )}
       </div>
-      <div className={orderStyles.icons}>
+      <div className={styles.icons}>
         {iconToRender.map((icon) => (
-          <div className={orderStyles.pict} key={icon.key}>
+          <div className={styles.pict} key={icon.key}>
             <img
-              className={orderStyles.img}
+              className={styles.img}
               src={icon.image_mobile}
               alt={icon.name}
             />
@@ -45,12 +53,17 @@ const OrderCard: FC<IOrderCard> = ({ order, fromFeed }) => {
         ))}
       </div>
       <span
-        className={`${orderStyles.date} text text_type_main-default text_color_inactive`}
+        className={clsx(
+          styles.date,
+          'text',
+          'text_type_main-default',
+          'text_color_inactive'
+        )}
       >
         {order.createdAt}
       </span>
-      <div className={orderStyles.priceContainer}>
-        <span className='text text_type_digits-default mr-2'>
+      <div className={styles.priceContainer}>
+        <span className={clsx('text', 'text_type_digits-default', 'mr-2')}>
           {order.price}
         </span>
         <CurrencyIcon type='primary' />
