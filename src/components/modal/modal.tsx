@@ -1,4 +1,4 @@
-import { useRef, useEffect, FC, KeyboardEvent } from 'react'
+import { useRef, useEffect, FC } from 'react'
 import clsx from 'clsx'
 import styles from './modal.module.css'
 

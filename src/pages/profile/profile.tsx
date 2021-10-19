@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, FC } from 'react'
 import clsx from 'clsx'
 
 import styles from './profile.module.css'
 import userFormStyles from '../../components/user-form/user-form.module.css'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../store/hooks'
 import { getUser, updateUser } from '../../store/actions/user'
 
 import { Route, useRouteMatch } from 'react-router-dom'
@@ -13,19 +13,18 @@ import {
   EmailInput,
   PasswordInput,
   Input,
-  Loader,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { UserForm, ProfileNav, ProfileOrders, Order } from '../../components'
+import { UserForm, ProfileNav, ProfileOrders, Order, Loader } from '../../components'
 
 import useForm from '../../hooks/useForm'
 
-export default function Profile() {
+const Profile: FC = () => {
   const dispatch = useDispatch()
   const { path } = useRouteMatch()
 
   const { formValues, onChangeForm, resetForm } = useForm()
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: MouseEvent) => {
     e.preventDefault()
     dispatch(updateUser(formValues))
   }
@@ -59,29 +58,31 @@ export default function Profile() {
             onSubmit={onSubmit}
             onReset={onReset}
           >
-            <div className={userFormStyles.userFormInput}>
-              <Input
-                onChange={onChangeForm}
-                value={formValues.name || ''}
-                name={'name'}
-                placeholder='Имя'
-                icon={'EditIcon'}
-              />
-            </div>
-            <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
-              <EmailInput
-                onChange={onChangeForm}
-                value={formValues.email || ''}
-                name={'email'}
-              />
-            </div>
-            <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
-              <PasswordInput
-                onChange={onChangeForm}
-                value={formValues.password || ''}
-                name={'password'}
-              />
-            </div>
+            <>
+              <div className={userFormStyles.userFormInput}>
+                <Input
+                  onChange={onChangeForm}
+                  value={formValues.name || ''}
+                  name={'name'}
+                  placeholder='Имя'
+                  icon={'EditIcon'}
+                />
+              </div>
+              <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
+                <EmailInput
+                  onChange={onChangeForm}
+                  value={formValues.email || ''}
+                  name={'email'}
+                />
+              </div>
+              <div className={clsx(userFormStyles.userFormInput, 'mt-6')}>
+                <PasswordInput
+                  onChange={onChangeForm}
+                  value={formValues.password || ''}
+                  name={'password'}
+                />
+              </div>
+            </>
           </UserForm>
         </section>
       </Route>
@@ -97,3 +98,5 @@ export default function Profile() {
     </>
   )
 }
+
+export default Profile

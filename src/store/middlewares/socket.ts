@@ -14,9 +14,8 @@ export const createSocketMiddleware = (
     return (next) => (action) => {
       const { dispatch } = store
       const { type } = action
-      const { wsInit, wsStop, onOrder, onOpen, onClose, onError } = wsActions
+      const { wsInit, wsStop, onOpen, onClose, onError } = wsActions
       if (type === wsInit) {
-        console.log('actionasdsad', action)
         socket = new WebSocket(action.payload)
         if (socket) {
           socket.onopen = (event) => {

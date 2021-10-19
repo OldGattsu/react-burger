@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { sendRequest, INGREDIENTS } from '../../utils/api-helper'
 import { TIngredients } from '../../types/ingredient'
-import { IThunkApi } from '../types'
-import { wsSetIngredients } from './ws'
 
 export const getIngredients = createAsyncThunk<TIngredients, void, any>(
   'ingredients/getIngredients',

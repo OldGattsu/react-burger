@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, FC } from 'react'
 import clsx from 'clsx'
 import styles from '../../components/user-form/user-form.module.css'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../store/hooks'
 import { registration } from '../../store/actions/user'
 
 import { Link, Redirect, useHistory } from 'react-router-dom'
@@ -16,13 +16,13 @@ import {
 
 import { UserFormContainer, UserForm, Loader } from '../../components'
 
-export default function Registration() {
+const Registration: FC = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
   const { formValues, onChangeForm, resetForm } = useForm()
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: MouseEvent) => {
     e.preventDefault()
     dispatch(registration(formValues))
     resetForm()
@@ -55,31 +55,33 @@ export default function Registration() {
   return (
     <UserFormContainer title='Регистрация'>
       <UserForm buttonsName='Зарегистрироваться' onSubmit={onSubmit}>
-        <div className={clsx(styles.userFormInput, 'mt-6')}>
-          <Input
-            onChange={onChangeForm}
-            value={formValues.name || ''}
-            name='name'
-            type='text'
-            placeholder='Имя'
-          />
-        </div>
-        <div className={clsx(styles.userFormInput, 'mt-6')}>
-          <Input
-            onChange={onChangeForm}
-            value={formValues.email || ''}
-            name='email'
-            type='email'
-            placeholder='E-mail'
-          />
-        </div>
-        <div className={clsx(styles.userFormInput, 'mt-6')}>
-          <PasswordInput
-            onChange={onChangeForm}
-            value={formValues.password || ''}
-            name='password'
-          />
-        </div>
+        <>
+          <div className={clsx(styles.userFormInput, 'mt-6')}>
+            <Input
+              onChange={onChangeForm}
+              value={formValues.name || ''}
+              name='name'
+              type='text'
+              placeholder='Имя'
+            />
+          </div>
+          <div className={clsx(styles.userFormInput, 'mt-6')}>
+            <Input
+              onChange={onChangeForm}
+              value={formValues.email || ''}
+              name='email'
+              type='email'
+              placeholder='E-mail'
+            />
+          </div>
+          <div className={clsx(styles.userFormInput, 'mt-6')}>
+            <PasswordInput
+              onChange={onChangeForm}
+              value={formValues.password || ''}
+              name='password'
+            />
+          </div>
+        </>
       </UserForm>
       <p className={clsx('text', 'text_type_main-default', 'mb-4')}>
         Уже зарегистрированы?&nbsp;
@@ -90,3 +92,5 @@ export default function Registration() {
     </UserFormContainer>
   )
 }
+
+export default Registration

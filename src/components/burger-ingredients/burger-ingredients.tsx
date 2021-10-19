@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, RefObject } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import clsx from 'clsx'
 import styles from './burger-ingredients.module.css'
 
@@ -152,6 +152,7 @@ export default function BurgerIngredients() {
       </h1>
       <div className={clsx(styles.burgerIngredientsTabs, 'mt-5')}>
         {categoriesList.map((category, index) => (
+          // @ts-ignore
           <Tab
             value={category.value}
             active={currentTab === category.value}

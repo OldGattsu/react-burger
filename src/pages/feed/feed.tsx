@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { Feed, Stats } from '../../components'
 import { wsConnectionStart } from '../../store/actions/ws'
 import styles from './feed.module.css'
 
-function FeedPage() {
+const FeedPage: FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {

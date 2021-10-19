@@ -1,15 +1,16 @@
-import { useMemo } from 'react'
+import { useMemo, FC } from 'react'
 import clsx from 'clsx'
 import styles from './ingredient.module.css'
 
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../store/hooks'
 
 import { useParams } from 'react-router-dom'
 
 import { IngredientDetails, Loader } from '../../components'
+import { IIngredient } from '../../types/ingredient'
 
-export default function Ingredient() {
-  const { id } = useParams()
+const Ingredient: FC = () => {
+  const { id } = useParams<{id: string}>()
   const { ingredients, ingredientsPending, ingredientsRejected } = useSelector(
     (state) => {
       return {
@@ -23,7 +24,7 @@ export default function Ingredient() {
   const currentIngredient = useMemo(() => {
     if (!ingredients.length) return {}
     return ingredients.filter((ingredient) => ingredient._id === id)[0]
-  }, [id, ingredients])
+  }, [id, ingredients]) as IIngredient
 
   if (ingredientsPending) return <Loader />
 
@@ -47,3 +48,5 @@ export default function Ingredient() {
     </section>
   )
 }
+
+export default Ingredient

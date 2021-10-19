@@ -1,4 +1,6 @@
+import { ReactNode } from "react";
+
 export interface IUserFormContainer {
-  children: JSX.Element
+  children: JSX.Element | ReactNode
   title: string
 }

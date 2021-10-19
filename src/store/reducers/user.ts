@@ -214,6 +214,4 @@ const userReducer = createReducer(initialState, (builder) => {
     })
 })
 
-console.log('user red', userReducer)
-
 export default userReducer

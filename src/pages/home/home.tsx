@@ -1,13 +1,15 @@
 import styles from './home.module.css'
 
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../store/hooks'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { BurgerIngredients, BurgerConstructor, Loader } from '../../components'
 
-export default function Main() {
+import { FC } from 'react'
+
+const Main: FC = () => {
   const { ingredientsPending, ingredientsFulfilled, ingredientsRejected } =
     useSelector((state) => {
       return {
@@ -34,3 +36,5 @@ export default function Main() {
     </>
   )
 }
+
+export default Main

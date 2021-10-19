@@ -11,13 +11,13 @@ export const LOGOUT = 'auth/logout'
 export const REFRESH_TOKEN = 'auth/token'
 export const USER = 'auth/user'
 
-const checkReponse = (res) => {
+const checkReponse = (res: any) => {
   return res.ok
     ? res.json()
-    : res.json().then((err) => Promise.reject(err))
+    : res.json().then((err: Error) => Promise.reject(err))
 }
 
-export function sendRequest(endpoint, options) {
+export function sendRequest(endpoint: string, options?: any) {
   return fetch(`${API_PATH}/${endpoint}`, options)
    .then(checkReponse)
 }

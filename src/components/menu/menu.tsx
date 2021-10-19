@@ -1,4 +1,3 @@
-import propTypes from 'prop-types'
 import styles from './menu.module.css'
 
 import { FC } from 'react'

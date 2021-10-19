@@ -14,7 +14,6 @@ import { setCookie, getCookie, deleteCookie } from '../../utils/methods'
 
 import { IUser, ILogin } from '../../types/user'
 import { ISuccessMessage } from '../../types/success'
-import { IThunkApi } from '../types'
 
 export const resetStatuses = createAction<string>('user/resetStatuses')
 

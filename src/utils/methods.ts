@@ -1,33 +1,40 @@
-export const getAbsoluteHeight = (el) => {
-	const styles = window.getComputedStyle(el);
-	const margin = parseFloat(styles['marginTop']) +
-		parseFloat(styles['marginBottom']);
+export const getAbsoluteHeight = (el: HTMLElement) => {
+  const styles = window.getComputedStyle(el)
+  const margin =
+    parseFloat(styles['marginTop']) + parseFloat(styles['marginBottom'])
 
-	return Math.ceil(el.offsetHeight + margin);
+  return Math.ceil(el.offsetHeight + margin)
 }
 
-export const getScrollBoxHeight = (container, scrollBoxClass) => {
-	const containerHeight = container.offsetHeight
-	let heightRemainingElements = 0
+export const getScrollBoxHeight = (
+  container: any,
+  scrollBoxClass: string
+) => {
+  const containerHeight = container.offsetHeight
+  let heightRemainingElements = 0
 
-	container.childNodes.forEach(el => {
-		if (el.className.indexOf(scrollBoxClass) === -1) {
-			heightRemainingElements += getAbsoluteHeight(el)
-		}
-	});
+  container.childNodes.forEach((el: HTMLElement) => {
+    if (el.className.indexOf(scrollBoxClass) === -1) {
+      heightRemainingElements += getAbsoluteHeight(el)
+    }
+  })
 
-	return (containerHeight - heightRemainingElements) + 'px'
+  return containerHeight - heightRemainingElements + 'px'
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   const matches = document.cookie.match(
-    // eslint-disable-next-line
-    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
-  );
+    new RegExp(
+      '(?:^|; )' +
+      // eslint-disable-next-line
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+        '=([^;]*)'
+    )
+  )
   return matches ? decodeURIComponent(matches[1]) : undefined
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string | null, props?: any) {
   props = props || {}
   let exp = props.expires
   if (typeof exp == 'number' && exp) {
@@ -38,7 +45,7 @@ export function setCookie(name, value, props) {
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString()
   }
-  value = encodeURIComponent(value)
+  value = encodeURIComponent(value!)
   let updatedCookie = name + '=' + value
   for (const propName in props) {
     updatedCookie += '; ' + propName
@@ -50,7 +57,7 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie
 }
 
-export function deleteCookie(name) {
+export function deleteCookie(name: string) {
   setCookie(name, null, { expires: -1 })
 }
 
@@ -58,7 +65,6 @@ export function deleteCookie(name) {
 //   const dateWrapper = new Date(date);
 //   return !isNaN(dateWrapper.getDate());
 // }
-
 
 // export function formatDate(date) {
 //   if (!isValidDate(date)) return null;

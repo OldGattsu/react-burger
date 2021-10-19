@@ -15,12 +15,12 @@ const OrderCard: FC<IOrderCard> = ({ order, fromFeed }) => {
   const dispatch = useDispatch()
 
   const handleClick = useCallback(() => {
-    console.log('lol', order)
     dispatch(showOrderModal(order))
     history.push({
       pathname: `${url}/${order._id}`,
       state: { background: location },
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const iconToRender = order.ingredients.slice(0, 5)

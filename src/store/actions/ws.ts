@@ -1,10 +1,8 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { sendRequest, INGREDIENTS } from '../../utils/api-helper'
 
-import { TIngredients } from '../../types/ingredient'
 import { IRawOrders } from '../types/order'
 
-// export const wsSetIngredients = createAction<TIngredients>('ws/setIngredients')
 export const wsConnectionStart = createAction<string>('ws/connectionStart')
 export const wsConnectionStop = createAction('ws/connectionStop')
 export const wsConnectionSuccess = createAction('ws/connectionSuccess')

@@ -1,10 +1,11 @@
 import clsx from 'clsx'
-import propTypes from 'prop-types'
 import styles from './order-details.module.css'
 
 import orderDoneImg from '../../images/order-done.svg'
 
-export default function OrderDetails({ orderId }) {
+import { FC } from 'react'
+
+const OrderDetails: FC<{ orderId: number }> = ({ orderId }) => {
   return (
     <div className={styles.orderDetails}>
       <p className={clsx(styles.orderDetailsId, 'mb-15')}>
@@ -51,6 +52,4 @@ export default function OrderDetails({ orderId }) {
   )
 }
 
-OrderDetails.propTypes = {
-  orderId: propTypes.number,
-}
+export default OrderDetails
