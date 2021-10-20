@@ -1,8 +1,9 @@
 .modalOverlay {
+	z-index: 999999;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	width: 100vw;
 	height: 100vh;

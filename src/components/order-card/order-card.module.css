@@ -1,0 +1,93 @@
+.card {
+  display: grid;
+  grid-template-areas:
+    "info date"
+    "icons price";
+  justify-content: space-between;
+  align-content: space-between;
+  background-color: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.info {
+  grid-area: info;
+}
+
+.icons {
+  grid-area: icons;
+  display: flex;
+}
+
+.pict {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(to right, #801ab2, #4c4cff);
+}
+
+.pict::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: #131316;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.pict + .pict {
+  margin-left: -18px;
+}
+
+.pict:nth-child(1) {
+  z-index: 6;
+}
+
+.pict:nth-child(2) {
+  z-index: 5;
+}
+
+.pict:nth-child(3) {
+  z-index: 4;
+}
+
+.pict:nth-child(4) {
+  z-index: 3;
+}
+
+.pict:nth-child(5) {
+  z-index: 2;
+}
+
+.pict:nth-child(6) {
+  z-index: 1;
+}
+
+.img {
+  max-height: 56px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.date {
+  grid-area: date;
+}
+
+.priceContainer {
+  grid-area: price;
+  justify-self: end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

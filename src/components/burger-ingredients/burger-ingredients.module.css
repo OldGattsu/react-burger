@@ -11,16 +11,3 @@
 .burgerIngredientsScroll {
   overflow-y: overlay;
 }
-
-.burgerIngredientsScroll::-webkit-scrollbar {
-  width: 8px;
-}
-
-.burgerIngredientsScroll::-webkit-scrollbar-track {
-  width: 8px;
-  background-color: #2F2F37;
-}
-
-.burgerIngredientsScroll::-webkit-scrollbar-thumb {
-  background-color: #8585AD;
-}

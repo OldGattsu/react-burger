@@ -38,6 +38,19 @@
   min-width: 100%;
 }
 
+:global(::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:global(::-webkit-scrollbar-track) {
+  width: 8px;
+  background-color: #2F2F37;
+}
+
+:global(::-webkit-scrollbar-thumb) {
+  background-color: #8585AD;
+}
+
 .main {
   composes: container from '../../base.module.css';
 }

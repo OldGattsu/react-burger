@@ -9,19 +9,6 @@
   overflow-y: overlay;
 }
 
-.burgerConstructorScroll::-webkit-scrollbar {
-  width: 8px;
-}
-
-.burgerConstructorScroll::-webkit-scrollbar-track {
-  width: 8px;
-  background-color: #2F2F37;
-}
-
-.burgerConstructorScroll::-webkit-scrollbar-thumb {
-  background-color: #8585AD;
-}
-
 .lockedBun {
   display: flex;
   justify-content: flex-end;
